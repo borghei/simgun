@@ -1,5 +1,5 @@
 # SimGun
 
 ## Overview
-* [Wiki](https://gitlab.com/SimGun/simgun/wikis/home)
+* [Wiki](https://gitlab.com/Appologist/simgun/wikis/home)
 * [Changelog](#changelog)
