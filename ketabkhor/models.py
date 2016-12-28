@@ -18,9 +18,7 @@ class Book(models.Model):
 class Order(models.Model):
     id = models.IntegerField(default=0, primary_key=True)
     status = models.CharField(max_length=127)
-    address = models.CharField(max_length=511)
-    phone_number = models.IntegerField(default=0)
-    zip_code = models.IntegerField(default=0)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
 
 
 class User(models.Model):
@@ -81,3 +79,9 @@ class SupportTicket(models.Model):
     title = models.CharField(max_length=63)
     context = models.CharField(max_length=511)
     date = models.DateTimeField()
+
+
+class Address(models.Model):
+    address = models.CharField(max_length=511)
+    phone_number = models.IntegerField(default=0)
+    zip_code = models.IntegerField(default=0)
