@@ -51,13 +51,23 @@ def user_login(request):
         return render(request, 'ketabkhor/login.html', {'login_form': UserLogin()})
 
     elif request.method == 'POST':
+        print(request.user.is_authenticated())
         form = UserLogin(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
+            print(request.user.is_authenticated())
             login(request, user)
+            print(request.user.is_authenticated())
             #TODO should redirect to the last page user was in
             return render(request, 'ketabkhor/index.html', {})
         else:
             return render(request, 'ketabkhor/login.html', {'login_form': form})
+
+
+def user_logout(request):
+    print(request.user.is_authenticated())
+    logout(request)
+    print(request.user.is_authenticated())
+    return render(request, 'ketabkhor/index.html', {})
