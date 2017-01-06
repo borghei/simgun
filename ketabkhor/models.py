@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -15,4 +16,11 @@ class Book(models.Model):
     price = models.IntegerField(default=0)
     pic = models.ImageField(upload_to='static/media/photos/books/', blank=True, null=True, default='')
 
+    def __str__(self):
+        return self.title + ' - ' + self.publisher
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    avatar = models.ImageField(upload_to='static/media/photos/profiles/', blank=True, null=True, default='matthew.png')
 
