@@ -11,4 +11,4 @@ def home_page(request):
 
 class BookDetails(generic.DetailView):
     model = Book
-    template_name = "ketabkhor/books/book_details.html"
+    template_name = "ketabkhor/book-detail.html"
