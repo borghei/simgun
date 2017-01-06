@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ثبت نام</title>
+</head>
+<body>
+
+{%if register %}
+
+      از ثبت نام شما سپاس‌گزاریم.
+
+{% else %}
+
+<form action="/register/" method="post">
+    {% csrf_token %}
+    {{ register_form.as_p }}
+    <input type="submit" value="ارسال">
+</form>
+
+{% endif %}
+
+</body>
+</html>
