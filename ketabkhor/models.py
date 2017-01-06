@@ -22,5 +22,6 @@ class Book(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    avatar = models.ImageField(upload_to='static/media/photos/profiles/', blank=True, null=True, default='matthew.png')
+    avatar = models.ImageField(upload_to='static/media/photos/profiles/', blank=True, null=True,
+                               default='static/media/photos/profiles/matthew.png')
 
