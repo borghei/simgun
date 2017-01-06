@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Book(models.Model):
-    isbn = models.IntegerField(default=0, primary_key=True)
+    isbn = models.IntegerField(default=0)
     title = models.CharField(max_length=127)
     author = models.CharField(max_length=63)
     translator = models.CharField(max_length=63)
