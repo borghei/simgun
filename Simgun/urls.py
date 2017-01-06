@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login
 
 from ketabkhor import views
@@ -22,7 +23,7 @@ from ketabkhor import views
 urlpatterns = [
     url(r'^$', views.home_page, name='home_page'),
     url(r'^admin/', admin.site.urls),
-    url(r'^books/(?P<pk>[0-9]+)/$', views.BookDetails.as_view(), name='book_details'),
+    url(r'^books/(?P<pk>[0-9]+)/$', login_required(views.BookDetails.as_view()), name='book_details'),
     url(r'^register/$', views.user_register, name='user_register'),
-    url(r'^login/$', login, name='user_login')
+    url(r'^login/$', views.user_login, name='user_login')
 ]

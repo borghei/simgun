@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<div>
+    <form action="/login/" method="post">
+        {% csrf_token %}
+        {{ login_form.as_p }}
+        <input type="submit" value="وارد شوید">
+    </form>
+</div>
+
+
+</body>
+</html>
