@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ketabkhor.apps.KetabkhorConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
