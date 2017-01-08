@@ -4,7 +4,6 @@ from django.db import models
 
 # Create your models here.
 
-
 class Book(models.Model):
     isbn = models.IntegerField(default=0, null=True)
     title = models.CharField(max_length=127)
@@ -24,9 +23,6 @@ class Address(models.Model):
     phone_number = models.IntegerField(default=0)
     zip_code = models.IntegerField(default=0)
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User)
-    avatar = models.ImageField(upload_to='static/media/photos/profiles/', blank=True, null=True, default='matthew.png')
 
 class Order(models.Model):
     status = models.CharField(max_length=127)

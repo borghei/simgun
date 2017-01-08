@@ -13,6 +13,7 @@
     <script src="{% static 'general/js/semantic.min.js' %}"></script>
 </head>
 <body>
+
 <header class="header1">
 <div class="ui menu back-grey-menu no-borders">
     <div class="ui grid container ">
@@ -27,7 +28,7 @@
                 <div class="ui search">
                     <div class="ui simple scrolling fluid search left icon input search-tab">
                         <i class="search icon"></i>
-                        <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب">
+                        <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب/نام نویسنده/ISPN">
                     </div>
                     <div class="results"></div>
                 </div>
@@ -70,6 +71,7 @@
 
 </header>
 
+
 <div class="ui container detail-margin">
     <div class="ui grid container">
         <!-- shopping and pic -->
@@ -79,15 +81,10 @@
             </div>
             <h3 class="ui header">{{ book.price }} تومان</h3>
             <button class="ui orange inverted button link">افزودن به سبد خرید</button>
-            <button class="ui grey inverted labeled icon button fav-button"> <i class="star icon"></i> افزودن به علاقه مندی ها </button>
-            <div class="ui grey basic inline dropdown">
-                <div class="text">افزودن به علاقه مندی ها</div>
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                    <div class="active item" data-text="افزودن به علاقه مندی ها">افزودن به علاقه مندی ها</div>
-                    <div class="item" data-text="افزودن به برنامه مطالعاتی">افزودن به برنامه مطالعاتی</div>
-                </div>
-            </div>
+
+{#            TODO the element must check if the book is already in wishlist or not#}
+
+            <button id="add_wishlist" class="ui grey inverted labeled icon button fav-button"> <i class="star icon"></i> افزودن به علاقه مندی ها </button>
             <div class="ui divider"></div>
             <div>
                 <h3 class="ui header">امتیاز دهید</h3>
@@ -320,7 +317,7 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
     <div class="ui vertical footer2 segment">
         <div class="ui center aligned container">
@@ -373,24 +370,36 @@
         $('.special.cards .image').dimmer({
             on: 'hover'
         });
-    })
+
+        console.log({{ user.id }});
+
+        $('#add_favorite').click(function() {
+            $.ajax({
+                url: "{% url 'profiles:add_wishlist' user.id %}",
+                method: 'post',
+                data: {
+                    book_id: {{ book.id }},
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+
+                },
+                success: function(data) {
+                    if (data.status === "ok") {
+                        $('#add_wishlist').removeClass('grey inverted').addClass('red');
+                    }
+                    else {
+                        console.error('cannot fav');
+                    }
+                },
+                error: function() {
+                    console.error('eeeeerrrrrrooooorrrrrr');
+                }
+            });
+        });
+    });
 </script>
 
-<script>
 
-    $('.ui.menu a.item').on('click', function() {
-        $(this)
-            .addClass('active')
-            .siblings('.item')
-            .removeClass('active');
-    })
-
-</script>
-
-<script type="text/javascript">
-
-</script>
-
+<script type="text/javascript" src="{% static 'general/js/header-footer.js' %}"></script>
 
 </body>
 </html>
