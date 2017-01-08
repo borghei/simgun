@@ -214,7 +214,7 @@
                             <h2 class="ui header">نقد و بررسی</h2>
                         </div>
                         <div class="left floated column left aligned">
-                            <button class="ui grey inverted button link">نوشتن نقد جدید</button>
+                            <button class="ui grey inverted button link" id="comment">نوشتن نقد جدید</button>
                         </div>
                     </div>
                     <div class="ui row">
@@ -345,6 +345,39 @@
             </div>
         </div>
     </div>
+
+    <div class="ui modal" id="comment-modal">
+        <i class="close icon"></i>
+        <div class="header">
+            نوشتن نقد جدید
+        </div>
+        <div class=" content">
+            <div class="content-margin">
+            </div>
+            <span></span>
+            <div class="description">
+                <form class="ui form">
+                    <div class="three fields">
+                        <div class="required field">
+                            <label>عنوان</label>
+                            <input type="text" placeholder="عنوان نقد">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="twelve wide required field">
+                            <label>متن</label>
+                            <textarea type="text" placeholder="متن نقد"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui orange button">ذخیره</div>
+            <div class="ui inverted grey button " id="comment-cancel">بازگشت</div>
+        </div>
+    </div>
+
 </footer>
 
 <!-- jquery script -->
@@ -374,6 +407,11 @@
         $('.special.cards .image').dimmer({
             on: 'hover'
         });
+
+        $('#comment-modal')
+                .modal('attach events', '#comment', 'show')
+                .modal('attach events', '#comment-cancel', 'cancel')
+            ;
     });
 </script>
 
@@ -413,6 +451,18 @@
         $(function() {
             $('#add_wishlist').click(function() {
                 window.location.href = '/accounts/login/';
+            });
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $(".shorten-txt").shorten({
+                "showChars" : 250,
+                "moreText"	: "بیشتر",
+                "lessText"	: "کمتر",
             });
         });
     </script>
