@@ -2,19 +2,209 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'general/css/semantic/semantic.css' %}"/>
+    <link rel="stylesheet" href="{% static 'general/css/generic-style.css'%}"/>
+    <link rel="stylesheet" href="{% static 'accounts/css/style-login.css' %}"/>
+
+    <script src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
+    <script src="{% static 'general/js/semantic.min.js' %}"></script>
+
 </head>
 <body>
 
+<!-- header -->
+<header class="header1">
+    <div class="ui menu back-grey-menu no-borders">
+        <div class="ui grid container ">
+            <div class="ten wide column right aligned">
+                <div class="ui row row-margin1">
+            <span>فروشگاه اینترنتی کتاب خوار ،
+                <a href="#">ثبت نام کنید</a>
+                یا
+                <a href="#">وارد شوید</a> </span>
+                </div>
+                <div class="ui row row-margin2">
+                    <div class="ui search">
+                        <div class="ui simple scrolling fluid search left icon input search-tab">
+                            <i class="search icon"></i>
+                            <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب">
+                        </div>
+                        <div class="results"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column left aligned">
+                <h2 class="logo">کتاب خوار</h2>
+            </div>
+            <div class="two wide column center aligned">
+                <div >
+                    <img class="logo-img" src="{% static 'media/photos/general/logo.png' %}">
+                </div>
+            </div>
 
-<div>
-    <form action="/accounts/login/" method="post">
-        {% csrf_token %}
-        {{ login_form.as_p }}
-        <input type="submit" value="وارد شوید">
-    </form>
+        </div>
+    </div>
+    <div class="ui menu  no-borders " id="menu2">
+        <div class="ui container">
+            <a class="green header link item">
+                <i class="shop icon"></i>
+                سبد خرید
+            </a>
+            <a class=" red link item">
+                کتاب فانتزی
+            </a>
+            <a class="purple link item">
+                کتاب فانتزی
+            </a>
+            <a class="blue link item">
+                کتاب فانتزی
+            </a>
+            <a class="pink link item">
+                کتاب فانتزی
+            </a>
+            <a class="teal link item">
+                کتاب فانتزی
+            </a>
+        </div>
+    </div>
+
+</header>
+<div class="ui container login-margin">
+    <!-- just a comment -->
+    <div class="ui one column grid login-grey" >
+        <div class="column">
+            <h2>ورود</h2>
+            <div class="ui divider"></div>
+
+            <div class="ui center aligned grid">
+                <div class="ten wide column">
+                    <form class="ui form" action="/accounts/login/" method="post">
+                        {% csrf_token %}
+                        <div class="ui center aligned grid">
+                            <div class="row">
+                                <div class="six wide right aligned column">
+                                    {{ login_form.as_p }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="sixteen wide column">
+                                    <div class="field">
+                                        <div class="ui checkbox">
+                                            <label>مرا به خاطر بسپار</label>
+                                            <input type="checkbox" tabindex="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="sixteen wide column">
+                                    <input class="ui orange button" type="submit" value="ورود"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="sixteen wide column">
+                                    <div class="ui button">رمز عبورم را فراموش کرده ام</div>
+                                </div>
+                            </div>
+                            <div class="ui divider"></div>
+                            <div class="row">
+                                <div class="ui green button">حساب کاربری ندارم (ثبت نام)</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
+<footer class="site-footer">
+    <div class="ui vertical footer segment">
+        <div class="ui center aligned container">
+            <div class="ui  four column grid ">
+                <div class="ui row">
+                    <div class="two wide right aligned column">
+                        <div class="ui animated large relaxed link right aligned list">
+                            <h4 class="header bold" style="text-align: right">منو ها</h4>
+                            </hr>
+                            <a class="item">خانه</a>
+                            <a class="item">سرویس ها</a>
+                            <a class="item">درباره ما</a>
+                            <a class="item">ارتباط با ما</a>
+                        </div>
+                    </div>
+                    <div class="three wide right aligned column">
+                        <div class="ui animated large relaxed link right aligned list">
+
+                            <h4 class="header bold"> پروفایل شما</h4>
+                            </hr>
+                            <a class="item">ورود یا ثبت نام</a>
+                            <a class="item">حساب کاربری</a>
+                            <a class="item">سبد خرید</a>
+                        </div>
+                    </div>
+
+                    <div class="five wide right aligned column" >
+
+                    </div>
+                    <div class="six wide right aligned column">
+                        <h4 class="header">درباره ما</h4>
+                        <div>
+                            <p>
+                                as;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
+                                a;klfghafs;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
+                                a;klfgh
+                                <br>
+                                as;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
+                                a;klfghaf
+                                <br>
+                                as;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui vertical footer2 segment">
+        <div class="ui center aligned container">
+            <div class="ui grid container">
+                <div class="ten wide column right aligned">
+                    <div class="ui horizontal large list">
+                        <div class="item">
+                            <svg class="icon-gmail "><use xlink:href="/static/media/photos/general/icons.svg#gmail"></use></svg></a></li>
+                        </div>
+                        <div class="item">
+                            <svg class="icon-instagram "><use xlink:href="/static/media/photos/general/icons.svg#instagram"></use></svg>
+                        </div>
+                        <div class="item">
+                            <svg class="icon-telegram "><use xlink:href="/static/media/photos/general/icons.svg#telegram"></use></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="six wide column right aligned">
+                    <h5 class="ui header copyright" >Copyright © 2016 ketab khaar</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script>
+
+    $(function(){
+        $('.ui.checkbox')
+            .checkbox()
+    });
+</script>
 
 </body>
 </html>

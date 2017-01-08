@@ -8,7 +8,7 @@ class UserRegisterForm(forms.Form):
     password = forms.CharField(label='رمز عبور', widget=forms.PasswordInput(), min_length=6, required=True)
     password_r = forms.CharField(label='تکرار رمز عبور', widget=forms.PasswordInput(), min_length=6, required=True)
     email = forms.EmailField(label='ایمیل', required=True)
-    birthday = forms.DateField(label='تاریخ تولد')
+    # birthday = forms.DateField(label='تاریخ تولد')
 
     def clean_password_r(self):
         password1 = self.cleaned_data.get('password')
