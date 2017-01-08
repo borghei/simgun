@@ -373,7 +373,7 @@
             </div>
         </div>
         <div class="actions">
-            <div class="ui orange button">ذخیره</div>
+            <div class="ui orange button" id="send-comment-btn">ثبت</div>
             <div class="ui inverted grey button " id="comment-cancel">بازگشت</div>
         </div>
     </div>
@@ -407,17 +407,48 @@
         $('.special.cards .image').dimmer({
             on: 'hover'
         });
+    });
+</script>
 
-        $('#comment-modal')
-                .modal('attach events', '#comment', 'show')
-                .modal('attach events', '#comment-cancel', 'cancel')
-            ;
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $(".shorten-txt").shorten({
+            "showChars" : 250,
+            "moreText"	: "بیشتر",
+            "lessText"	: "کمتر",
+        });
     });
 </script>
 
 {% if user.is_authenticated %}
     <script>
         $(function() {
+            $('#comment-modal')
+                .modal('attach events', '#comment', 'show')
+                .modal('attach events', '#comment-cancel', 'cancel')
+            ;
+            $('#send-comment-btn').click(function() {
+                $.ajax({
+                    url: "{% url 'profiles:add_wishlist' user.id %}",
+                    method: 'post',
+                    data: {
+                        book_id: {{ book.id }},
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            $('#add_wishlist').removeClass('grey inverted').addClass('red');
+                        }
+                        else {
+                            console.error('cannot fav');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                });
+            });
             $('#add_wishlist').click(function() {
                 $.ajax({
                     url: "{% url 'profiles:add_wishlist' user.id %}",
@@ -452,20 +483,12 @@
             $('#add_wishlist').click(function() {
                 window.location.href = '/accounts/login/';
             });
+            $('#comment').click(function() {
+                window.location.href = '/accounts/login/';
+            })
         });
     </script>
 
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-
-            $(".shorten-txt").shorten({
-                "showChars" : 250,
-                "moreText"	: "بیشتر",
-                "lessText"	: "کمتر",
-            });
-        });
-    </script>
 
 {% endif %}
 

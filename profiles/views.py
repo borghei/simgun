@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 from accounts.models import UserProfile
-from ketabkhor.models import Book
+from books.models import Book
 from profiles.models import WishlistBook
 
 

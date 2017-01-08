@@ -1,7 +1,7 @@
 from django.db import models
 from accounts.models import UserProfile
 
-from ketabkhor.models import Book
+from books.models import Book
 
 
 class WishlistBook(models.Model):
