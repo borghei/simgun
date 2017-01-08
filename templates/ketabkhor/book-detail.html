@@ -219,51 +219,54 @@
                     </div>
                     <div class="ui row">
                         <div class="ui items">
-                            <div class="item">
-                                <div class="image">
-                                    <img src="img/matthew.png">
-                                </div>
-                                <div class="content">
-                                    <a class="header">Header</a>
-                                    <div class="meta">
-                                        <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید که اصالت با جمع اس</span>
+                            {% for review in book.bookreview_set.all %}
+                                <div class="item">
+                                    <div class="image">
+                                        <img src="/{{ user.userprofile.avatar }}">
                                     </div>
-                                    <div class="description">
-                                        <p></p>
+                                    <div class="content">
+                                        <a class="header">{{ review.title }}</a>
+                                        <div class="meta">
+                                            <span>{{ review.text }}</span>
+                                        </div>
+                                        <div class="description">
+                                            <p></p>
+                                        </div>
+{#                                        <div class="extra">95/2/3</div>#}
                                     </div>
-                                    <div class="extra">95/2/3</div>
                                 </div>
-                            </div>
-                            <div class="item">
-                                <div class="image">
-                                    <img src="img/matthew.png">
-                                </div>
-                                <div class="content">
-                                    <a class="header">Header</a>
-                                    <div class="meta">
-                                        <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید که اصالت با جمع اس</span>
-                                    </div>
-                                    <div class="description">
-                                        <p></p>
-                                    </div>
-                                    <div class="extra">95/2/3</div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="image">
-                                    <img src="img/matthew.png">
-                                </div>
-                                <div class="content">
-                                    <a class="header">Header</a>
-                                    <div class="meta">
-                                        <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید که اصالت با جمع اس</span>
-                                    </div>
-                                    <div class="description">
-                                        <p></p>
-                                    </div>
-                                    <div class="extra">95/2/3</div>
-                                </div>
-                            </div>
+                            {% endfor %}
+{##}
+{#                            <div class="item">#}
+{#                                <div class="image">#}
+{#                                    <img src="img/matthew.png">#}
+{#                                </div>#}
+{#                                <div class="content">#}
+{#                                    <a class="header">Header</a>#}
+{#                                    <div class="meta">#}
+{#                                        <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید که اصالت با جمع اس</span>#}
+{#                                    </div>#}
+{#                                    <div class="description">#}
+{#                                        <p></p>#}
+{#                                    </div>#}
+{#                                    <div class="extra">95/2/3</div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="item">#}
+{#                                <div class="image">#}
+{#                                    <img src="img/matthew.png">#}
+{#                                </div>#}
+{#                                <div class="content">#}
+{#                                    <a class="header">Header</a>#}
+{#                                    <div class="meta">#}
+{#                                        <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید که اصالت با جمع اس</span>#}
+{#                                    </div>#}
+{#                                    <div class="description">#}
+{#                                        <p></p>#}
+{#                                    </div>#}
+{#                                    <div class="extra">95/2/3</div>#}
+{#                                </div>#}
+{#                            </div>#}
                         </div>
                     </div>
                 </div>
@@ -360,13 +363,13 @@
                     <div class="three fields">
                         <div class="required field">
                             <label>عنوان</label>
-                            <input type="text" placeholder="عنوان نقد">
+                            <input id="review-title" type="text" placeholder="عنوان نقد">
                         </div>
                     </div>
                     <div class="field">
                         <div class="twelve wide required field">
                             <label>متن</label>
-                            <textarea type="text" placeholder="متن نقد"></textarea>
+                            <textarea id="review-text" type="text" placeholder="متن نقد"></textarea>
                         </div>
                     </div>
                 </form>
@@ -430,15 +433,17 @@
             ;
             $('#send-comment-btn').click(function() {
                 $.ajax({
-                    url: "{% url 'profiles:add_wishlist' user.id %}",
+                    url: "{% url 'books:add_book_review' book.id %}",
                     method: 'post',
+                    async: false,
                     data: {
-                        book_id: {{ book.id }},
+                        title: $('#review-title').val(),
+                        text: $('#review-text').val(),
                         csrfmiddlewaretoken: '{{ csrf_token }}',
                     },
                     success: function(data) {
                         if (data.status === "ok") {
-                            $('#add_wishlist').removeClass('grey inverted').addClass('red');
+                            window.location.href = data.url;
                         }
                         else {
                             console.error('cannot fav');
