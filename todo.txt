@@ -1,2 +1,3 @@
 templates of "books" app must be seperated
 static contents of "books" app must be seperated
+book_review must save date of the review

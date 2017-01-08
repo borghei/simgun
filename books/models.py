@@ -3,6 +3,13 @@ from django.db import models
 from accounts.models import UserProfile
 
 
+class BookCategory(models.Model):
+    title = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.title
+
+
 class Book(models.Model):
     isbn = models.IntegerField(default=0, null=True)
     title = models.CharField(max_length=127)
@@ -13,6 +20,7 @@ class Book(models.Model):
     publisher = models.CharField(max_length=128)
     price = models.IntegerField(default=0)
     pic = models.ImageField(upload_to='static/media/photos/books/', blank=True, null=True, default='')
+    category = models.ForeignKey(BookCategory, on_delete=models.CASCADE, default='')
 
     def __str__(self):
         return self.title + ' - ' + self.publisher
