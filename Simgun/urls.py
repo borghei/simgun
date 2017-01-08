@@ -21,5 +21,6 @@ from ketabkhor import views
 urlpatterns = [
     url(r'^$', views.home_page, name='home_page'),
     url(r'^admin/', admin.site.urls),
-    url(r'books/(?P<pk>[0-9]+)/$', views.BookDetails.as_view(), name='book_details'),
+    url(r'^books/(?P<pk>[0-9]+)/$', views.BookDetails.as_view(), name='book_details'),
+    url(r'^accounts/', include('accounts.urls')),
 ]
