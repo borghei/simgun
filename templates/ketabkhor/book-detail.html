@@ -15,59 +15,64 @@
 <body>
 
 <header class="header1">
-<div class="ui menu back-grey-menu no-borders">
-    <div class="ui grid container ">
-        <div class="ten wide column right aligned">
-            <div class="ui row row-margin1">
+    <div class="ui menu back-grey-menu no-borders">
+        <div class="ui grid container ">
+            <div class="ten wide column right aligned">
+                <div class="ui row row-margin1">
             <span>فروشگاه اینترنتی کتاب خوار ،
-                <a href="#">ثبت نام کنید</a>
-                یا
-                <a href="#">وارد شوید</a> </span>
-            </div>
-            <div class="ui row row-margin2">
-                <div class="ui search">
-                    <div class="ui simple scrolling fluid search left icon input search-tab">
-                        <i class="search icon"></i>
-                        <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب/نام نویسنده/ISPN">
+                {% if user.is_authenticated %}
+                    سلام {{ user.first_name }} {{ user.last_name }} !
+                {% else %}
+                    <a href="#">ثبت نام کنید</a>
+                    یا
+                    <a href="#">وارد شوید</a> </span>
+                {% endif %}
+
+                </div>
+                <div class="ui row row-margin2">
+                    <div class="ui search">
+                        <div class="ui simple scrolling fluid search left icon input search-tab">
+                            <i class="search icon"></i>
+                            <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب/نام نویسنده/ISPN">
+                        </div>
+                        <div class="results"></div>
                     </div>
-                    <div class="results"></div>
                 </div>
             </div>
-        </div>
-        <div class="four wide column left aligned">
-            <h2 class="logo">کتاب خوار</h2>
-        </div>
-        <div class="two wide column center aligned">
-            <div >
-                <img class="logo-img" src="{% static 'media/photos/general/logo.png' %}">
+            <div class="four wide column left aligned">
+                <h2 class="logo">کتاب خوار</h2>
             </div>
-        </div>
+            <div class="two wide column center aligned">
+                <div >
+                    <img class="logo-img" src="{% static 'media/photos/general/logo.png' %}">
+                </div>
+            </div>
 
+        </div>
     </div>
-</div>
-<div class="ui menu  no-borders " id="menu2">
-    <div class="ui container">
-        <a class="green header link item">
-            <i class="shop icon"></i>
-            سبد خرید
-        </a>
-        <a class=" red link item">
-            کتاب فانتزی
-        </a>
-        <a class="purple link item">
-            کتاب فانتزی
-        </a>
-        <a class="blue link item">
-            کتاب فانتزی
-        </a>
-        <a class="pink link item">
-            کتاب فانتزی
-        </a>
-        <a class="teal link item">
-            کتاب فانتزی
-        </a>
+    <div class="ui menu  no-borders " id="menu2">
+        <div class="ui container">
+            <a class="green header link item">
+                <i class="shop icon"></i>
+                سبد خرید
+            </a>
+            <a class=" red link item">
+                کتاب فانتزی
+            </a>
+            <a class="purple link item">
+                کتاب فانتزی
+            </a>
+            <a class="blue link item">
+                کتاب فانتزی
+            </a>
+            <a class="pink link item">
+                کتاب فانتزی
+            </a>
+            <a class="teal link item">
+                کتاب فانتزی
+            </a>
+        </div>
     </div>
-</div>
 
 </header>
 
@@ -82,8 +87,7 @@
             <h3 class="ui header">{{ book.price }} تومان</h3>
             <button class="ui orange inverted button link">افزودن به سبد خرید</button>
 
-{#            TODO the element must check if the book is already in wishlist or not#}
-
+            {#            TODO the element must check if the book is already in wishlist or not#}
             <button id="add_wishlist" class="ui grey inverted labeled icon button fav-button"> <i class="star icon"></i> افزودن به علاقه مندی ها </button>
             <div class="ui divider"></div>
             <div>
@@ -370,34 +374,50 @@
         $('.special.cards .image').dimmer({
             on: 'hover'
         });
-
-        console.log({{ user.id }});
-
-        $('#add_favorite').click(function() {
-            $.ajax({
-                url: "{% url 'profiles:add_wishlist' user.id %}",
-                method: 'post',
-                data: {
-                    book_id: {{ book.id }},
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-
-                },
-                success: function(data) {
-                    if (data.status === "ok") {
-                        $('#add_wishlist').removeClass('grey inverted').addClass('red');
-                    }
-                    else {
-                        console.error('cannot fav');
-                    }
-                },
-                error: function() {
-                    console.error('eeeeerrrrrrooooorrrrrr');
-                }
-            });
-        });
     });
 </script>
 
+{% if user.is_authenticated %}
+    <script>
+        $(function() {
+            $('#add_wishlist').click(function() {
+                $.ajax({
+                    url: "{% url 'profiles:add_wishlist' user.id %}",
+                    method: 'post',
+                    data: {
+                        book_id: {{ book.id }},
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            $('#add_wishlist').removeClass('grey inverted').addClass('red');
+                        }
+                        else {
+                            console.error('cannot fav');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                });
+            });
+        });
+
+    </script>
+
+{% else %}
+
+
+    <script>
+        $(function() {
+            $('#add_wishlist').click(function() {
+                window.location.href = '/accounts/login/';
+            });
+        });
+    </script>
+
+{% endif %}
 
 <script type="text/javascript" src="{% static 'general/js/header-footer.js' %}"></script>
 
