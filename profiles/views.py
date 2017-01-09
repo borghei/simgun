@@ -3,9 +3,11 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 
 # Create your views here.
+from django.urls import reverse
+
 from accounts.models import UserProfile
 from books.models import Book
-from profiles.models import WishlistBook
+from profiles.models import WishlistBook, ShoppingbagBook
 
 
 def add_to_wishlist(request, profile_id):
@@ -36,5 +38,30 @@ def remove_from_wishlist(request, profile_id):
             return JsonResponse({'status': 'ok'})
 
 
-def add_to_shoppingbag(request):
-    return None
+#TODO if the book is not available ...
+def add_to_shoppingbag(request, profile_id):
+    if request.method == 'POST':
+        book = get_object_or_404(Book, pk=request.POST.get('book_id'))
+        user_profile = get_object_or_404(UserProfile, user=request.user)
+        temp_shoppingbag_book = ShoppingbagBook.objects.filter(user_profile=user_profile, book=book)
+        if temp_shoppingbag_book.count() == 0:
+            shoppingbag_book = ShoppingbagBook(user_profile=user_profile, book=book)
+            shoppingbag_book.save()
+            return JsonResponse({'status': 'ok',
+                                 'url': reverse('profiles:shoppingbag', args=(profile_id,))
+                                 })
+        else:
+            selected_shoppingbag_book = temp_shoppingbag_book.get(user_profile=user_profile, book=book)
+            selected_shoppingbag_book.book_count += 1
+            selected_shoppingbag_book.save()
+            return JsonResponse({'status': 'ok',
+                                 'url': reverse('profiles:shoppingbag', args=(profile_id,))
+                                 })
+
+def shoppingbag(request, profile_id):
+    if request.method == 'GET':
+        user_profile = get_object_or_404(UserProfile, user=request.user)
+        shoppingbags = user_profile.shoppingbagbook_set.all()
+        return render(request, 'profiles/shopping-bag.html', {
+            'shoppingbags': shoppingbags,
+        })

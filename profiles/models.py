@@ -13,8 +13,9 @@ class WishlistBook(models.Model):
 
 
 class ShoppingbagBook(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book_count = models.IntegerField(default=1)
 
     def __str__(self):
-        return str(self.user) + ' - ' + str(self.book)
+        return str(self.user_profile) + ' - ' + str(self.book)

@@ -11,6 +11,10 @@
 
     <script src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'general/js/semantic.min.js' %}"></script>
+
+
+{#    <script src="{% static 'general/js/generic-script.js' %}"></script>#}
+    <script type="text/javascript" src="{% static 'general/js/header-footer.js' %}"></script>
 </head>
 <body>
 
@@ -22,6 +26,7 @@
             <span>فروشگاه اینترنتی کتاب خوار ،
                 {% if user.is_authenticated %}
                     سلام {{ user.first_name }} {{ user.last_name }} !
+                    <a href="/accounts/logout/">(خروج)</a>
                 {% else %}
                     <a href="#">ثبت نام کنید</a>
                     یا
@@ -85,10 +90,10 @@
                 <img class="book-info-img" src="/{{ book.pic }}">
             </div>
             <h3 class="ui header">{{ book.price }} تومان</h3>
-            <button class="ui orange inverted button link">افزودن به سبد خرید</button>
+            <button id="add-shoppingbag" class="ui orange inverted button link">افزودن به سبد خرید</button>
 
             {#            TODO the element must check if the book is already in wishlist or not#}
-            <button id="add_wishlist" class="ui grey inverted labeled icon button fav-button"> <i class="star icon"></i> افزودن به علاقه مندی ها </button>
+            <button id="add-wishlist" class="ui grey inverted labeled icon button fav-button"> <i class="star icon"></i> افزودن به علاقه مندی ها </button>
             <div class="ui divider"></div>
             <div>
                 <h3 class="ui header">امتیاز دهید</h3>
@@ -186,6 +191,39 @@
 </div>
 
 
+<div class="ui modal" id="comment-modal">
+    <i class="close icon"></i>
+    <div class="header">
+        نوشتن نقد جدید
+    </div>
+    <div class=" content">
+        <div class="content-margin">
+        </div>
+        <span></span>
+        <div class="description">
+            <form class="ui form">
+                <div class="three fields">
+                    <div class="required field">
+                        <label>عنوان</label>
+                        <input id="review-title" type="text" placeholder="عنوان نقد">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="twelve wide required field">
+                        <label>متن</label>
+                        <textarea id="review-text" type="text" placeholder="متن نقد"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui orange button" id="send-comment-btn">ثبت</div>
+        <div class="ui inverted grey button " id="comment-cancel">بازگشت</div>
+    </div>
+</div>
+
+
 <footer class="site-footer">
     <div class="ui vertical footer segment">
         <div class="ui center aligned container">
@@ -258,44 +296,71 @@
             </div>
         </div>
     </div>
-
-    <div class="ui modal" id="comment-modal">
-        <i class="close icon"></i>
-        <div class="header">
-            نوشتن نقد جدید
-        </div>
-        <div class=" content">
-            <div class="content-margin">
-            </div>
-            <span></span>
-            <div class="description">
-                <form class="ui form">
-                    <div class="three fields">
-                        <div class="required field">
-                            <label>عنوان</label>
-                            <input id="review-title" type="text" placeholder="عنوان نقد">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="twelve wide required field">
-                            <label>متن</label>
-                            <textarea id="review-text" type="text" placeholder="متن نقد"></textarea>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="actions">
-            <div class="ui orange button" id="send-comment-btn">ثبت</div>
-            <div class="ui inverted grey button " id="comment-cancel">بازگشت</div>
-        </div>
-    </div>
-
 </footer>
 
 <!-- jquery script -->
 
-<script src="{% static 'general/js/generic-script.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $.fn.shorten = function (settings) {
+
+        var config = {
+            showChars: 100,
+            ellipsesText: "...",
+            moreText: "more",
+            lessText: "less"
+        };
+
+        if (settings) {
+            $.extend(config, settings);
+        }
+
+        $(document).off("click", '.morelink');
+
+        $(document).on({click: function () {
+
+            var $this = $(this);
+            if ($this.hasClass('less')) {
+                $this.removeClass('less');
+                $this.html(config.moreText);
+            } else {
+                $this.addClass('less');
+                $this.html(config.lessText);
+            }
+            $this.parent().prev().toggle();
+            $this.prev().toggle();
+            return false;
+        }
+        }, '.morelink');
+
+        return this.each(function () {
+            var $this = $(this);
+            if($this.hasClass("shortened")) return;
+
+            $this.addClass("shortened");
+            var content = $this.html();
+            if (content.length > config.showChars) {
+                var c = content.substr(0, config.showChars);
+                var h = content.substr(config.showChars, content.length - config.showChars);
+                var html = c + '<span class="moreellipses">' + config.ellipsesText + ' </span><span class="morecontent"><span>' + h + '</span> <a href="#" class="morelink">' + config.moreText + '</a></span>';
+                $this.html(html);
+                $(".morecontent span").hide();
+            }
+        });
+
+    };
+
+
+        $(".shorten-txt").shorten({
+            "showChars" : 50,
+            "moreText"	: "بیشتر",
+            "lessText"	: "کمتر",
+        });
+    });
+</script>
+
 <script>
     $(function(){
         $('.ui.rating')
@@ -319,17 +384,6 @@
         ;
         $('.special.cards .image').dimmer({
             on: 'hover'
-        });
-    });
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-
-        $(".shorten-txt").shorten({
-            "showChars" : 250,
-            "moreText"	: "بیشتر",
-            "lessText"	: "کمتر",
         });
     });
 </script>
@@ -364,7 +418,7 @@
                     }
                 });
             });
-            $('#add_wishlist').click(function() {
+            $('#add-wishlist').click(function() {
                 $.ajax({
                     url: "{% url 'profiles:add_wishlist' user.id %}",
                     method: 'post',
@@ -375,10 +429,32 @@
                     },
                     success: function(data) {
                         if (data.status === "ok") {
-                            $('#add_wishlist').removeClass('grey inverted').addClass('red');
+                            $('#add-wishlist').removeClass('grey inverted').addClass('red');
                         }
                         else {
                             console.error('cannot fav');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                });
+            });
+            $('#add-shoppingbag').click(function() {
+                $.ajax({
+                    url: "{% url 'profiles:add_shoppingbag' user.id %}",
+                    method: 'post',
+                    data: {
+                        book_id: {{ book.id }},
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            window.location.href = data.url;
+                        }
+                        else {
+                            console.error('cannot add');
                         }
                     },
                     error: function() {
@@ -395,19 +471,21 @@
 
     <script>
         $(function() {
-            $('#add_wishlist').click(function() {
+            $('#add-wishlist').click(function() {
                 window.location.href = '/accounts/login/';
             });
             $('#comment').click(function() {
                 window.location.href = '/accounts/login/';
-            })
+            });
+            $('#add-shoppingbag').click(function() {
+                window.location.href = '/accounts/login/';
+            });
         });
     </script>
 
 
 {% endif %}
 
-<script type="text/javascript" src="{% static 'general/js/header-footer.js' %}"></script>
 
 </body>
 </html>
