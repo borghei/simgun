@@ -19,7 +19,7 @@ class Book(models.Model):
     page_count = models.IntegerField(default=0)
     publisher = models.CharField(max_length=128)
     price = models.IntegerField(default=0)
-    pic = models.ImageField(upload_to='static/media/photos/books/', blank=True, null=True, default='')
+    pic = models.ImageField(upload_to='static/site-media/photos/books/', blank=True, null=True, default='')
     category = models.ForeignKey(BookCategory, on_delete=models.CASCADE, default='')
 
     def __str__(self):

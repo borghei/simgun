@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('page_count', models.IntegerField(default=0)),
                 ('publisher', models.CharField(max_length=127)),
                 ('price', models.IntegerField(default=0)),
-                ('pic', models.ImageField(blank=True, default='', null=True, upload_to='static/media/photos/books/')),
+                ('pic', models.ImageField(blank=True, default='', null=True, upload_to='static/site-media/photos/books/')),
             ],
         ),
     ]
