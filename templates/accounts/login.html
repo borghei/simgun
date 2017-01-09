@@ -11,6 +11,7 @@
 
     <script src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'general/js/semantic.min.js' %}"></script>
+    <script src="{% static 'general/js/generic-script.js' %}"></script>
 
 </head>
 <body>
@@ -30,7 +31,7 @@
                     <div class="ui search">
                         <div class="ui simple scrolling fluid search left icon input search-tab">
                             <i class="search icon"></i>
-                            <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب">
+                            <input id="search-bar" class="prompt" style="text-align: right" type="text" placeholder="نام کتاب">
                         </div>
                         <div class="results"></div>
                     </div>

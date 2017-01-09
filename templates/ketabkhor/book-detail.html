@@ -11,6 +11,7 @@
 
     <script src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'general/js/semantic.min.js' %}"></script>
+    <script src="{% static 'general/js/generic-script.js' %}"></script>
 
 
 {#    <script src="{% static 'general/js/generic-script.js' %}"></script>#}
@@ -38,7 +39,7 @@
                     <div class="ui search">
                         <div class="ui simple scrolling fluid search left icon input search-tab">
                             <i class="search icon"></i>
-                            <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب/نام نویسنده/ISPN">
+                            <input id="search-bar" class="prompt" style="text-align: right" type="text" placeholder="نام کتاب/نام نویسنده/ISPN">
                         </div>
                         <div class="results"></div>
                     </div>
@@ -167,7 +168,7 @@
                             {% for review in book.bookreview_set.all %}
                                 <div class="item">
                                     <div class="image">
-                                        <img src="/{{ user.userprofile.avatar }}">
+                                        <img src="/{{ review.user_profile.avatar }}">
                                     </div>
                                     <div class="content">
                                         <a class="header">{{ review.title }}</a>

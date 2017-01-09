@@ -11,6 +11,7 @@
 
     <script src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'general/js/semantic.min.js' %}"></script>
+    <script src="{% static 'general/js/generic-script.js' %}"></script>
 </head>
 <body>
 
@@ -36,8 +37,8 @@
                     <div class="ui search">
                         <div class="ui simple scrolling fluid search left icon input search-tab">
                             <i class="search icon"></i>
-                            <input class="prompt" style="text-align: right" type="text"
-                                   placeholder="نام کتاب/نام نویسنده/ISPN">
+                            <input id="search-bar" class="prompt" style="text-align: right" type="text"
+                                   placeholder="نام کتاب/نام نویسنده/ISBN"/>
                         </div>
                         <div class="results"></div>
                     </div>
@@ -48,7 +49,7 @@
             </div>
             <div class="two wide column center aligned">
                 <div>
-                    <img class="logo-img" src="{% static 'media/photos/general/logo.png' %}">
+                    <img class="logo-img" src="{% static 'site-media/photos/general/logo.png' %}">
                 </div>
             </div>
 
@@ -227,106 +228,31 @@
                 <div class="ui divider tab-divider"></div>
                 <div class="ui grid container">
                     <div class="ui row">
-                        <div class="three wide column">
-                            <div class="ui link special cards">
-                                <div class="red card">
-                                    <div class="blurring dimmable image">
-                                        <div class="ui inverted dimmer">
-                                            <div class="content">
-                                                <div class="center">
-                                                    <div class="ui inverted button">مشاهده</div>
+                        {% for book in books %}
+                            <div class="three wide column">
+                                <div class="ui link special cards">
+                                    <div class="red card">
+                                        <div class="blurring dimmable image">
+                                            <div class="ui inverted dimmer">
+                                                <div class="content">
+                                                    <div class="center">
+                                                        <a href="{% url 'books:book_details' book.id %}">
+                                                            <div class="ui inverted button">مشاهده</div>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <img src="/{{ book.pic }}">
                                         </div>
-                                        <img src="img/516GyHY9p6L.jpg">
-                                    </div>
-                                    <div class="content">
-                                        <a class="header" href="#">نام کتاب</a>
-                                        <div class="meta"> توسط ...</div>
+                                        <div class="content">
+                                            <a class="header"
+                                               href="{% url 'books:book_details' book.id %}">{{ book.title }}</a>
+                                            <div class="meta"> {{ book.author }}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="three wide column">
-                            <div class="ui link special cards">
-                                <div class="red card">
-                                    <div class="blurring dimmable image">
-                                        <div class="ui inverted dimmer">
-                                            <div class="content">
-                                                <div class="center">
-                                                    <div class="ui inverted button">مشاهده</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <img src="img/516GyHY9p6L.jpg">
-                                    </div>
-                                    <div class="content">
-                                        <a class="header" href="#">نام کتاب</a>
-                                        <div class="meta"> توسط ...</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="three wide column">
-                            <div class="ui link special cards">
-                                <div class="red card">
-                                    <div class="blurring dimmable image">
-                                        <div class="ui inverted dimmer">
-                                            <div class="content">
-                                                <div class="center">
-                                                    <div class="ui inverted button">مشاهده</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <img src="img/516GyHY9p6L.jpg">
-                                    </div>
-                                    <div class="content">
-                                        <a class="header" href="#">نام کتاب</a>
-                                        <div class="meta"> توسط ...</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="three wide column">
-                            <div class="ui link special cards">
-                                <div class="red card">
-                                    <div class="blurring dimmable image">
-                                        <div class="ui inverted dimmer">
-                                            <div class="content">
-                                                <div class="center">
-                                                    <div class="ui inverted button">مشاهده</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <img src="img/516GyHY9p6L.jpg">
-                                    </div>
-                                    <div class="content">
-                                        <a class="header" href="#">نام کتاب</a>
-                                        <div class="meta"> توسط ...</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="three wide column">
-                            <div class="ui link special cards">
-                                <div class="red card">
-                                    <div class="blurring dimmable image">
-                                        <div class="ui inverted dimmer">
-                                            <div class="content">
-                                                <div class="center">
-                                                    <div class="ui inverted button">مشاهده</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <img src="img/516GyHY9p6L.jpg">
-                                    </div>
-                                    <div class="content">
-                                        <a class="header" href="#">نام کتاب</a>
-                                        <div class="meta"> توسط ...</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                     <div class="ui row">
                         <div class="left column left aligned">
@@ -691,5 +617,6 @@
     ;
 
 </script>
+
 </body>
 </html>
