@@ -119,90 +119,31 @@
             <div>
                 <h2 class="ui header">کتاب های مرتبط</h2>
                 <div class="ui grid container">
-                    <div class="four wide column ">
-                        <div class="ui link special cards">
-                            <div class="red card" >
-                                <div class="blurring dimmable image">
-                                    <div class="ui inverted dimmer">
-                                        <div class="content">
-                                            <div class="center">
-                                                <div class="ui inverted button">مشاهده</div>
+                    {% for book in related_books %}
+                        <div class="four wide column ">
+                            <div class="ui link special cards">
+                                <div class="red card" >
+                                    <div class="blurring dimmable image">
+                                        <div class="ui inverted dimmer">
+                                            <div class="content">
+                                                <div class="center">
+                                                    <a href="{% url 'books:book_details' book.id %}">
+                                                        <div class="ui inverted button">مشاهده</div>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
+                                        <img src="/{{ book.pic }}">
                                     </div>
-                                    <img src="img/516GyHY9p6L.jpg">
-                                </div>
-                                <div class="content">
-                                    <a class="header" href="#">نام کتاب</a>
-                                    <div class="meta"> توسط ... </div>
+                                    <div class="content">
+                                        <a class="header" href="{% url 'books:book_details' book.id %}">{{ book.title }}</a>
+                                        <div class="meta"> {{ book.author }} </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                    </div>
-                    <div class="four wide column ">
-                        <div class="ui link special cards">
-                            <div class="red card" >
-                                <div class="blurring dimmable image">
-                                    <div class="ui inverted dimmer">
-                                        <div class="content">
-                                            <div class="center">
-                                                <div class="ui inverted button">مشاهده</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src="img/516GyHY9p6L.jpg">
-                                </div>
-                                <div class="content">
-                                    <a class="header" href="#">نام کتاب</a>
-                                    <div class="meta"> توسط ... </div>
-                                </div>
-                            </div>
                         </div>
-
-                    </div>
-                    <div class="four wide column ">
-                        <div class="ui link special cards">
-                            <div class="red card" >
-                                <div class="blurring dimmable image">
-                                    <div class="ui inverted dimmer">
-                                        <div class="content">
-                                            <div class="center">
-                                                <div class="ui inverted button">مشاهده</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src="img/516GyHY9p6L.jpg">
-                                </div>
-                                <div class="content">
-                                    <a class="header" href="#">نام کتاب</a>
-                                    <div class="meta"> توسط ... </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="four wide column ">
-                        <div class="ui link special cards">
-                            <div class="red card" >
-                                <div class="blurring dimmable image">
-                                    <div class="ui inverted dimmer">
-                                        <div class="content">
-                                            <div class="center">
-                                                <div class="ui inverted button">مشاهده</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <img src="img/516GyHY9p6L.jpg">
-                                </div>
-                                <div class="content">
-                                    <a class="header" href="#">نام کتاب</a>
-                                    <div class="meta"> توسط ... </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="ui divider info-divider"></div>
@@ -232,7 +173,7 @@
                                         <div class="description">
                                             <p></p>
                                         </div>
-{#                                        <div class="extra">95/2/3</div>#}
+                                        {#                                        <div class="extra">95/2/3</div>#}
                                     </div>
                                 </div>
                             {% endfor %}
