@@ -11,7 +11,7 @@
 
     <script src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'general/js/semantic.min.js' %}"></script>
-        <script src="{% static 'general/js/generic-script.js' %}"></script>
+    <script src="{% static 'general/js/generic-script.js' %}"></script>
 
 </head>
 
@@ -25,9 +25,9 @@
                     سلام {{ user.first_name }} {{ user.last_name }} !
                     <a href="/accounts/logout/">(خروج)</a>
                 {% else %}
-                    <a href="#">ثبت نام کنید</a>
+                    <a href="/accounts/register/">ثبت نام کنید</a>
                     یا
-                    <a href="#">وارد شوید</a> </span>
+                    <a href="/accounts/login/">وارد شوید</a> </span>
                 {% endif %}
 
                 </div>
@@ -35,7 +35,8 @@
                     <div class="ui search">
                         <div class="ui simple scrolling fluid search left icon input search-tab">
                             <i class="search icon"></i>
-                            <input id="search-bar" class="prompt" style="text-align: right" type="text" placeholder="نام کتاب/نام نویسنده/ISPN">
+                            <input id="search-bar" class="prompt" style="text-align: right" type="text"
+                                   placeholder="نام کتاب/نام نویسنده/ISPN">
                         </div>
                         <div class="results"></div>
                     </div>
@@ -45,7 +46,7 @@
                 <h2 class="logo">کتاب خوار</h2>
             </div>
             <div class="two wide column center aligned">
-                <div >
+                <div>
                     <img class="logo-img" src="{% static 'site-media/photos/general/logo.png' %}">
                 </div>
             </div>
@@ -60,19 +61,19 @@
                 سبد خرید
             </a>
             <a class=" red link item">
-رمان
+                رمان
             </a>
             <a class="purple link item">
-داستان کوتاه
+                داستان کوتاه
             </a>
             <a class="blue link item">
-آموزشی
+                آموزشی
             </a>
             <a class="pink link item">
-فرهنگ و هنر
+                فرهنگ و هنر
             </a>
             <a class="teal link item">
-فانتزی
+                فانتزی
             </a>
         </div>
     </div>
@@ -126,7 +127,8 @@
 
                                 </td>
                                 <td id="book-price-mul-count{{ forloop.counter }}">{{ shoppingbag.book.price }}</td>
-                                <td><img src="{% static 'site-media/photos/general/ic_remove_shopping_cart.svg' %}"></td>
+                                <td><img src="{% static 'site-media/photos/general/ic_remove_shopping_cart.svg' %}">
+                                </td>
                             </tr>
                         {% endfor %}
                         <tr class="empty-col">
@@ -187,7 +189,7 @@
                         </div>
                     </div>
 
-                    <div class="five wide right aligned column" >
+                    <div class="five wide right aligned column">
 
                     </div>
                     <div class="six wide right aligned column">
@@ -217,18 +219,25 @@
                 <div class="ten wide column right aligned">
                     <div class="ui horizontal large list">
                         <div class="item">
-                            <svg class="icon-gmail "><use xlink:href="/static/media/photos/general/icons.svg#gmail"></use></svg></a></li>
+                            <svg class="icon-gmail ">
+                                <use xlink:href="/static/media/photos/general/icons.svg#gmail"></use>
+                            </svg>
+                            </a></li>
                         </div>
                         <div class="item">
-                            <svg class="icon-instagram "><use xlink:href="/static/media/photos/general/icons.svg#instagram"></use></svg>
+                            <svg class="icon-instagram ">
+                                <use xlink:href="/static/media/photos/general/icons.svg#instagram"></use>
+                            </svg>
                         </div>
                         <div class="item">
-                            <svg class="icon-telegram "><use xlink:href="/static/media/photos/general/icons.svg#telegram"></use></svg>
+                            <svg class="icon-telegram ">
+                                <use xlink:href="/static/media/photos/general/icons.svg#telegram"></use>
+                            </svg>
                         </div>
                     </div>
                 </div>
                 <div class="six wide column right aligned">
-                    <h5 class="ui header copyright" >Copyright © 2016 ketab khaar</h5>
+                    <h5 class="ui header copyright">Copyright © 2016 ketab khaar</h5>
                 </div>
             </div>
         </div>
@@ -239,13 +248,13 @@
 
 
 <script>
-    $(function(){
-        $('[id^=book-count]').each(function(i) {
-{#            console.log({{ shoppingbags }});#}
+    $(function () {
+        $('[id^=book-count]').each(function (i) {
+            {#            console.log({{ shoppingbags }});#}
             var data = {{ shoppingbags }}
-            console.log(data)
+                console.log(data)
         });
-        $('[id^=book-price-mul-count]').each(function(i){
+        $('[id^=book-price-mul-count]').each(function (i) {
             var count = parseInt($('#book-count' + i).find(':selected').text());
             console.log(count);
         });
