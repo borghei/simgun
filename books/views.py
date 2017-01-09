@@ -25,9 +25,18 @@ def book_details(request, book_id):
     # related_books = random(related_books)
     #TODO this method is very slow
     related_books = related_books.order_by('?')[0:4]
+    book_rate_avg = 0
+    all_bookratings = book.bookrating_set.all();
+    if all_bookratings.count() == 0:
+        book_rate_avg = 0
+    else:
+        for book_rate in all_bookratings:
+            book_rate_avg += book_rate.rate
+        book_rate_avg /= all_bookratings.count()
     return render(request, 'ketabkhor/book-detail.html', {
         'book': book,
-        'related_books': related_books
+        'related_books': related_books,
+        'book_rate': book_rate_avg,
     })
 
 
@@ -40,9 +49,6 @@ def add_book_review(request, book_id):
                                  title=request.POST.get('title'),
                                  text=request.POST.get('text'))
         book_review.save()
-        # book = get_object_or_404(Book, pk=book_id)
-        # related_books = book.category.book_set.exclude(pk=book_id)
-        # related_books = related_books.order_by('?')[0:4]
         return JsonResponse({'status': 'ok', 'url': reverse('books:book_details', args=(book_id, ))})
     else:
         return JsonResponse({'status': 'failure'})

@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('birthday', models.DateField(blank=True, null=True)),
-                ('avatar', models.ImageField(blank=True, default='static/media/photos/profiles/matthew.png', null=True, upload_to='static/media/photos/profiles/')),
+                ('avatar', models.ImageField(blank=True, default='static/site-media/photos/profiles/matthew.png', null=True, upload_to='static/site-media/photos/profiles/')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
