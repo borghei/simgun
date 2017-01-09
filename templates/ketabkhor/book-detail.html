@@ -49,7 +49,7 @@
             </div>
             <div class="two wide column center aligned">
                 <div >
-                    <img class="logo-img" src="{% static 'media/photos/general/logo.png' %}">
+                    <img class="logo-img" src="{% static 'site-media/photos/general/logo.png' %}">
                 </div>
             </div>
 
@@ -102,7 +102,7 @@
         </div>
         <!-- book info -->
         <div class="nine wide column right aligned">
-            <h2 class="header">ارباب حلقه ها</h2>
+            <h2 class="header">{{ book.title }}</h2>
             <p style="font-size: medium"> نوشته شده توسط
                 <strong>{{ book.author }}</strong>
             </p>
@@ -111,7 +111,7 @@
                     <strong>{{ book.translator }}</strong>
                 </p>
             {% endif %}
-            <div class="ui huge star rating" id="rate-star2"></div>
+            <div class="ui huge star rating" id="rate-star2"></div>{{ book_rate }}
             <div class="shorten">
                 {{ book.description }}
             </div>
@@ -146,7 +146,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     {% endfor %}
                 </div>
@@ -369,12 +368,9 @@
                 maxRating: 5
             })
         ;
-        $('#rate-star')
-            .rating('setting', 'clearable', true)
-        ;
         $('#rate-star2')
             .rating({
-                initialRating: 3,
+                initialRating: {{ book_rate }},
                 maxRating: 5
             })
             .rating('disable')
@@ -395,6 +391,13 @@
                 .modal('attach events', '#comment', 'show')
                 .modal('attach events', '#comment-cancel', 'cancel')
             ;
+
+{#            TODO should can change the rating#}
+
+            $('#rate-star')
+            .rating('enable');
+
+
             $('#send-comment-btn').click(function() {
                 $.ajax({
                     url: "{% url 'books:add_book_review' book.id %}",
