@@ -10,3 +10,11 @@ class WishlistBook(models.Model):
 
     def __str__(self):
         return str(self.user_profile) + ' - ' + str(self.book)
+
+
+class ShoppingbagBook(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.user) + ' - ' + str(self.book)

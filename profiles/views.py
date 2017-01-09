@@ -34,3 +34,7 @@ def remove_from_wishlist(request, profile_id):
         else:
             wishlist_book.delete()
             return JsonResponse({'status': 'ok'})
+
+
+def add_to_shoppingbag(request):
+    return None
