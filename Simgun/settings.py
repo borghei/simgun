@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ketabkhor.apps.KetabkhorConfig',
     'accounts.apps.AccountsConfig',
+    'profiles.apps.ProfilesConfig',
+    'books.apps.BooksConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

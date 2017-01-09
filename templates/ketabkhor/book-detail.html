@@ -13,62 +13,69 @@
     <script src="{% static 'general/js/semantic.min.js' %}"></script>
 </head>
 <body>
+
 <header class="header1">
-<div class="ui menu back-grey-menu no-borders">
-    <div class="ui grid container ">
-        <div class="ten wide column right aligned">
-            <div class="ui row row-margin1">
+    <div class="ui menu back-grey-menu no-borders">
+        <div class="ui grid container ">
+            <div class="ten wide column right aligned">
+                <div class="ui row row-margin1">
             <span>فروشگاه اینترنتی کتاب خوار ،
-                <a href="#">ثبت نام کنید</a>
-                یا
-                <a href="#">وارد شوید</a> </span>
-            </div>
-            <div class="ui row row-margin2">
-                <div class="ui search">
-                    <div class="ui simple scrolling fluid search left icon input search-tab">
-                        <i class="search icon"></i>
-                        <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب">
+                {% if user.is_authenticated %}
+                    سلام {{ user.first_name }} {{ user.last_name }} !
+                {% else %}
+                    <a href="#">ثبت نام کنید</a>
+                    یا
+                    <a href="#">وارد شوید</a> </span>
+                {% endif %}
+
+                </div>
+                <div class="ui row row-margin2">
+                    <div class="ui search">
+                        <div class="ui simple scrolling fluid search left icon input search-tab">
+                            <i class="search icon"></i>
+                            <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب/نام نویسنده/ISPN">
+                        </div>
+                        <div class="results"></div>
                     </div>
-                    <div class="results"></div>
                 </div>
             </div>
-        </div>
-        <div class="four wide column left aligned">
-            <h2 class="logo">کتاب خوار</h2>
-        </div>
-        <div class="two wide column center aligned">
-            <div >
-                <img class="logo-img" src="{% static 'media/photos/general/logo.png' %}">
+            <div class="four wide column left aligned">
+                <h2 class="logo">کتاب خوار</h2>
             </div>
-        </div>
+            <div class="two wide column center aligned">
+                <div >
+                    <img class="logo-img" src="{% static 'media/photos/general/logo.png' %}">
+                </div>
+            </div>
 
+        </div>
     </div>
-</div>
-<div class="ui menu  no-borders " id="menu2">
-    <div class="ui container">
-        <a class="green header link item">
-            <i class="shop icon"></i>
-            سبد خرید
-        </a>
-        <a class=" red link item">
-            کتاب فانتزی
-        </a>
-        <a class="purple link item">
-            کتاب فانتزی
-        </a>
-        <a class="blue link item">
-            کتاب فانتزی
-        </a>
-        <a class="pink link item">
-            کتاب فانتزی
-        </a>
-        <a class="teal link item">
-            کتاب فانتزی
-        </a>
+    <div class="ui menu  no-borders " id="menu2">
+        <div class="ui container">
+            <a class="green header link item">
+                <i class="shop icon"></i>
+                سبد خرید
+            </a>
+            <a class=" red link item">
+                کتاب فانتزی
+            </a>
+            <a class="purple link item">
+                کتاب فانتزی
+            </a>
+            <a class="blue link item">
+                کتاب فانتزی
+            </a>
+            <a class="pink link item">
+                کتاب فانتزی
+            </a>
+            <a class="teal link item">
+                کتاب فانتزی
+            </a>
+        </div>
     </div>
-</div>
 
 </header>
+
 
 <div class="ui container detail-margin">
     <div class="ui grid container">
@@ -79,15 +86,9 @@
             </div>
             <h3 class="ui header">{{ book.price }} تومان</h3>
             <button class="ui orange inverted button link">افزودن به سبد خرید</button>
-            <button class="ui grey inverted labeled icon button fav-button"> <i class="star icon"></i> افزودن به علاقه مندی ها </button>
-            <div class="ui grey basic inline dropdown">
-                <div class="text">افزودن به علاقه مندی ها</div>
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                    <div class="active item" data-text="افزودن به علاقه مندی ها">افزودن به علاقه مندی ها</div>
-                    <div class="item" data-text="افزودن به برنامه مطالعاتی">افزودن به برنامه مطالعاتی</div>
-                </div>
-            </div>
+
+            {#            TODO the element must check if the book is already in wishlist or not#}
+            <button id="add_wishlist" class="ui grey inverted labeled icon button fav-button"> <i class="star icon"></i> افزودن به علاقه مندی ها </button>
             <div class="ui divider"></div>
             <div>
                 <h3 class="ui header">امتیاز دهید</h3>
@@ -213,56 +214,28 @@
                             <h2 class="ui header">نقد و بررسی</h2>
                         </div>
                         <div class="left floated column left aligned">
-                            <button class="ui grey inverted button link">نوشتن نقد جدید</button>
+                            <button class="ui grey inverted button link" id="comment">نوشتن نقد جدید</button>
                         </div>
                     </div>
                     <div class="ui row">
                         <div class="ui items">
-                            <div class="item">
-                                <div class="image">
-                                    <img src="img/matthew.png">
-                                </div>
-                                <div class="content">
-                                    <a class="header">Header</a>
-                                    <div class="meta">
-                                        <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید که اصالت با جمع اس</span>
+                            {% for review in book.bookreview_set.all %}
+                                <div class="item">
+                                    <div class="image">
+                                        <img src="/{{ user.userprofile.avatar }}">
                                     </div>
-                                    <div class="description">
-                                        <p></p>
+                                    <div class="content">
+                                        <a class="header">{{ review.title }}</a>
+                                        <div class="meta">
+                                            <span>{{ review.text }}</span>
+                                        </div>
+                                        <div class="description">
+                                            <p></p>
+                                        </div>
+{#                                        <div class="extra">95/2/3</div>#}
                                     </div>
-                                    <div class="extra">95/2/3</div>
                                 </div>
-                            </div>
-                            <div class="item">
-                                <div class="image">
-                                    <img src="img/matthew.png">
-                                </div>
-                                <div class="content">
-                                    <a class="header">Header</a>
-                                    <div class="meta">
-                                        <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید که اصالت با جمع اس</span>
-                                    </div>
-                                    <div class="description">
-                                        <p></p>
-                                    </div>
-                                    <div class="extra">95/2/3</div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="image">
-                                    <img src="img/matthew.png">
-                                </div>
-                                <div class="content">
-                                    <a class="header">Header</a>
-                                    <div class="meta">
-                                        <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید که اصالت با جمع اس</span>
-                                    </div>
-                                    <div class="description">
-                                        <p></p>
-                                    </div>
-                                    <div class="extra">95/2/3</div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -320,7 +293,7 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
     <div class="ui vertical footer2 segment">
         <div class="ui center aligned container">
@@ -344,6 +317,39 @@
             </div>
         </div>
     </div>
+
+    <div class="ui modal" id="comment-modal">
+        <i class="close icon"></i>
+        <div class="header">
+            نوشتن نقد جدید
+        </div>
+        <div class=" content">
+            <div class="content-margin">
+            </div>
+            <span></span>
+            <div class="description">
+                <form class="ui form">
+                    <div class="three fields">
+                        <div class="required field">
+                            <label>عنوان</label>
+                            <input id="review-title" type="text" placeholder="عنوان نقد">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="twelve wide required field">
+                            <label>متن</label>
+                            <textarea id="review-text" type="text" placeholder="متن نقد"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui orange button" id="send-comment-btn">ثبت</div>
+            <div class="ui inverted grey button " id="comment-cancel">بازگشت</div>
+        </div>
+    </div>
+
 </footer>
 
 <!-- jquery script -->
@@ -373,24 +379,94 @@
         $('.special.cards .image').dimmer({
             on: 'hover'
         });
-    })
-</script>
-
-<script>
-
-    $('.ui.menu a.item').on('click', function() {
-        $(this)
-            .addClass('active')
-            .siblings('.item')
-            .removeClass('active');
-    })
-
+    });
 </script>
 
 <script type="text/javascript">
+    $(document).ready(function() {
 
+        $(".shorten-txt").shorten({
+            "showChars" : 250,
+            "moreText"	: "بیشتر",
+            "lessText"	: "کمتر",
+        });
+    });
 </script>
 
+{% if user.is_authenticated %}
+    <script>
+        $(function() {
+            $('#comment-modal')
+                .modal('attach events', '#comment', 'show')
+                .modal('attach events', '#comment-cancel', 'cancel')
+            ;
+            $('#send-comment-btn').click(function() {
+                $.ajax({
+                    url: "{% url 'books:add_book_review' book.id %}",
+                    method: 'post',
+                    async: false,
+                    data: {
+                        title: $('#review-title').val(),
+                        text: $('#review-text').val(),
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            window.location.href = data.url;
+                        }
+                        else {
+                            console.error('cannot fav');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                });
+            });
+            $('#add_wishlist').click(function() {
+                $.ajax({
+                    url: "{% url 'profiles:add_wishlist' user.id %}",
+                    method: 'post',
+                    data: {
+                        book_id: {{ book.id }},
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            $('#add_wishlist').removeClass('grey inverted').addClass('red');
+                        }
+                        else {
+                            console.error('cannot fav');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                });
+            });
+        });
+
+    </script>
+
+{% else %}
+
+
+    <script>
+        $(function() {
+            $('#add_wishlist').click(function() {
+                window.location.href = '/accounts/login/';
+            });
+            $('#comment').click(function() {
+                window.location.href = '/accounts/login/';
+            })
+        });
+    </script>
+
+
+{% endif %}
+
+<script type="text/javascript" src="{% static 'general/js/header-footer.js' %}"></script>
 
 </body>
 </html>

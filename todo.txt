@@ -1,0 +1,2 @@
+templates of "books" app must be seperated
+static contents of "books" app must be seperated
