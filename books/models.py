@@ -34,3 +34,9 @@ class BookReview(models.Model):
 
     def __str__(self):
         return self.title + ' - ' + str(self.book)
+
+
+class BookRating(models.Model):
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    rate = models.IntegerField(default=0)

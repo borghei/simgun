@@ -4,7 +4,7 @@
 
 
 <!-- show more script -->
-(function($) {
+$(document).ready(function() {
     $.fn.shorten = function (settings) {
 
         var config = {
@@ -50,15 +50,7 @@
                 $(".morecontent span").hide();
             }
         });
+
     };
 
-     $(document).ready(function() {
-
-        $(".shorten").shorten({
-            "showChars" : 250,
-            "moreText"	: "بیشتر",
-            "lessText"	: "کمتر",
-        });
-    });
-
-});
+})(jQuery);
