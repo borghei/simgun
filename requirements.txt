@@ -1,2 +1,10 @@
 Django==1.10.4
 generic==0.3.1
+beautifulsoup4==4.4.1
+bs4==0.0.1
+dj-database-url==0.4.1
+gunicorn==19.6.0
+olefile==0.43
+Pillow==3.2.0
+requests==2.10.0
+whitenoise==3.2
