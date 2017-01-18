@@ -1,3 +1,6 @@
 from django.shortcuts import render
+from django.urls import reverse
 
-# Create your views here.
+
+def vendor_profile(request, vendor_id):
+    return render(request, 'vendors/vendor-profile.html', {})
