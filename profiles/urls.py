@@ -1,8 +1,7 @@
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 
 from profiles import views
-
 
 app_name = 'profiles'
 urlpatterns = [
