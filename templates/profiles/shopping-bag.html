@@ -127,7 +127,7 @@
 
                                 </td>
                                 <td id="book-price-mul-count{{ forloop.counter }}">{{ shoppingbag.book.price }}</td>
-                                <td><img src="{% static 'site-media/photos/general/ic_remove_shopping_cart.svg' %}">
+                                <td><img style="cursor: pointer;" src="{% static 'site-media/photos/general/ic_remove_shopping_cart.svg' %}">
                                 </td>
                             </tr>
                         {% endfor %}
@@ -136,14 +136,14 @@
                             <td class="empty-col"></td>
                             <td class="empty-col"></td>
                             <td class="empty-col"></td>
-                            <td colspan="3" class="right aligned white-bg">جمع کل خرید شما:</td>
+                            <td colspan="3" class="right aligned white-bg">جمع کل خرید شما:    22500 تومان</td>
                         </tr>
                         <tr class="empty-col">
                             <td class="empty-col"></td>
                             <td class="empty-col"></td>
                             <td class="empty-col"></td>
                             <td class="empty-col"></td>
-                            <td colspan="3" class="right aligned pay-box-bg pay-box-border">مبلغ قابل پرداخت:</td>
+                            <td colspan="3" class="right aligned pay-box-bg pay-box-border"> مبلغ قابل پرداخت:    22500 تومان</td>
                         </tr>
                         </tbody>
                     </table>
@@ -154,7 +154,7 @@
                             <button class="ui button">بازگشت به صفحه اصلی</button>
                         </div>
                         <div class="eight wide column left aligned">
-                            <button class="ui primary button">وارد کردن مشخصات</button>
+                            <button class="ui orange button">وارد کردن مشخصات</button>
                         </div>
                     </div>
                 </div>
