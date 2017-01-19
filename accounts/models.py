@@ -10,3 +10,12 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+class Vendor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='static/site-media/photos/profiles/', blank=True, null=True,
+                               default='static/site-media/photos/profiles/matthew.png')
+
+    def __str__(self):
+        return str(self.user)
