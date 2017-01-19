@@ -19,3 +19,5 @@ class ShoppingbagBook(models.Model):
 
     def __str__(self):
         return str(self.user_profile) + ' - ' + str(self.book)
+
+
