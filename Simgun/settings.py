@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'profiles.apps.ProfilesConfig',
     'books.apps.BooksConfig',
     'vendors.apps.VendorsConfig',
+    'buying.apps.BuyingConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
