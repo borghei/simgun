@@ -60,7 +60,6 @@
                             <tbody>
 
                             {% for book_vendor in vendor.bookvendor_set.all %}
-                                {{ book_vendor.book.title }}
                                 <tr>
                                     <td>{{ book_vendor.book.title }}</td>
                                     <td>{{ book_vendor.book.author }}</td>
@@ -94,17 +93,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>KH-856969</td>
-                                <td class="three wide">محمد محمدی محمدآبادی</td>
-                                <td class="three wide">5,500</td>
-                                <td class="left aligned">
-                                    <a class="ui circular icon button" href="#">
-                                        <i class="payment icon"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                            {% for order in orders %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>KH-{% for order in orders %}
+                                        {{ order.id }}
+                                        {% endfor %}</td>
+                                    <td class="three wide">{{ user_order }}</td>
+                                    <td class="three wide">-</td>
+                                    <td class="left aligned">
+                                        <a class="ui circular icon button" href="#">
+                                            <i class="payment icon"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                             <tr>
                                 <td>2</td>
                                 <td>KH-856970</td>

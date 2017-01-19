@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^books/', include('books.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^profiles/', include('profiles.urls')),
-    url(r'^vendors/', include('vendors.urls'))
+    url(r'^vendors/', include('vendors.urls')),
+    url(r'^orders/', include('buying.urls'))
 ]

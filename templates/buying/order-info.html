@@ -1,0 +1,120 @@
+{% extends 'ketabkhor/base.html' %}
+
+{% block styles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'buying/css/style-order-info.css' %}"/>
+
+{% endblock %}
+
+{% block title %}
+    <title>کتاب‌خوار - اطلاعات سفارش</title>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="ui container orderinfo-margin">
+        <div class="ui one column grid orderinfo-grey">
+            <div class="column">
+                <h1 style="text-align: center"> اطلاعات شما برای سفارش</h1>
+            </div>
+            <div class="column">
+                <div class="ui divider"></div>
+                <h2>اطلاعات شما:</h2>
+                <div class="ui hidden divider"></div>
+            </div>
+            <div class="ui two column grid">
+                <div class="three wide column">
+                    <h3>نام و نام خانوادگی: </h3>
+                </div>
+                <div class="column">
+                    <p> Dexter Morgan </p>
+                </div>
+            </div>
+            <div class="ui two column grid">
+                <div class="one wide column">
+                    <h3>ایمیل: </h3>
+                </div>
+                <div class="wide column">
+                    <p>dextermorgan@gmail.com</p>
+                </div>
+            </div>
+            <div class="ui two column grid">
+                <div class="two wide column">
+                    <h3>تلفن همراه: </h3>
+                </div>
+                <div class="column">
+                    <p>Dial M for Murder </p>
+                </div>
+                <div class="ui hidden divider"></div>
+            </div>
+            <div class="ui hidden divider"></div>
+            <div class="column">
+                <h2>انتخاب آدرس:</h2>
+                <div class="ui hidden divider"></div>
+            </div>
+            <div class="column">
+                <div class="ui two column grid">
+                    <div class="three wide column">
+                        <h3>آدرس انتخاب شده: </h3>
+                    </div>
+                    <div class="thirteen wide column">
+                        <div class="ui fluid dropdown selection">
+                            <input type="hidden" name="address">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">آدرس</div>
+                            <div class="menu">
+                                <div class="item" data-value="1"> تهران - شهرک غرب - ایران زمین - مجتمع گلستان</div>
+                                <div class="item" data-value="2"> تهران - گیشا - خیابان چهاردهم - مجتمع هژیر</div>
+                                <div class="item" data-value="0"> تهران - بلوار اکبری - دانشگاه صنعتی شریف - اسکاتلند</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <button class="ui left floated orange button" name="addNewAddress" value="Show Div" onclick="showDiv()">افزودن آدرس جدید</button>
+            </div>
+            <div class="column">
+                <div class="ui one column grid">
+                    <div id="newaddressDiv" style="display: none;" class="column">
+                        <form class="ui form" action="">
+                            <h3><label>آدرس جدید</label></h3>
+                            <div class="fields">
+                                <div class="four wide field">
+                                    <input type="text" placeholder="استان">
+                                </div>
+                                <div class="four wide field">
+                                    <input type="text" placeholder="شهر">
+                                </div>
+                                <div class="four wide field">
+                                    <input type="text" placeholder="تلفن">
+                                </div>
+                                <div class="four wide field">
+                                    <input type="text" placeholder="کد پستی">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <input type="text" placeholder="آدرس">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="column">
+                        <button class="ui left floated button">ثبت آدرس</button>
+                    </div>
+                </div>
+            </div>
+            <div class="ui hidden divider"></div>
+            <div class="column">
+                <button class="ui right floated button">بازگشت به صفحه اصلی</button>
+                <button class="ui left floated green button" type="submit">ثبت سفارش</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static 'buying/js/order-info.js' %}"></script>
+{% endblock %}

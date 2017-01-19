@@ -2,7 +2,14 @@ from django.db import models
 
 from accounts.models import UserProfile
 from books.models import Book
-from profiles.models import Address
+
+
+class Address(models.Model):
+    ostan = models.CharField(max_length=128)
+    city = models.CharField(max_length=256)
+    phone_number = models.IntegerField(default=0)
+    zipcode = models.IntegerField(default=0)
+    address = models.CharField(max_length=1024)
 
 
 class ShoppingbagAddress(models.Model):
