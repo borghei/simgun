@@ -5,221 +5,205 @@
 {% endblock %}
 
 {% block styles %}
-        {% load staticfiles %}
-        <link rel="stylesheet" href="{% static 'vendors/css/style-seller-profile.css' %}"/>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'vendors/css/style-seller-profile.css' %}"/>
 {% endblock %}
 
 {% block content %}
 
     <div class="ui container con-margin page-wrap">
-    <div class="ui grid container">
-        <!-- information -->
-        <div class="three wide column right aligned ">
-            <h2 class="ui header">نام کتاب یار</h2>
-            <div class="ui small rounded image center aligned">
-                <img src="img/matthew.png">
+        <div class="ui grid container">
+            <!-- information -->
+            <div class="three wide column right aligned ">
+                <h2 class="ui header">{{ user.first_name }}</h2>
+                <div class="ui small rounded image center aligned">
+                    <img src="/{{ vendor.avatar }}">
+                </div>
+                <div class="ui divider "></div>
+                <div class="ui animated large relaxed link right aligned list">
+                    <a class=" item right aligned" href="setting.html">تنظیمات</a>
+                    <span class=" item" href="setting.html " id="single-book">اضافه کردن کتاب</span>
+                    <span class=" item" href="setting.html " id="multiple-book">اضافه کردن لیست کتب</span>
+                </div>
+
             </div>
-            <div class="ui divider "></div>
-            <div class="ui animated large relaxed link right aligned list">
-                <a class=" item right aligned" href="setting.html">تنظیمات</a>
-                <span class=" item" href="setting.html " id="single-book">اضافه کردن کتاب</span>
-                <span class=" item" href="setting.html " id="multiple-book">اضافه کردن لیست کتب</span>
-            </div>
+            <!-- tab info -->
+            <div class="thirteen wide column right floating">
+                <div class="ui container">
+                    <div class="ui top attached tabular menu">
+                        <a class="active item back-grey" data-tab="first">
+                            <span class="tab-title">لیست کتاب ها</span>
+                        </a>
+                        <a class="item" data-tab="second">
+                            <span class="tab-title">لیست سفارشات</span>
+                        </a>
+                        <a class="item" data-tab="third">
+                            <span class="tab-title">لیست فاکتورها</span>
+                        </a>
+                        <a class="item" data-tab="fourth">
+                            <span class="tab-title">لیست سفارشات ارسال شده</span>
+                        </a>
+                    </div>
 
-        </div>
-        <!-- tab info -->
-        <div class="thirteen wide column right floating">
-            <div class="ui container">
-                <div class="ui top attached tabular menu">
-                    <a class="active item back-grey" data-tab="first">
-                        <span class="tab-title">لیست کتاب ها</span>
-                    </a>
-                    <a class="item" data-tab="second">
-                        <span class="tab-title">لیست سفارشات</span>
-                    </a>
-                    <a class="item" data-tab="third">
-                        <span class="tab-title">لیست فاکتورها</span>
-                    </a>
-                    <a class="item" data-tab="fourth">
-                        <span class="tab-title">لیست سفارشات ارسال شده</span>
-                    </a>
-                </div>
+                    <!-- first tab -->
+                    <div class="ui bottom attached tab segment active back-grey" data-tab="first">
+                        <table class="ui six column red small table">
+                            <thead>
+                            <tr>
+                                <th>عنوان</th>
+                                <th>نویسنده</th>
+                                <th>مترجم</th>
+                                <th>قیمت (تومان)</th>
+                                <th class="left aligned">ویرایش</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                <!-- first tab -->
-                <div class="ui bottom attached tab segment active back-grey" data-tab="first">
-                    <table class="ui six column red small table">
-                        <thead>
-                        <tr>
-                            <th>عنوان</th>
-                            <th>نویسنده</th>
-                            <th>مترجم</th>
-                            <th>قیمت (تومان)</th>
-                            <th class="left aligned">تنظیمات</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>کافکا در کرانه</td>
-                            <td>موراکامی</td>
-                            <td>-</td>
-                            <td>22000</td>
-                            <td class="left aligned"><a class="setting-book link"><i
-                                    class="ui inverted orange setting icon"></i> </a></td>
-                        </tr>
-                        <tr>
-                            <td>کافکا در کرانه</td>
-                            <td>موراکامی</td>
-                            <td>-</td>
-                            <td>22000</td>
-                            <td class="left aligned"><a class="setting-book link"><i
-                                    class="ui inverted orange setting icon"></i> </a></td>
-                        </tr>
-                        <tr>
-                            <td>کافکا در کرانه</td>
-                            <td>موراکامی</td>
-                            <td>-</td>
-                            <td>22000</td>
-                            <td class="left aligned"><a class="setting-book link"><i
-                                    class="ui inverted orange setting icon"></i> </a></td>
-                        </tr>
-                        <tr>
-                            <td>کافکا در کرانه</td>
-                            <td>موراکامی</td>
-                            <td>-</td>
-                            <td>22000</td>
-                            <td class="left aligned"><a class="setting-book link"><i
-                                    class="ui inverted orange setting icon"></i> </a></td>
-                        </tr>
-                        </tbody>
-                        <tfoot>
+                            {% for book_vendor in vendor.bookvendor_set.all %}
+                                {{ book_vendor.book.title }}
+                                <tr>
+                                    <td>{{ book_vendor.book.title }}</td>
+                                    <td>{{ book_vendor.book.author }}</td>
+                                    {% if book_vendor.book.translator != '' %}
+                                        <td>{{ book_vendor.book.translator }}</td>
+                                    {% else %}
+                                        <td>-</td>
+                                    {% endif %}
+                                    <td>{{ book_vendor.book.price }}</td>
+                                    <td class="left aligned"><a class="setting-book link"><i
+                                            class="ui inverted orange setting icon"></i> </a></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
 
-                        </tfoot>
-                    </table>
-                </div>
+                            </tfoot>
+                        </table>
+                    </div>
 
-                <!-- second tab -->
-                <div class="ui bottom attached tab segment back-grey" data-tab="second">
-                    <table class="ui teal table">
-                        <thead>
-                        <tr>
-                            <th class="one wide">#</th>
-                            <th class="four wide">شماره سفارش</th>
-                            <th class="four wide">کاربر</th>
-                            <th class="four wide">جمع کل قیمت (تومان)</th>
-                            <th class="left aligned">جزییات</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>KH-856969</td>
-                            <td class="three wide">محمد محمدی محمدآبادی</td>
-                            <td class="three wide">5,500</td>
-                            <td class="left aligned">
-                                <a class="ui circular icon button" href="#">
-                                    <i class="payment icon"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>KH-856970</td>
-                            <td class="three wide">عسل عباسی ایرجی</td>
-                            <td class="three wide">89,920</td>
-                            <td class="left aligned">
-                                <a class="ui circular icon button" href="#">
-                                    <i class="payment icon"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    <!-- second tab -->
+                    <div class="ui bottom attached tab segment back-grey" data-tab="second">
+                        <table class="ui teal table">
+                            <thead>
+                            <tr>
+                                <th class="one wide">#</th>
+                                <th class="four wide">شماره سفارش</th>
+                                <th class="four wide">کاربر</th>
+                                <th class="four wide">جمع کل قیمت (تومان)</th>
+                                <th class="left aligned">جزییات</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>KH-856969</td>
+                                <td class="three wide">محمد محمدی محمدآبادی</td>
+                                <td class="three wide">5,500</td>
+                                <td class="left aligned">
+                                    <a class="ui circular icon button" href="#">
+                                        <i class="payment icon"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>KH-856970</td>
+                                <td class="three wide">عسل عباسی ایرجی</td>
+                                <td class="three wide">89,920</td>
+                                <td class="left aligned">
+                                    <a class="ui circular icon button" href="#">
+                                        <i class="payment icon"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                <!-- third tab -->
-                <div class="ui bottom attached tab segment back-grey" data-tab="third">
-                    <table class="ui brown table">
-                        <thead>
-                        <tr>
-                            <th class="one wide">#</th>
-                            <th class="four wide">شماره سفارش</th>
-                            <th class="four wide">کاربر</th>
-                            <th class="four wide">جمع کل قیمت (تومان)</th>
-                            <th class="left aligned">تایید</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>KH-826969</td>
-                            <td class="three wide">فریبرز عرب نیا</td>
-                            <td class="three wide">2,800</td>
-                            <td class="left aligned">
-                                <a class="ui square icon button" href="#">
-                                    <i class="checkmark box icon"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>KH-856470</td>
-                            <td class="three wide">ابولفضل پور عرب</td>
-                            <td class="three wide">4,200</td>
-                            <td class="left aligned">
-                                <a class="ui square icon button" href="#">
-                                    <i class="checkmark box icon"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>KH-854971</td>
-                            <td class="three wide">فریبرز ابولفضل نیا</td>
-                            <td class="three wide">9,000</td>
-                            <td class="left aligned">
-                                <a class="ui square icon button" href="#">
-                                    <i class="checkmark box icon"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    <!-- third tab -->
+                    <div class="ui bottom attached tab segment back-grey" data-tab="third">
+                        <table class="ui brown table">
+                            <thead>
+                            <tr>
+                                <th class="one wide">#</th>
+                                <th class="four wide">شماره سفارش</th>
+                                <th class="four wide">کاربر</th>
+                                <th class="four wide">جمع کل قیمت (تومان)</th>
+                                <th class="left aligned">تایید</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>KH-826969</td>
+                                <td class="three wide">فریبرز عرب نیا</td>
+                                <td class="three wide">2,800</td>
+                                <td class="left aligned">
+                                    <a class="ui square icon button" href="#">
+                                        <i class="checkmark box icon"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>KH-856470</td>
+                                <td class="three wide">ابولفضل پور عرب</td>
+                                <td class="three wide">4,200</td>
+                                <td class="left aligned">
+                                    <a class="ui square icon button" href="#">
+                                        <i class="checkmark box icon"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>KH-854971</td>
+                                <td class="three wide">فریبرز ابولفضل نیا</td>
+                                <td class="three wide">9,000</td>
+                                <td class="left aligned">
+                                    <a class="ui square icon button" href="#">
+                                        <i class="checkmark box icon"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                <!-- fourth tab -->
-                <div class="ui bottom attached tab segment back-grey" data-tab="fourth">
-                    <table class="ui yellow table">
-                        <thead>
-                        <tr>
-                            <th class="one wide">#</th>
-                            <th class="three wide">شماره سفارش</th>
-                            <th class="three wide">کاربر</th>
-                            <th class="three wide">جمع کل قیمت (تومان)</th>
-                            <th class="three wide">وضعیت</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>KH-696969</td>
-                            <td class="three wide">قاسم جابری پور</td>
-                            <td class="three wide">18,000</td>
-                            <td class="three wide">منتظر تاییدیه ارسال</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>KH-856988</td>
-                            <td class="three wide">جمال الدین جعفر پور</td>
-                            <td class="three wide">24,500</td>
-                            <td class="three wide">ارسال شده</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <!-- fourth tab -->
+                    <div class="ui bottom attached tab segment back-grey" data-tab="fourth">
+                        <table class="ui yellow table">
+                            <thead>
+                            <tr>
+                                <th class="one wide">#</th>
+                                <th class="three wide">شماره سفارش</th>
+                                <th class="three wide">کاربر</th>
+                                <th class="three wide">جمع کل قیمت (تومان)</th>
+                                <th class="three wide">وضعیت</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>KH-696969</td>
+                                <td class="three wide">قاسم جابری پور</td>
+                                <td class="three wide">18,000</td>
+                                <td class="three wide">منتظر تاییدیه ارسال</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>KH-856988</td>
+                                <td class="three wide">جمال الدین جعفر پور</td>
+                                <td class="three wide">24,500</td>
+                                <td class="three wide">ارسال شده</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
     <!-- modals -->
@@ -236,59 +220,60 @@
             </div>
             <span></span>
             <div class="description">
-                <form class="ui form">
+                <form class="ui form" id="add-book-form" action="{% url 'vendors:add_book' vendor.id %}" method="post"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="three fields">
                         <div class="required field">
                             <label>عنوان</label>
-                            <input type="text" placeholder="نام کتاب">
+                            <input type="text" name="title" placeholder="عنوان کتاب">
                         </div>
                         <div class="required field">
                             <label> نویسنده</label>
-                            <input type="text" placeholder="نام نویسنده">
+                            <input type="text" name="author" placeholder="نام نویسنده">
                         </div>
                         <div class="field">
                             <label> مترجم</label>
-                            <input type="text" placeholder="نام مترجم">
+                            <input type="text" name="translator" placeholder="نام مترجم">
                         </div>
                     </div>
                     <div class="three fields">
                         <div class="required field">
                             <label>قیمت</label>
-                            <input type="text" placeholder="قیمت">
+                            <input type="text" name="price" placeholder="قیمت">
                         </div>
                         <div class=" field">
                             <label>تخفیف</label>
-                            <input type="text" placeholder="درصد تخفیف">
+                            <input type="text" name="discount" placeholder="درصد تخفیف">
+                        </div>
+                        <div class=" field">
+                            <label>تعداد صفحه</label>
+                            <input type="text" name="page_count" placeholder="تعداد صفحه">
                         </div>
                     </div>
                     <div class="three fields">
                         <div class="required field">
                             <label>شابک</label>
-                            <input type="text" placeholder="ISPN">
+                            <input type="text" name="isbn" placeholder="ISPN">
                         </div>
                         <div class="field">
                             <label>ناشر</label>
-                            <input type="text" placeholder="ناشر">
+                            <input type="text" name="publisher" placeholder="ناشر">
                         </div>
-                        <!-- TODO -->
-                        <!--<div class=" field">-->
-                        <!--<label>جلد</label>-->
-                        <!--<input type="text" placeholder="جلد کتاب">-->
-                        <!--</div>-->
                     </div>
                     <div class="required field">
                         <label>توضیحات</label>
-                        <textarea rows="2" placeholder="توضیحات"></textarea>
+                        <textarea rows="2" name="description" placeholder="توضیحات"></textarea>
                     </div>
                     <div class="inline field">
                         <label>جلد کتاب</label>
-                        <input type="file">
+                        <input type="file" name="pic">
                     </div>
                 </form>
             </div>
         </div>
         <div class="actions">
-            <div class="ui orange button">ذخیره</div>
+            <div id="add-book-submit" class="ui orange button">ذخیره</div>
             <div class="ui inverted grey button " id="single-cancel">بازگشت</div>
         </div>
     </div>

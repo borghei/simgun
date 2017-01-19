@@ -18,3 +18,6 @@ $('#setting-modal')
     .modal('attach events', '.setting-book', 'show')
     .modal('attach events', '#setting-cancel', 'cancel')
 ;
+$('#add-book-submit').click(function() {
+    document.getElementById('add-book-form').submit();
+});
