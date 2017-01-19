@@ -7,11 +7,12 @@
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'general/css/semantic/semantic.css' %}"/>
-    <link rel="stylesheet" href="{% static 'general/css/generic-style.css'%}"/>
+    <link rel="stylesheet" href="{% static 'general/css/generic-style.css' %}"/>
     <link rel="stylesheet" href="{% static 'accounts/css/style-signup.css' %}"/>
 
     <script src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'general/js/semantic.min.js' %}"></script>
+    <script src="{% static 'general/js/generic-script.js' %}"></script>
 
 </head>
 <body>
@@ -23,15 +24,16 @@
             <div class="ten wide column right aligned">
                 <div class="ui row row-margin1">
             <span>فروشگاه اینترنتی کتاب خوار ،
-                <a href="#">ثبت نام کنید</a>
-                یا
-                <a href="#">وارد شوید</a> </span>
+                 <a href="/accounts/register/">ثبت نام کنید</a>
+                    یا
+                    <a href="/accounts/login/">وارد شوید</a> </span>
                 </div>
                 <div class="ui row row-margin2">
                     <div class="ui search">
                         <div class="ui simple scrolling fluid search left icon input search-tab">
                             <i class="search icon"></i>
-                            <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب">
+                            <input id="search-bar" class="prompt" style="text-align: right" type="text"
+                                   placeholder="نام کتاب">
                         </div>
                         <div class="results"></div>
                     </div>
@@ -41,13 +43,14 @@
                 <h2 class="logo">کتاب خوار</h2>
             </div>
             <div class="two wide column center aligned">
-                <div >
+                <div>
                     <img class="logo-img" src="{% static 'site-media/photos/general/logo.png' %}">
                 </div>
             </div>
 
         </div>
     </div>
+
     <div class="ui menu  no-borders " id="menu2">
         <div class="ui container">
             <a class="green header link item">
@@ -55,19 +58,19 @@
                 سبد خرید
             </a>
             <a class=" red link item">
-                کتاب فانتزی
+                رمان
             </a>
             <a class="purple link item">
-                کتاب فانتزی
+                داستان کوتاه
             </a>
             <a class="blue link item">
-                کتاب فانتزی
+                آموزشی
             </a>
             <a class="pink link item">
-                کتاب فانتزی
+                فرهنگ و هنر
             </a>
             <a class="teal link item">
-                کتاب فانتزی
+                فانتزی
             </a>
         </div>
     </div>
@@ -76,7 +79,7 @@
 <div class="ui container signup-margin">
     <!-- just a comment -->
 
-    <div class="ui one column grid signup-grey" >
+    <div class="ui one column grid signup-grey">
         <div class="column">
             {% if register %}
                 <h2>تکمیل ثبت نام</h2>
@@ -145,7 +148,7 @@
                         </div>
                     </div>
 
-                    <div class="five wide right aligned column" >
+                    <div class="five wide right aligned column">
 
                     </div>
                     <div class="six wide right aligned column">
@@ -175,18 +178,25 @@
                 <div class="ten wide column right aligned">
                     <div class="ui horizontal large list">
                         <div class="item">
-                            <svg class="icon-gmail "><use xlink:href="/static/media/photos/general/icons.svg#gmail"></use></svg></a></li>
+                            <svg class="icon-gmail ">
+                                <use xlink:href="/static/media/photos/general/icons.svg#gmail"></use>
+                            </svg>
+                            </a></li>
                         </div>
                         <div class="item">
-                            <svg class="icon-instagram "><use xlink:href="/static/media/photos/general/icons.svg#instagram"></use></svg>
+                            <svg class="icon-instagram ">
+                                <use xlink:href="/static/media/photos/general/icons.svg#instagram"></use>
+                            </svg>
                         </div>
                         <div class="item">
-                            <svg class="icon-telegram "><use xlink:href="/static/media/photos/general/icons.svg#telegram"></use></svg>
+                            <svg class="icon-telegram ">
+                                <use xlink:href="/static/media/photos/general/icons.svg#telegram"></use>
+                            </svg>
                         </div>
                     </div>
                 </div>
                 <div class="six wide column right aligned">
-                    <h5 class="ui header copyright" >Copyright © 2016 ketab khaar</h5>
+                    <h5 class="ui header copyright">Copyright © 2016 ketab khaar</h5>
                 </div>
             </div>
         </div>
@@ -195,7 +205,7 @@
 
 <script>
 
-    $(function(){
+    $(function () {
         $('.ui.checkbox')
             .checkbox()
     });

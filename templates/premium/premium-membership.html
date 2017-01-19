@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>کتاب‌خوار - مشخصات کتاب {{ book.title }}</title>
+    <title>جستجوی {{ title }}</title>
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'general/css/semantic/semantic.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'general/css/generic-style.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'profiles/css/style-shopping-cart.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'premium/css/style-permium.css' %}"/>
 
     <script src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'general/js/semantic.min.js' %}"></script>
     <script src="{% static 'general/js/generic-script.js' %}"></script>
-
 </head>
+<body>
 
 <header class="header1">
     <div class="ui menu back-grey-menu no-borders">
@@ -36,7 +36,7 @@
                         <div class="ui simple scrolling fluid search left icon input search-tab">
                             <i class="search icon"></i>
                             <input id="search-bar" class="prompt" style="text-align: right" type="text"
-                                   placeholder="نام کتاب/نام نویسنده/ISPN">
+                                   placeholder="نام کتاب/نام نویسنده/ISBN"/>
                         </div>
                         <div class="results"></div>
                     </div>
@@ -53,7 +53,6 @@
 
         </div>
     </div>
-
     <div class="ui menu  no-borders " id="menu2">
         <div class="ui container">
             <a class="green header link item">
@@ -61,19 +60,19 @@
                 سبد خرید
             </a>
             <a class=" red link item">
-                رمان
+رمان
             </a>
             <a class="purple link item">
-                داستان کوتاه
+داستان کوتاه
             </a>
             <a class="blue link item">
-                آموزشی
+آموزشی
             </a>
             <a class="pink link item">
-                فرهنگ و هنر
+فرهنگ و هنر
             </a>
             <a class="teal link item">
-                فانتزی
+فانتزی
             </a>
         </div>
     </div>
@@ -81,85 +80,28 @@
 </header>
 
 
-<body>
-<div class="ui container">
-    <div class="ui grid container center aligned">
-        <div class="eleven wide column right aligned back-grey container-offset">
-            <div class="ui grid container">
-                <div class="ui row">
-                    <div class="center column center aligned">
-                        <h4 class="ui header font-normal">سبد خرید</h4>
-                    </div>
-                </div>
-                <div class="ui row">
-                    <table class="ui celled structured table">
-                        <thead class="back-grey-dark">
-                        <tr>
-                            <th>عنوان کتاب</th>
-                            <th>نویسنده</th>
-                            <th>قیمت واحد(تومان)</th>
-                            <th>تخفیف</th>
-                            <th>تعداد</th>
-                            <th>قیمت نهایی</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for shoppingbag in shoppingbags %}
-                            <tr class="bottom-line">
-                                <td>{{ shoppingbag.book.title }}</td>
-                                <td>{{ shoppingbag.book.author }}</td>
-                                <td>{{ shoppingbag.book.price }}</td>
-                                <td>-</td>
-                                <td>
-                                    <select id="book-count{{ forloop.counter }}" class="ui dropdown">
-                                        <option value="1">‍۱</option>
-                                        <option value="2">۲</option>
-                                        <option value="3">۳</option>
-                                        <option value="4">۴</option>
-                                        <option value="5">۵</option>
-                                        <option value="6">۶</option>
-                                        <option value="7">۷</option>
-                                        <option value="8">۸</option>
-                                        <option value="9">۹</option>
-                                        <option value="10">۱۰</option>
-                                    </select>
-
-                                </td>
-                                <td id="book-price-mul-count{{ forloop.counter }}">{{ shoppingbag.book.price }}</td>
-                                <td><img style="cursor: pointer;" src="{% static 'site-media/photos/general/ic_remove_shopping_cart.svg' %}">
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        <tr class="empty-col">
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td colspan="3" class="right aligned white-bg">جمع کل خرید شما:    22500 تومان</td>
-                        </tr>
-                        <tr class="empty-col">
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td colspan="3" class="right aligned pay-box-bg pay-box-border"> مبلغ قابل پرداخت:    22500 تومان</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="ui row">
-                    <div class="ui grid container">
-                        <div class="eight wide column right aligned">
-                            <button class="ui button">بازگشت به صفحه اصلی</button>
-                        </div>
-                        <div class="eight wide column left aligned">
-                            <button class="ui orange button">وارد کردن مشخصات</button>
-                        </div>
-                    </div>
+<div class="ui container con-margin page-wrap">
+    <div class="ui one column grid container">
+        <div class="two wide column"></div>
+        <div class="twelve wide column left aligned premium-grey box-shadow">
+            <div >
+                <a class="ui orange ribbon label"> پیشنهاد ویژه</a>
+            </div>
+            <div class="ui grid center aligned">
+                <div class="sixteen wide column">
+                    <img src="{% static 'site-media/photos/general/anchoochak.png' %}">
+                    <h1 class="ui font-header">ارتقا به کاربر طلایی </h1>
+                    <h3 class="ui grey header">استفاده از خدمات دریافت کتاب رقمی</h3>
+                    <h3 class="ui grey header">استفاده از خدمات دریافت کتاب صوتی</h3>
+                    <h3 class="ui grey header">امکان اضافه کردن چندین برنامه مطالعاتی</h3>
+                    <div class="ui divider"></div>
+                    <button class="ui inverted orange button">ارتقا حساب</button>
+                    <h4 class="ui light-orange header">فقط برای 9900 تومان / 3 ماه</h4>
                 </div>
             </div>
+
         </div>
+        <div class="two wide column"></div>
     </div>
 </div>
 
@@ -243,23 +185,6 @@
         </div>
     </div>
 </footer>
-<script src="{% static 'general/js/generic-script.js' %}"></script>
-<script type="text/javascript" src="{% static 'general/js/header-footer.js' %}"></script>
-
-
-<script>
-    $(function () {
-        $('[id^=book-count]').each(function (i) {
-            {#            console.log({{ shoppingbags }});#}
-            var data = {{ shoppingbags }}
-                console.log(data)
-        });
-        $('[id^=book-price-mul-count]').each(function (i) {
-            var count = parseInt($('#book-count' + i).find(':selected').text());
-            console.log(count);
-        });
-    });
-</script>
 
 </body>
 </html>
