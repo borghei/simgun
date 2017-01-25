@@ -2,38 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Signup</title>
-
+    <title>جستجوی {{ title }}</title>
 
     {% load static %}
-    <link rel="stylesheet" href="{% static 'general/css/semantic/semantic.css' %}"/>
-    <link rel="stylesheet" href="{% static 'general/css/generic-style.css' %}"/>
-    <link rel="stylesheet" href="{% static 'accounts/css/style-signup.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'general/css/semantic/semantic.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'general/css/generic-style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'premium/css/style-permium.css' %}"/>
 
     <script src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
     <script src="{% static 'general/js/semantic.min.js' %}"></script>
     <script src="{% static 'general/js/generic-script.js' %}"></script>
-
 </head>
 <body>
 
-<!-- header -->
 <header class="header1">
     <div class="ui menu back-grey-menu no-borders">
         <div class="ui grid container ">
             <div class="ten wide column right aligned">
                 <div class="ui row row-margin1">
             <span>فروشگاه اینترنتی کتاب خوار ،
-                 <a href="/accounts/register/">ثبت نام کنید</a>
+                {% if user.is_authenticated %}
+                    سلام {{ user.first_name }} {{ user.last_name }} !
+                    <a href="/accounts/logout/">(خروج)</a>
+                {% else %}
+                    <a href="/accounts/register/">ثبت نام کنید</a>
                     یا
                     <a href="/accounts/login/">وارد شوید</a> </span>
+                {% endif %}
+
                 </div>
                 <div class="ui row row-margin2">
                     <div class="ui search">
                         <div class="ui simple scrolling fluid search left icon input search-tab">
                             <i class="search icon"></i>
                             <input id="search-bar" class="prompt" style="text-align: right" type="text"
-                                   placeholder="نام کتاب">
+                                   placeholder="نام کتاب/نام نویسنده/ISBN"/>
                         </div>
                         <div class="results"></div>
                     </div>
@@ -50,7 +53,6 @@
 
         </div>
     </div>
-
     <div class="ui menu  no-borders " id="menu2">
         <div class="ui container">
             <a class="green header link item">
@@ -58,69 +60,50 @@
                 سبد خرید
             </a>
             <a class=" red link item">
-                رمان
+رمان
             </a>
             <a class="purple link item">
-                داستان کوتاه
+داستان کوتاه
             </a>
             <a class="blue link item">
-                آموزشی
+آموزشی
             </a>
             <a class="pink link item">
-                فرهنگ و هنر
+فرهنگ و هنر
             </a>
             <a class="teal link item">
-                فانتزی
+فانتزی
             </a>
         </div>
     </div>
 
 </header>
-<div class="ui container signup-margin">
-    <!-- just a comment -->
 
-    <div class="ui one column grid signup-grey">
-        <div class="column">
-            {% if register %}
-                <h2>تکمیل ثبت نام</h2>
-            {% else %}
-                <h2>ثبت نام</h2>
-            {% endif %}
-            <div class="ui divider"></div>
-            <div class="ui center aligned grid">
-                {% if register %}
-                    <div class="eight wide center alined column">
-                        <span>ثبت نام با موفقیت انجام شد.</span>
-                    </div>
-                {% else %}
-                    <div class="eight wide right aligned column">
-                        <form class="ui form" action="/accounts/register/" method="post">
-                            {% csrf_token %}
-                            <div class="ui grid">
-                                <div class="row">
-                                    <div class="sixteen wide column">
-                                        {{ register_form.as_p }}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="eight wide right aligned column">
-                                        <input type="submit" value="ثبت نام" class="ui right orange floated button"/>
-                                    </div>
-                                    <div class="eight wide left aligned column">
-                                        <button class="ui right floated button">حساب کاربری دارم</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                {% endif %}
 
+<div class="ui container con-margin page-wrap">
+    <div class="ui one column grid container">
+        <div class="two wide column"></div>
+        <div class="twelve wide column left aligned premium-grey box-shadow">
+            <div >
+                <a class="ui orange ribbon label"> پیشنهاد ویژه</a>
             </div>
+            <div class="ui grid center aligned">
+                <div class="sixteen wide column">
+                    <img src="{% static 'site-media/photos/general/anchoochak.png' %}">
+                    <h1 class="ui font-header">ارتقا به کاربر طلایی </h1>
+                    <h3 class="ui grey header">استفاده از خدمات دریافت کتاب رقمی</h3>
+                    <h3 class="ui grey header">استفاده از خدمات دریافت کتاب صوتی</h3>
+                    <h3 class="ui grey header">امکان اضافه کردن چندین برنامه مطالعاتی</h3>
+                    <div class="ui divider"></div>
+                    <button class="ui inverted orange button">ارتقا حساب</button>
+                    <h4 class="ui light-orange header">فقط برای 9900 تومان / 3 ماه</h4>
+                </div>
+            </div>
+
         </div>
+        <div class="two wide column"></div>
     </div>
-
 </div>
-
 
 <footer class="site-footer">
     <div class="ui vertical footer segment">
@@ -202,14 +185,6 @@
         </div>
     </div>
 </footer>
-
-<script>
-
-    $(function () {
-        $('.ui.checkbox')
-            .checkbox()
-    });
-</script>
 
 </body>
 </html>

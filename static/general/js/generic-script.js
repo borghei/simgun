@@ -52,5 +52,9 @@ $(document).ready(function() {
         });
 
     };
-
+    $('#search-bar').keypress(function (e) {
+        if (e.which == 13) {
+            window.location.href = '/search/?q=' + $('#search-bar').val();
+        }
+    });
 })(jQuery);
