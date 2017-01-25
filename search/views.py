@@ -22,6 +22,7 @@ def advanced_search(request):
              'author': 'author__contains',
              'translator': 'translator__contains',
              'publisher': 'publisher__contains',
+             'category': 'category__contains',
              }
 
     # Then we can do this all in one step instead of needing to call
