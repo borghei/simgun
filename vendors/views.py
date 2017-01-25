@@ -1,15 +1,17 @@
+from django.db.models import Count
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from accounts.models import Vendor
+from accounts.models import Vendor, UserProfile
 from books.models import Book
-from vendors.models import BookVendor
+from vendors.models import BookVendor, ShoppingbagVendor
 
 
 def vendor_profile(request, vendor_id):
     vendor = get_object_or_404(Vendor, pk=vendor_id)
-    return render(request, 'vendors/vendor-profile.html', {'vendor': vendor})
+    orders = ShoppingbagVendor.objects.values('user_profile').distinct()
+    return render(request, 'vendors/vendor-profile.html', {'vendor': vendor, 'orders': orders})
 
 
 def add_book(request, vendor_id):
@@ -34,3 +36,7 @@ def add_book(request, vendor_id):
         book_vendor = BookVendor(vendor=vendor, book=book)
         book_vendor.save()
         return HttpResponseRedirect(reverse('vendors:vendor_profile', args=(vendor_id,)))
+
+
+def vendor_orders(request):
+    return None

@@ -1,211 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>کتاب‌خوار - مشخصات کتاب {{ book.title }}</title>
+{% extends 'ketabkhor/base.html' %}
 
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'general/css/semantic/semantic.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'general/css/generic-style.css' %}"/>
+{% block styles %}
+
     <link rel="stylesheet" type="text/css" href="{% static 'profiles/css/style-shopping-cart.css' %}"/>
+{% endblock %}
 
-    <script src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
-    <script src="{% static 'general/js/semantic.min.js' %}"></script>
-    <script src="{% static 'general/js/generic-script.js' %}"></script>
 
-</head>
+{% block title %}
+    <title>کتاب‌خوار - سبد خرید </title>
+{% endblock %}
 
-<header class="header1">
-    <div class="ui menu back-grey-menu no-borders">
-        <div class="ui grid container ">
-            <div class="ten wide column right aligned">
-                <div class="ui row row-margin1">
-            <span>فروشگاه اینترنتی کتاب خوار ،
-                {% if user.is_authenticated %}
-                    سلام {{ user.first_name }} {{ user.last_name }} !
-                    <a href="/accounts/logout/">(خروج)</a>
-                {% else %}
-                    <a href="/accounts/register/">ثبت نام کنید</a>
-                    یا
-                    <a href="/accounts/login/">وارد شوید</a> </span>
-                {% endif %}
+{% block content %}
 
-                </div>
-                <div class="ui row row-margin2">
-                    <div class="ui search">
-                        <div class="ui simple scrolling fluid search left icon input search-tab">
-                            <i class="search icon"></i>
-                            <input id="search-bar" class="prompt" style="text-align: right" type="text"
-                                   placeholder="نام کتاب/نام نویسنده/ISPN">
+    <div class="ui container">
+        <div class="ui grid container center aligned">
+            <div class="eleven wide column right aligned back-grey container-offset">
+                <div class="ui grid container">
+                    <div class="ui row">
+                        <div class="center column center aligned">
+                            <h4 class="ui header font-normal">سبد خرید</h4>
                         </div>
-                        <div class="results"></div>
                     </div>
-                </div>
-            </div>
-            <div class="four wide column left aligned">
-                <h2 class="logo">کتاب خوار</h2>
-            </div>
-            <div class="two wide column center aligned">
-                <div>
-                    <img class="logo-img" src="{% static 'site-media/photos/general/logo.png' %}">
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="ui menu  no-borders " id="menu2">
-        <div class="ui container">
-            <a class="green header link item">
-                <i class="shop icon"></i>
-                سبد خرید
-            </a>
-            <a class=" red link item">
-                رمان
-            </a>
-            <a class="purple link item">
-                داستان کوتاه
-            </a>
-            <a class="blue link item">
-                آموزشی
-            </a>
-            <a class="pink link item">
-                فرهنگ و هنر
-            </a>
-            <a class="teal link item">
-                فانتزی
-            </a>
-        </div>
-    </div>
-
-</header>
-
-
-<body>
-<div class="ui container">
-    <div class="ui grid container center aligned">
-        <div class="eleven wide column right aligned back-grey container-offset">
-            <div class="ui grid container">
-                <div class="ui row">
-                    <div class="center column center aligned">
-                        <h4 class="ui header font-normal">سبد خرید</h4>
-                    </div>
-                </div>
-                <div class="ui row">
-                    <table class="ui celled structured table">
-                        <thead class="back-grey-dark">
-                        <tr>
-                            <th>عنوان کتاب</th>
-                            <th>نویسنده</th>
-                            <th>قیمت واحد(تومان)</th>
-                            <th>تخفیف</th>
-                            <th>تعداد</th>
-                            <th>قیمت نهایی</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for shoppingbag in shoppingbags %}
-                            <tr class="bottom-line">
-                                <td>{{ shoppingbag.book.title }}</td>
-                                <td>{{ shoppingbag.book.author }}</td>
-                                <td>{{ shoppingbag.book.price }}</td>
-                                <td>-</td>
-                                <td>
-                                    <select id="book-count{{ forloop.counter }}" class="ui dropdown">
-                                        <option value="1">‍۱</option>
-                                        <option value="2">۲</option>
-                                        <option value="3">۳</option>
-                                        <option value="4">۴</option>
-                                        <option value="5">۵</option>
-                                        <option value="6">۶</option>
-                                        <option value="7">۷</option>
-                                        <option value="8">۸</option>
-                                        <option value="9">۹</option>
-                                        <option value="10">۱۰</option>
-                                    </select>
-
-                                </td>
-                                <td id="book-price-mul-count{{ forloop.counter }}">{{ shoppingbag.book.price }}</td>
-                                <td><img style="cursor: pointer;" src="{% static 'site-media/photos/general/ic_remove_shopping_cart.svg' %}">
-                                </td>
+                    <div class="ui row">
+                        <table class="ui celled structured table">
+                            <thead class="back-grey-dark">
+                            <tr>
+                                <th>عنوان کتاب</th>
+                                <th>نویسنده</th>
+                                <th>قیمت واحد(تومان)</th>
+                                <th>تخفیف</th>
+                                <th>تعداد</th>
+                                <th>قیمت نهایی</th>
+                                <th></th>
                             </tr>
-                        {% endfor %}
-                        <tr class="empty-col">
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td colspan="3" class="right aligned white-bg">جمع کل خرید شما:    22500 تومان</td>
-                        </tr>
-                        <tr class="empty-col">
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td class="empty-col"></td>
-                            <td colspan="3" class="right aligned pay-box-bg pay-box-border"> مبلغ قابل پرداخت:    22500 تومان</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="ui row">
-                    <div class="ui grid container">
-                        <div class="eight wide column right aligned">
-                            <button class="ui button">بازگشت به صفحه اصلی</button>
-                        </div>
-                        <div class="eight wide column left aligned">
-                            <button class="ui orange button">وارد کردن مشخصات</button>
-                        </div>
+                            </thead>
+                            <tbody>
+                            {% for shoppingbag in shoppingbags %}
+                                <tr class="bottom-line">
+                                    <td>{{ shoppingbag.book.title }}</td>
+                                    <td>{{ shoppingbag.book.author }}</td>
+                                    <td>{{ shoppingbag.book.price }}</td>
+                                    <td>-</td>
+                                    <td>
+                                        <select id="book-count{{ forloop.counter }}" class="ui dropdown">
+                                            <option value="1">‍۱</option>
+                                            <option value="2">۲</option>
+                                            <option value="3">۳</option>
+                                            <option value="4">۴</option>
+                                            <option value="5">۵</option>
+                                            <option value="6">۶</option>
+                                            <option value="7">۷</option>
+                                            <option value="8">۸</option>
+                                            <option value="9">۹</option>
+                                            <option value="10">۱۰</option>
+                                        </select>
+
+                                    </td>
+                                    <td id="book-price-mul-count{{ forloop.counter }}">{{ shoppingbag.book.price }}</td>
+                                    <td><img src="{% static 'site-media/photos/general/ic_remove_shopping_cart.svg' %}"></td>
+                                </tr>
+                            {% endfor %}
+                            <tr class="empty-col">
+                                <td class="empty-col"></td>
+                                <td class="empty-col"></td>
+                                <td class="empty-col"></td>
+                                <td class="empty-col"></td>
+                                <td colspan="3" class="right aligned white-bg">جمع کل خرید شما:</td>
+                            </tr>
+                            <tr class="empty-col">
+                                <td class="empty-col"></td>
+                                <td class="empty-col"></td>
+                                <td class="empty-col"></td>
+                                <td class="empty-col"></td>
+                                <td colspan="3" class="right aligned pay-box-bg pay-box-border">مبلغ قابل پرداخت:</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<footer class="site-footer">
-    <div class="ui vertical footer segment">
-        <div class="ui center aligned container">
-            <div class="ui  four column grid ">
-                <div class="ui row">
-                    <div class="two wide right aligned column">
-                        <div class="ui animated large relaxed link right aligned list">
-                            <h4 class="header bold" style="text-align: right">منو ها</h4>
-                            </hr>
-                            <a class="item">خانه</a>
-                            <a class="item">سرویس ها</a>
-                            <a class="item">درباره ما</a>
-                            <a class="item">ارتباط با ما</a>
-                        </div>
-                    </div>
-                    <div class="three wide right aligned column">
-                        <div class="ui animated large relaxed link right aligned list">
-
-                            <h4 class="header bold"> پروفایل شما</h4>
-                            </hr>
-                            <a class="item">ورود یا ثبت نام</a>
-                            <a class="item">حساب کاربری</a>
-                            <a class="item">سبد خرید</a>
-                        </div>
-                    </div>
-
-                    <div class="five wide right aligned column">
-
-                    </div>
-                    <div class="six wide right aligned column">
-                        <h4 class="header">درباره ما</h4>
-                        <div>
-                            <p>
-                                as;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
-                                a;klfghafs;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
-                                a;klfgh
-                                <br>
-                                as;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
-                                a;klfghaf
-                                <br>
-                                as;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
-
-                            </p>
+                    <div class="ui row">
+                        <div class="ui grid container">
+                            <div class="eight wide column right aligned">
+                                <button  id="return-btn" class="ui button">بازگشت به صفحه اصلی</button>
+                            </div>
+                            <div class="eight wide column left aligned">
+                                <button id="continue-btn" class="ui primary button">وارد کردن مشخصات</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -213,53 +92,29 @@
         </div>
     </div>
 
-    <div class="ui vertical footer2 segment">
-        <div class="ui center aligned container">
-            <div class="ui grid container">
-                <div class="ten wide column right aligned">
-                    <div class="ui horizontal large list">
-                        <div class="item">
-                            <svg class="icon-gmail ">
-                                <use xlink:href="/static/media/photos/general/icons.svg#gmail"></use>
-                            </svg>
-                            </a></li>
-                        </div>
-                        <div class="item">
-                            <svg class="icon-instagram ">
-                                <use xlink:href="/static/media/photos/general/icons.svg#instagram"></use>
-                            </svg>
-                        </div>
-                        <div class="item">
-                            <svg class="icon-telegram ">
-                                <use xlink:href="/static/media/photos/general/icons.svg#telegram"></use>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="six wide column right aligned">
-                    <h5 class="ui header copyright">Copyright © 2016 ketab khaar</h5>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
-<script src="{% static 'general/js/generic-script.js' %}"></script>
-<script type="text/javascript" src="{% static 'general/js/header-footer.js' %}"></script>
+{% endblock %}
 
 
-<script>
-    $(function () {
-        $('[id^=book-count]').each(function (i) {
-            {#            console.log({{ shoppingbags }});#}
-            var data = {{ shoppingbags }}
-                console.log(data)
+{% block scripts %}
+    <script>
+        $(function(){
+            $('[id^=book-count]').each(function(i) {
+                {#            console.log({{ shoppingbags }});#}
+                var data = {{ shoppingbags }}
+                    console.log(data)
+            });
+            $('[id^=book-price-mul-count]').each(function(i){
+                var count = parseInt($('#book-count' + i).find(':selected').text());
+                console.log(count);
+            });
+
+            $('#return-btn').click(function() {
+                window.location.href = '/'
+            });
+
+            $('#continue-btn').click(function() {
+                window.location.href = "{% url 'buying:order_info' %}"
+            })
         });
-        $('[id^=book-price-mul-count]').each(function (i) {
-            var count = parseInt($('#book-count' + i).find(':selected').text());
-            console.log(count);
-        });
-    });
-</script>
-
-</body>
-</html>
+    </script>
+{% endblock %}
