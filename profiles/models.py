@@ -21,7 +21,7 @@ class ShoppingbagBook(models.Model):
         return str(self.user_profile) + ' - ' + str(self.book)
 
 
-class BookProgram(models.Model):
+class ReadingProgram(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     current_page = models.IntegerField(default=0)

@@ -17,10 +17,6 @@ class BlogComment(models.Model):
     date = models.DateTimeField()
 
 
-class ReadingProgram(models.Model):
-    current_page = models.IntegerField(default=0)
-
-
 class SupportTicket(models.Model):
     title = models.CharField(max_length=63)
     context = models.CharField(max_length=511)
