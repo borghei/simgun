@@ -6,6 +6,9 @@ from books.models import Book
 
 def search(request):
     results, query = advanced_search(request)
+    if not results:
+        return render(request, 'search/advanced-search-404.html')
+
     return render(request, 'search/advanced-search.html', {
         'title': "جستجو",
         'books': results,
@@ -14,7 +17,7 @@ def search(request):
 
 
 def build_advance_search_query(request):
-    """Transforms request.GET to a new QueryDic object that will have no empty value"""
+    """Returns a modified copy of request.GET that has no empty value"""
     query = request.GET.copy()
     # normalize query
     for q in list(query):
@@ -39,6 +42,11 @@ def advanced_search(request):
              }
 
     query = build_advance_search_query(request)
+
+    # return empty result for empty query
+    if len(query) == 0:
+        return [], []
+
     # Then we can do this all in one step instead of needing to call
     # 'filter' and deal with intermediate data structures.
     q_objs = [Q(**{qdict[k]: request.GET[k]}) for k in qdict.keys() if k in request.GET]
