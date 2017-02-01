@@ -5,12 +5,13 @@ from books.models import Book
 
 
 def search(request):
-    results, query = advanced_search(request)
+    title, results, query = advanced_search(request)
     if not results:
-        return render(request, 'search/advanced-search-404.html')
+        return render(request, 'search/advanced-search-404.html', {
+            'title': title})
 
     return render(request, 'search/advanced-search.html', {
-        'title': "جستجو",
+        'title': title,
         'books': results,
         'form_data': query
     })
@@ -21,18 +22,21 @@ def advanced_search(request):
     # the values are the keyword arguments for the actual query.
 
     query = build_advance_search_query(request)
-
+    title = ""
     # return empty result for empty query
     if len(query) == 0:
         return [], []
 
     # select one of two approaches for search, by params or best guess
     if 'best' in query:
+        title = query['best']
         search_results = search_by_best_guess(query)
     else:
+        title = query['q']
+        print(title)
         search_results = search_by_params(query)
 
-    return search_results, query
+    return title, search_results, query
 
 
 def build_advance_search_query(request):
