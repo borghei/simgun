@@ -83,3 +83,19 @@ def create_readingprogram(request, profile_id):
         reading_program = ReadingProgram(user_profile=user_profile, book=book, current_page=current_page)
         reading_program.save()
         return HttpResponseRedirect(reverse('profiles:readingprograms', args=(profile_id,)))
+
+
+def update_readingprogram(request, profile_id, program_id):
+    if request.method == 'POST':
+        user_profile = get_object_or_404(UserProfile, pk=profile_id)
+        reading_program = get_object_or_404(ReadingProgram, pk=program_id)
+        page_id = request.POST.get('current_page', -1)
+        if page_id > reading_program.current_page:
+            reading_program.current_page = page_id
+            return JsonResponse({
+                'status': 'ok',
+                'url': reverse('profiles:readingprograms', args=(profile_id,))
+            })
+        else:
+            return JsonResponse({'status': 'failure'})
+

@@ -32420,32 +32420,33 @@ a.ui.nag {
 
 /* Indicating */
 
-.ui.indicating.progress[data-percent^="1"] .bar,
-.ui.indicating.progress[data-percent^="2"] .bar {
+.ui.indicating.progress[data-percent^="1"] .bar {
   background-color: #D95C5C;
 }
-
+ .ui.indicating.progress[data-percent^="2"] .bar,
 .ui.indicating.progress[data-percent^="3"] .bar {
-  background-color: #EFBC72;
+  background-color: orange;
 }
 
-.ui.indicating.progress[data-percent^="4"] .bar,
-.ui.indicating.progress[data-percent^="5"] .bar {
-  background-color: #E6BB48;
+.ui.indicating.progress[data-percent^="4"] .bar {
+  background-color: yellow;
 }
 
+ .ui.indicating.progress[data-percent^="5"] .bar,
 .ui.indicating.progress[data-percent^="6"] .bar {
-  background-color: #DDC928;
+  background-color: green;
 }
 
 .ui.indicating.progress[data-percent^="7"] .bar,
 .ui.indicating.progress[data-percent^="8"] .bar {
-  background-color: #B4D95C;
+  background-color: blue;
 }
 
-.ui.indicating.progress[data-percent^="9"] .bar,
+.ui.indicating.progress[data-percent^="9"] .bar {
+  background-color: midnightblue;
+}
 .ui.indicating.progress[data-percent^="100"] .bar {
-  background-color: #66DA81;
+  background-color: purple;
 }
 
 /* Indicating Label */
@@ -32519,7 +32520,7 @@ a.ui.nag {
 ---------------*/
 
 .ui.progress.success .bar {
-  background-color: #21BA45 !important;
+  background-color: purple !important;
 }
 
 .ui.progress.success .bar,
