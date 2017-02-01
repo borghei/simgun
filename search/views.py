@@ -22,6 +22,7 @@ def advanced_search(request):
     # the values are the keyword arguments for the actual query.
 
     query = build_advance_search_query(request)
+
     title = ""
     # return empty result for empty query
     if len(query) == 0:
@@ -33,7 +34,8 @@ def advanced_search(request):
         search_results = search_by_best_guess(query)
     else:
         # get first item in query as title
-        title = query.popitem()[1][0]
+        title = next(iter(query.values()))
+
         search_results = search_by_params(query)
 
     return title, search_results, query
@@ -42,7 +44,6 @@ def advanced_search(request):
 def build_advance_search_query(request):
     """Returns a modified copy of request.GET that has no empty value"""
     query = request.GET.copy()
-
     candidate_queries = {'q', 'isbn', 'author', 'translator', 'publisher', 'category', 'best', 'max_price', 'min_price'}
     # normalize query
     for q in list(query):
@@ -54,6 +55,7 @@ def build_advance_search_query(request):
             del query[q]
         else:
             query[q] = value
+
     return query
 
 
@@ -77,7 +79,6 @@ def search_by_params(query):
     # Then we can do this all in one step instead of needing to call
     # 'filter' and deal with intermediate data structures.
     q_objs = [Q(**{qdict[k]: query[k]}) for k in qdict.keys() if k in query]
-    print(q_objs)
     search_results = Book.objects.select_related().filter(*q_objs)
     if 'min_price' in query and 'max_price' in query:
         search_results = search_results.filter(price__range=(query['min_price'], query['max_price']))
