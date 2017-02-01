@@ -423,21 +423,8 @@
 <!-- jquery script -->
 <!-- send form-->
 <script>
-    $('#search_form')
-        .form({
-            title: {
-                identifier: 'title',
-                rules: [
-                    {
-                        type: 'empty',
-                        prompt: 'Please enter your name'
-                    }
-                ]
-            }
-        })
-    ;
+
 </script>
-s
 <script>
     $("#submit_search_form").click(function () {
         $("input").each(function () {
@@ -445,6 +432,9 @@ s
                 $(this).remove();
             }
         });
+        console.log("Saeed");
+        console.log($(this));
+        console.log($(this).length);
         $("#search_form").submit();
     });
 </script>
