@@ -1,17 +1,30 @@
 from django.db.models import Q
-from django.http import HttpResponse
-
-# Create your views here.
 from django.shortcuts import render
 
 from books.models import Book
 
 
 def search(request):
+    results, query = advanced_search(request)
     return render(request, 'search/advanced-search.html', {
         'title': "جستجو",
-        'books': advanced_search(request)
+        'books': results,
+        'form_data': query
     })
+
+
+def build_advance_search_query(request):
+    """Transforms request.GET to a new QueryDic object that will have no empty value"""
+    query = request.GET.copy()
+    # normalize query
+    for q in list(query):
+        value = query[q]
+        value = value.strip()
+        if not value:
+            del query[q]
+        else:
+            query[q] = value
+    return query
 
 
 def advanced_search(request):
@@ -25,11 +38,12 @@ def advanced_search(request):
              'category': 'category__contains',
              }
 
+    query = build_advance_search_query(request)
     # Then we can do this all in one step instead of needing to call
     # 'filter' and deal with intermediate data structures.
     q_objs = [Q(**{qdict[k]: request.GET[k]}) for k in qdict.keys() if k in request.GET]
-    print(q_objs)
+
     search_results = Book.objects.select_related().filter(*q_objs)
     if 'min_price' in request.GET and 'max_price' in request.GET:
         search_results = search_results.filter(price__range=(request.GET['min_price'], request.GET['max_price']))
-    return search_results
+    return search_results, query

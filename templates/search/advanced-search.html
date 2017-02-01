@@ -27,7 +27,7 @@
                     سلام {{ user.first_name }} {{ user.last_name }} !
                     <a href="/accounts/logout/">(خروج)</a>
                 {% else %}
-                   <a href="/accounts/register/">ثبت نام کنید</a>
+                    <a href="/accounts/register/">ثبت نام کنید</a>
                     یا
                     <a href="/accounts/login/">وارد شوید</a> </span>
                 {% endif %}
@@ -85,7 +85,7 @@
 <div class="ui container search-margin">
 
     <!-- Search Box-->
-    <form class="ui grid container centered aligned">
+    <form id="search_form" class="ui grid container centered aligned" method="get">
         <div class="twelve wide column right aligned back-grey">
             <div class="ui grid container">
                 <div class="ui row">
@@ -99,26 +99,26 @@
                         <div class="ui form">
                             <div class="inline fields">
                                 <div class="five wide field">
-                                    <h5>نام محصول</h5>
+                                    <label for="title">نام محصول</label>
                                 </div>
                                 <div class="eleven wide field">
-                                    <input type="text">
+                                    <input id="title" name="q" type="text" value=""/>
                                 </div>
                             </div>
                             <div class="inline fields">
                                 <div class="five wide field">
-                                    <h5>نویسنده</h5>
+                                    <label for="author">نویسنده</label>
                                 </div>
                                 <div class="eleven wide field">
-                                    <input type="text">
+                                    <input name="author" id="author" type="text" value=""/>
                                 </div>
                             </div>
                             <div class="inline fields">
                                 <div class="five wide field">
-                                    <h5>مترجم</h5>
+                                    <label for="translator">مترجم</label>
                                 </div>
                                 <div class="eleven wide field">
-                                    <input type="text">
+                                    <input name="translator" id="translator" type="text" value="">
                                 </div>
                             </div>
                         </div>
@@ -128,26 +128,19 @@
                         <div class="ui form">
                             <div class="inline fields">
                                 <div class="five wide field">
-                                    <h5>ناشر</h5>
+                                    <label for="publisher">ناشر</label>
                                 </div>
                                 <div class="eleven wide field">
-                                    <input type="text">
+                                    <input name="publisher" id="publisher" type="text" value="">
                                 </div>
                             </div>
+
                             <div class="inline fields">
                                 <div class="five wide field">
-                                    <h5>سال انتشار</h5>
+                                    <label for="isbn">شابک/ISBN</label>
                                 </div>
                                 <div class="eleven wide field">
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="inline fields">
-                                <div class="five wide field">
-                                    <h5>شابک/ISBN</h5>
-                                </div>
-                                <div class="eleven wide field">
-                                    <input type="text">
+                                    <input name="isbn" id="isbn" type="text" value="">
                                 </div>
                             </div>
                         </div>
@@ -159,16 +152,16 @@
                         <div class="ui form">
                             <div class="inline fields">
                                 <div class="two wide field">
-                                    <h5>محدوده قیمت</h5>
+                                    <label for="min_price">محدوده قیمت</label>
                                 </div>
                                 <div class="five wide field">
-                                    <input title="text">
+                                    <input name="min_price" id="min_price" title="text" value="">
                                 </div>
                                 <div class="one wide field">
                                     <h5>تا</h5>
                                 </div>
                                 <div class="five wide field">
-                                    <input title="text">
+                                    <input name="max_price" id="max_price" title="text" value="">
                                 </div>
                                 <div class="one wide field">
                                     <h5>تومان</h5>
@@ -210,7 +203,7 @@
                 <!-- search button -->
                 <div class="ui row">
                     <div class="left column left aligned">
-                        <div class="ui button" tabindex="0">جستجو</div>
+                        <input id="submit_search_form" type="submit" class="ui button" tabindex="0" value="جستجو">
                     </div>
                 </div>
             </div>
@@ -429,6 +422,20 @@
 
 
 <!-- jquery script -->
+<!-- send form-->
+
+<script>
+   $("#submit_search_form").click(function(){
+    $("input").each(function(){
+        if($(this).val() == '') {
+            $(this).remove();
+        }
+    });
+    $("#search_form").submit();
+});
+
+
+</script>
 <script>
     $(function () {
         $('.ui.rating')
