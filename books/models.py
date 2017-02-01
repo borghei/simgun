@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 from accounts.models import UserProfile
@@ -27,10 +29,10 @@ class Book(models.Model):
 
 
 class BookReview(models.Model):
-    title = models.CharField(max_length=128)
     text = models.CharField(max_length=512)
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.title + ' - ' + str(self.book)

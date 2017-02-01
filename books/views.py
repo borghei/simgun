@@ -38,11 +38,14 @@ def book_details(request, book_id):
 
 def add_book_review(request, book_id):
     if request.method == 'POST':
+        if request.POST.get('text').strip() == '':
+            return JsonResponse({'status': 'failure'})
+
         book = get_object_or_404(Book, pk=book_id)
         user_profile = get_object_or_404(UserProfile, user=request.user)
+
         book_review = BookReview(user_profile=user_profile,
                                  book=book,
-                                 title=request.POST.get('title'),
                                  text=request.POST.get('text'))
         book_review.save()
         return JsonResponse({'status': 'ok', 'url': reverse('books:book_details', args=(book_id, ))})

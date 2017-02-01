@@ -100,14 +100,14 @@
                                             <img src="/{{ user.userprofile.avatar }}">
                                         </div>
                                         <div class="content">
-                                            <a class="header">{{ review.title }}</a>
+                                            <a class="header">{{ review.user_profile }}</a>
                                             <div class="meta">
                                                 <span>{{ review.text }}</span>
                                             </div>
                                             <div class="description">
                                                 <p></p>
                                             </div>
-                                            {#                                        <div class="extra">95/2/3</div>#}
+                                            <div class="aligned extra">{{ review.date }}</div>
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -120,7 +120,7 @@
     </div>
 
 
-    <div class="ui modal" id="comment-modal">
+    <div class="ui small modal" id="comment-modal">
         <i class="close icon"></i>
         <div class="header">
             نوشتن نقد جدید
@@ -131,14 +131,8 @@
             <span></span>
             <div class="description">
                 <form class="ui form">
-                    <div class="three fields">
-                        <div class="required field">
-                            <label>عنوان</label>
-                            <input id="review-title" type="text" placeholder="عنوان نقد">
-                        </div>
-                    </div>
                     <div class="field">
-                        <div class="twelve wide required field">
+                        <div class="sixteen wide required field">
                             <label>متن</label>
                             <textarea id="review-text" type="text" placeholder="متن نقد"></textarea>
                         </div>
