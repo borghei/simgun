@@ -32,8 +32,8 @@ def advanced_search(request):
         title = query['best']
         search_results = search_by_best_guess(query)
     else:
-        title = query['q']
-        print(title)
+        # get first item in query as title
+        title = query.popitem()[1][0]
         search_results = search_by_params(query)
 
     return title, search_results, query
