@@ -1,13 +1,9 @@
 from random import randint
 
 from django.db.models import Count
-from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
-
-# Create your views here.
 from django.urls import reverse
-from django.views import generic
 
 from accounts.models import UserProfile
 from books.models import Book, BookReview, BookRating
@@ -33,7 +29,7 @@ def book_details(request, book_id):
         for book_rate in all_bookratings:
             book_rate_avg += book_rate.rate
         book_rate_avg /= all_bookratings.count()
-    return render(request, 'ketabkhor/book-detail.html', {
+    return render(request, 'books/book-detail.html', {
         'book': book,
         'related_books': related_books,
         'book_rate': book_rate_avg,

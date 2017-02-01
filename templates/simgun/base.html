@@ -7,15 +7,17 @@
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'general/css/semantic/semantic.css' %}"/>
-    <link rel="stylesheet" href="{% static 'general/css/generic-style.css'%}"/>
+    <link rel="stylesheet" href="{% static 'general/css/generic-style.css' %}"/>
 
     {% block styles %}
     {% endblock %}
 
     <script type="text/javascript" src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'general/js/semantic.min.js' %}"></script>
+
     <script type="text/javascript" src="{% static 'general/js/generic-script.js' %}"></script>
     <script type="text/javascript" src="{% static 'general/js/header-footer.js' %}"></script>
+
 
 </head>
 <body>
@@ -31,9 +33,9 @@
                     سلام {{ user.first_name }} {{ user.last_name }} !
                     <a href="/accounts/logout/">(خروج)</a>
                 {% else %}
-                    <a href="#">ثبت نام کنید</a>
+                    <a href="{% url 'accounts:user_register' %}">ثبت نام کنید</a>
                     یا
-                    <a href="#">وارد شوید</a> </span>
+                    <a href="{% url 'accounts:user_login' %}">وارد شوید</a> </span>
                 {% endif %}
 
                 </div>
@@ -41,7 +43,8 @@
                     <div class="ui search">
                         <div class="ui simple scrolling fluid search left icon input search-tab">
                             <i class="search icon"></i>
-                            <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب/نام نویسنده/ISPN">
+
+                            <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب">
                         </div>
                         <div class="results"></div>
                     </div>
@@ -65,19 +68,19 @@
                 سبد خرید
             </a>
             <a class=" red link item">
-                کتاب فانتزی
+کتاب عمومی
             </a>
             <a class="purple link item">
                 کتاب فانتزی
             </a>
             <a class="blue link item">
-                کتاب فانتزی
+                کتاب آموزشی
             </a>
             <a class="pink link item">
-                کتاب فانتزی
+                کتاب تاریخ
             </a>
             <a class="teal link item">
-                کتاب فانتزی
+                کتاب هنر
             </a>
         </div>
     </div>
@@ -109,8 +112,10 @@
 
                             <h4 class="header bold"> پروفایل شما</h4>
                             </hr>
-                            <a class="item">ورود یا ثبت نام</a>
+                            <a class="item" href="{% url 'accounts:user_login' %}">ورود</a>
+                            <a class="item" href="{% url 'accounts:user_register' %}">ثبت نام</a>
                             <a class="item">حساب کاربری</a>
+                            <a class="item" href="{% url 'vendors:vendor_profile' 1 %}">حساب ارائه‌دهنده</a>
                             <a class="item">سبد خرید</a>
                         </div>
                     </div>
@@ -163,8 +168,10 @@
     </div>
 </footer>
 
-{% block scripts %}
-{% endblock %}
+
+    {% block scripts %}
+    {% endblock %}
+
 
 </body>
 </html>

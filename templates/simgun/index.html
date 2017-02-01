@@ -1,0 +1,509 @@
+{% extends 'simgun/base.html' %}
+
+{% block title %}
+    <title>کتاب خوار</title>
+{% endblock %}
+
+
+
+{% block styles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'simgun/css/flickity.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'simgun/css/style-index.css' %}"/>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="ui container index-margin">
+
+        <div class="ui grid container">
+            <div class="five wide column">
+                <div class="ui grid">
+                    <div class="row login-required-div">
+                        <div class="sixteen wide column">
+                            <div class="ui grid">
+                                <div class="row">
+                                    <div class="sixteen wide column">
+                                        <div class="ui header">
+                                            <h3>پیشنهاد امروز ما</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="six wide column">
+                                        <div class="ui image">
+                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                        </div>
+                                    </div>
+                                    <div class="ten wide column">
+                                        <div class="ui grid">
+                                            <div class="row day-recom-row-title">
+                                                <h4>ارباب حلقه‌ها</h4>
+                                            </div>
+                                            <div class="row day-recom-off-row-author">
+                                                <span>تالکین</span>
+                                            </div>
+                                            <div class="row day-recom-off-row-desc">
+                                                <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید کهاصالت با جمع است نه فرد. در چنین جامعه ای حتی اگر "فردیتی" را بتوان متصور بود، فردیتی است که تجلی ارزشهای جمعی جامعه است. در چنین جامعه ای عرصه ...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui divider tab-divider"></div>
+
+                    <div class="row login-required-div">
+                        <div class="sixteen wide column">
+                            <div class="ui grid">
+                                <div class="row">
+                                    <div class="sixteen wide column">
+                                        <div class="ui header">
+                                            <!--TODO this should be a link itself-->
+                                            <h3>در حال خواندن</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="six wide column">
+                                        <div class="ui image">
+                                            <img src="{% static 'site-media/photos/general/kafka.jpeg' %}"/>
+                                        </div>
+                                    </div>
+                                    <div class="ten wide column">
+                                        <div class="ui grid">
+                                            <div class="row day-recom-row-title">
+                                                <h4>کافکا در کرانه</h4>
+                                            </div>
+                                            <div class="row day-recom-off-row-author">
+                                                <span>هاروکی موراکامی</span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="sixteen wide column">
+                                                    <div class="ui blue tiny progress" data-percent="72" id="reading-progress">
+                                                        <div class="bar">
+                                                        </div>
+                                                        <div class="label">۷۲ ٪</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="sixteen wide center aligned column">
+                                                    <div class="ui small button">به‌روزرسانی برنامه</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui divider tab-divider"></div>
+
+                    <div class="row login-required-div">
+                        <div class="sixteen wide column">
+                            <div class="ui grid">
+                                <div class="row">
+                                    <div class="sixteen wide column">
+                                        <!--TODO this should be a link itself-->
+                                        <div class="ui header">
+                                            <h3>علاقمندی‌ها</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="eight wide center aligned column">
+                                        <div class="ui image">
+                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="eight wide center aligned column">
+                                        <div class="ui image">
+                                            <img src="{% static 'site-media/photos/general/kafka.jpeg' %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui divider tab-divider"></div>
+
+                    <div class="row">
+                        <div class="sixteen wide column">
+                            <div class="ui grid">
+                                <div class="row">
+                                    <div class="sixteen wide column">
+                                        <div class="ui header">
+                                            <h3>مطالب بلاگ</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row blog-section">
+                                    <div class="sixteen wide column">
+                                        <div class="ui grid container back-grey">
+                                            <div class="row blog-row-title">
+                                                <div class="ui sixteen wide column">
+                                                    <h5>عنوان مطلب بلاگ</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row blog-row-desc">
+                                                <div class="ui sixteen wide column">
+                                                    <span class="desc-txt-small">تباص یصت تدخ صثبص تبنثص تبنثصتب</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row blog-section">
+                                    <div class="sixteen wide column">
+                                        <div class="ui grid container back-grey">
+                                            <div class="row blog-row-title">
+                                                <div class="ui sixteen wide column">
+                                                    <h5>عنوان مطلب بلاگ</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row blog-row-desc">
+                                                <div class="ui sixteen wide column">
+                                                    <span class="desc-txt-small">تباص یصت تدخ صثبص تبنثص تبنثصتب</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row blog-section">
+                                    <div class="sixteen wide column">
+                                        <div class="ui grid container back-grey">
+                                            <div class="row blog-row-title">
+                                                <div class="ui sixteen wide column">
+                                                    <h5>عنوان مطلب بلاگ</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row blog-row-desc">
+                                                <div class="ui sixteen wide column">
+                                                    <span class="desc-txt-small">تباص یصت تدخ صثبص تبنثص تبنثصتب</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row blog-section">
+                                    <div class="sixteen wide column">
+                                        <div class="ui grid container back-grey">
+                                            <div class="row blog-row-title">
+                                                <div class="ui sixteen wide column">
+                                                    <h5>عنوان مطلب بلاگ</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row blog-row-desc">
+                                                <div class="ui sixteen wide column">
+                                                    <span class="desc-txt-small">تباص یصت تدخ صثبص تبنثص تبنثصتب</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row blog-section">
+                                    <div class="sixteen wide column">
+                                        <div class="ui grid container back-grey">
+                                            <div class="row blog-row-title">
+                                                <div class="ui sixteen wide column">
+                                                    <h5>عنوان مطلب بلاگ</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row blog-row-desc">
+                                                <div class="ui sixteen wide column">
+                                                    <span class="desc-txt-small">تباص یصت تدخ صثبص تبنثص تبنثصتب</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="eleven wide column">
+                <div class="ui grid container">
+                    <div class="row">
+                        <div class="sixteen wide column no-padding">
+
+                            <div class="carousel">
+
+                                <div class="carousel-cell"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/orange-tree.jpg" alt="orange tree" /></div>
+                                <div class="carousel-cell"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/look-out.jpg" alt="look-out" /></div>
+                                <div class="carousel-cell"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/one-world-trade.jpg" alt="One World Trade" /></div><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/submerged.jpg" alt="submerged" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row index-section">
+                        <div class="sixteen wide column">
+                            <div class="ui grid back-grey">
+                                <div class="row">
+                                    <div class="sixteen wide column">
+                                        <div class="ui header">
+                                            <h2>تخفیف‌های شگفت‌انگیز</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="five wide center aligned column no-padding">
+                                        <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                    </div>
+
+                                    <div class="eleven wide right aligned column">
+                                        <div class="ui grid">
+                                            <div class="row off-row-title">
+                                                <div class="sixteen wide column">
+                                                    <h3>ارباب حلقه‌ها</h3>
+                                                </div>
+                                            </div>
+                                            <div class="row off-row-author">
+                                                <div class="sixteen wide column">
+                                                    <span>تالکین</span>
+                                                </div>
+                                            </div>
+                                            <div class="row off-row-desc">
+                                                <div class="sixteen wide column">
+                                                    <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید که اصالت با جمع است نه فرد. در چنین جامعه ای حتی اگر "فردیتی" را بتوان متصور بود، فردیتی است که تجلی ارزشهای جمعی جام...</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="four wide column">
+                                                    <span class="strikethrough">۳۲۰۰۰ تومان</span>
+                                                </div>
+                                                <div class="four wide column">
+                                                    <div class="ui red header">
+                                                        <h4>۲۸۰۰۰ تومان</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row index-section">
+                        <div class="sixteen wide column">
+                            <div class="ui grid back-grey">
+                                <div class="row">
+                                    <div class="sixteen wide column">
+                                        <div class="ui header">
+                                            <h2>کتاب‌های پیشنهادی</h2>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="sixteen wide column">
+                                        <div class="ui grid container">
+
+                                            <div class="four wide column ">
+                                                <div class="ui link special cards">
+                                                    <div class="red card" >
+                                                        <div class="blurring dimmable image">
+                                                            <div class="ui inverted dimmer">
+                                                                <div class="content">
+                                                                    <div class="center">
+                                                                        <div class="ui inverted button">مشاهده</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                                        </div>
+                                                        <div class="content">
+                                                            <a class="header" href="/books/1/">ارباب حلقه‌ها</a>
+                                                            <div class="meta"> توسط تالکین </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="four wide column ">
+                                                <div class="ui link special cards">
+                                                    <div class="red card" >
+                                                        <div class="blurring dimmable image">
+                                                            <div class="ui inverted dimmer">
+                                                                <div class="content">
+                                                                    <div class="center">
+                                                                        <div class="ui inverted button">مشاهده</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                                        </div>
+                                                        <div class="content">
+                                                            <a class="header" href="/books/1/">ارباب حلقه‌ها</a>
+                                                            <div class="meta"> توسط تالکین</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="four wide column ">
+                                                <div class="ui link special cards">
+                                                    <div class="red card" >
+                                                        <div class="blurring dimmable image">
+                                                            <div class="ui inverted dimmer">
+                                                                <div class="content">
+                                                                    <div class="center">
+                                                                        <div class="ui inverted button">مشاهده</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                                        </div>
+                                                        <div class="content">
+                                                            <a class="header" href="/books/1/">ارباب حلقه‌ها</a>
+                                                            <div class="meta"> توسط تالکین </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="four wide column ">
+                                                <div class="ui link special cards">
+                                                    <div class="red card" >
+                                                        <div class="blurring dimmable image">
+                                                            <div class="ui inverted dimmer">
+                                                                <div class="content">
+                                                                    <div class="center">
+                                                                        <div class="ui inverted button">مشاهده</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                                        </div>
+                                                        <div class="content">
+                                                            <a class="header" href="/books/1/">ارباب حلقه‌ها</a>
+                                                            <div class="meta"> توسط تالکین </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="sixteen wide column">
+                                        <div class="ui grid container">
+
+                                            <div class="four wide column ">
+                                                <div class="ui link special cards">
+                                                    <div class="red card" >
+                                                        <div class="blurring dimmable image">
+                                                            <div class="ui inverted dimmer">
+                                                                <div class="content">
+                                                                    <div class="center">
+                                                                        <div class="ui inverted button">مشاهده</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                                        </div>
+                                                        <div class="content">
+                                                            <a class="header" href="/books/1/">ارباب حلقه‌ها</a>
+                                                            <div class="meta"> توسط تالکین </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="four wide column ">
+                                                <div class="ui link special cards">
+                                                    <div class="red card" >
+                                                        <div class="blurring dimmable image">
+                                                            <div class="ui inverted dimmer">
+                                                                <div class="content">
+                                                                    <div class="center">
+                                                                        <div class="ui inverted button">مشاهده</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                                        </div>
+                                                        <div class="content">
+                                                            <a class="header" href="/books/1/">ارباب حلقه‌ها</a>
+                                                            <div class="meta"> توسط تالکین </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="four wide column ">
+                                                <div class="ui link special cards">
+                                                    <div class="red card" >
+                                                        <div class="blurring dimmable image">
+                                                            <div class="ui inverted dimmer">
+                                                                <div class="content">
+                                                                    <div class="center">
+                                                                        <div class="ui inverted button">مشاهده</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                                        </div>
+                                                        <div class="content">
+                                                            <a class="header" href="/books/1/">ارباب حلقه‌ها</a>
+                                                            <div class="meta"> توسط تالکین </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="four wide column ">
+                                                <div class="ui link special cards">
+                                                    <div class="red card" >
+                                                        <div class="blurring dimmable image">
+                                                            <div class="ui inverted dimmer">
+                                                                <div class="content">
+                                                                    <div class="center">
+                                                                        <div class="ui inverted button">مشاهده</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                                        </div>
+                                                        <div class="content">
+                                                            <a class="header" href="/books/1/">ارباب حلقه‌ها</a>
+                                                            <div class="meta"> توسط تالکین </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'simgun/js/flickity.pkgd.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'simgun/js/js-index.js' %}"></script>
+
+{% endblock %}

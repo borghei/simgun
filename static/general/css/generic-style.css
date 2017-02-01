@@ -177,15 +177,16 @@ html{
 .back-grey-menu {
     background-color: #f2f2f2 !important;
 }
-
 .ui.animated.list:not(.horizontal) > .item:hover {
     padding-right: 1em;
     transition: 0.3s;
     color: #E44E1B;
+    cursor: pointer ;
 }
 
 .ui.animated.list.horizontal > .item:hover {
     color: #E44E1B;
+    cursor: hand !important;
 }
 
 a {
@@ -196,7 +197,6 @@ a:hover {
     color: orangered;
     text-decoration: none;
 }
-
 .back-grey-menu {
     background-color: #f2f2f2 !important;
 }
@@ -208,9 +208,9 @@ a:hover {
 .ui.inverted.orange.buttons .button:hover, .ui.inverted.orange.button:hover {
     background-color: #ff944d;
 }
-.ui.button:hover {
+/*.ui.button:hover {
     color: white !important;
-}
+}*/
 .ui.inverted.grey.buttons .button:hover, .ui.inverted.grey.button:hover, .ui.inverted.grey.buttons .button:focus, .ui.inverted.grey.button:focus, .ui.inverted.grey.buttons .button.active, .ui.inverted.grey.button.active, .ui.inverted.grey.buttons .button:active, .ui.inverted.grey.button:active {
     color: white !important;
 }
@@ -224,4 +224,41 @@ a:hover {
 
 .no-margin {
     margin: 0 !important;
+}
+.ui.items > .item > .image > img {
+    width : 65% !important;
+}
+.ui.items > .item > .image:not(.ui) {
+    width: 70px;
+}
+.ui.items > .item > .image:not(.ui) {
+    width: 120px !important;
+}
+.ui.items > .item {
+    margin-bottom: 2em  !important;
+}
+.ui.inverted.grey.buttons .button, .ui.inverted.grey.button {
+    color : grey;
+    font-weight: normal;
+}
+.ui.divider.tab-divider:not(.vertical):not(.horizontal) {
+    border-top: 2px solid rgba(34, 36, 38, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(255, 255, 255, 0.0980392);
+}
+.ui.divider.info-divider:not(.vertical):not(.horizontal) {
+    border-top: 2px solid rgba(34, 36, 38, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(255, 255, 255, 0.0980392);
+    margin-top : 2rem;
+}
+a {
+    color: orange;
+    text-decoration: none;
+}
+a:hover {
+    color: orangered;
+    text-decoration: none;
 }
