@@ -26,7 +26,7 @@ def advanced_search(request):
     title = ""
     # return empty result for empty query
     if len(query) == 0:
-        return [], []
+        return [], [], []
 
     # select one of two approaches for search, by params or best guess
     if 'best' in query:

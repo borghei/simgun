@@ -424,19 +424,29 @@
 <!-- send form-->
 <script>
 
-</script>
-<script>
     $("#submit_search_form").click(function () {
-        $("input").each(function () {
-            if ($(this).val() == '') {
-                $(this).remove();
-            }
-        });
-        console.log("Saeed");
-        console.log($(this));
-        console.log($(this).length);
-        $("#search_form").submit();
+
+        var nonEmptyFields = $('#search_form').find(':input').filter(function () {
+            return $(this).val().length == 0
+        }).length;
+
+        if (nonEmptyFields === 7) {
+            $('#search_form').attr('onsubmit', 'return false;');
+            alert("لطفا حداقل یک فیلد را پر کنید");
+
+        } else {
+            $('#search_form').attr('onsubmit', 'return true;');
+            $('#search_form').find(':input').each(function () {
+                if ($(this).val() == '') {
+                    $(this).remove();
+                }
+            });
+            $("#search_form").submit(function () {
+                return true;
+            });
+        }
     });
+
 </script>
 <script>
     $(function () {
