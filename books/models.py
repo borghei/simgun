@@ -30,6 +30,9 @@ class Book(models.Model):
     def get_avg_rating(self):
         book_rate_avg = 0
         all_bookratings = self.bookrating_set.all()
+        all_bookratings_count = all_bookratings.count()
+        if all_bookratings_count == 0:
+            return 0
         for book_rate in all_bookratings:
             book_rate_avg += book_rate.rate
         book_rate_avg /= all_bookratings.count()

@@ -47,26 +47,44 @@
                     <!-- first tab -->
                     <div id="favlist-tab" class="ui bottom attached tab segment back-grey" data-tab="first">
                         <table class="ui red table">
-                            <thead>
-                            <tr><th class="one wide">#</th>
-                                <th class="four wide">عنوان</th>
-                                <th>نویسنده</th>
-                                <th>مترجم</th>
-                                <th>امتیاز</th>
-                                <th class="left aligned">حذف</th>
-                            </tr></thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>ارباب حلقه ها</td>
-                                <td>تالکین</td>
-                                <td>علیزاده</td>
-                                <td>3.5</td>
-                                <td class="left aligned"><button class="ui circular icon button">
-                                    <i class="trash icon"></i>
-                                </button> </td>
-                            </tr>
-                            </tbody>
+                            {% if favs %}
+                                <thead>
+                                <tr><th class="one wide">#</th>
+                                    <th class="four wide">عنوان</th>
+                                    <th>نویسنده</th>
+                                    <th>مترجم</th>
+                                    <th>امتیاز</th>
+                                    <th class="left aligned">حذف</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for fav in favs %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ fav.book.title }}</td>
+                                        <td>{{ fav.book.author }}</td>
+                                        <td>
+                                            {% if fav.book.translator %}
+                                                {{ fav.book.translator }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ fav.book.get_avg_rating }}</td>
+                                        <td class="left aligned">
+                                            <button class="ui circular icon button">
+                                                <i class="trash icon"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            {% else %}
+                                <div class="ui center aligned container">
+                                تاکنون علاقمندی‌ای ثبت نکرده‌اید.
+                                </div>
+                            {% endif %}
 
                         </table>
 
@@ -85,7 +103,8 @@
                                     <th>امتیاز</th>
                                     <th>خوانده شده</th>
                                     <th class="left aligned">حذف</th>
-                                </tr></thead>
+                                </tr>
+                                </thead>
                                 <tbody>
                                 {% for reading_program in reading_programs %}
                                     <tr>

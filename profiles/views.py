@@ -14,8 +14,7 @@ def add_to_wishlist(request, profile_id):
     if request.method == 'POST':
         book_id = request.POST.get('book_id')
         book = get_object_or_404(Book, pk=book_id)
-        user = get_object_or_404(User, pk=profile_id)
-        user_profile = get_object_or_404(UserProfile, user=user)
+        user_profile = get_object_or_404(UserProfile, pk=profile_id)
         if WishlistBook.objects.filter(user_profile=user_profile, book=book).count() == 0:
             wishlist_book = WishlistBook(user_profile=user_profile, book=book)
             wishlist_book.save()
