@@ -22,8 +22,10 @@
                 </div>
                 <div class="ui divider " ></div>
                 <div class="ui animated large relaxed link right aligned list">
-                    <a class="underline-link item right aligned" href="settings.html">تنظیمات</a>
-                    <a class="underline-link item" href="settings.html ">ارتقا به کاربر طلایی</a>
+                    <a class="underline-link item right aligned"
+                       href="{% url 'profiles:settings' user_profile.id %}">ویرایش مشخصات</a>
+                    <a class="underline-link item"
+                       href="{% url 'profiles:upgrade_user' user_profile.id %}">ارتقا به کاربر طلایی</a>
                 </div>
 
             </div>
@@ -126,9 +128,14 @@
                                                data-programid="{{ reading_program.id }}"
                                                href="#" class="reading-link">به‌روزرسانی</a>
                                         </td>
-                                        <td class="left aligned"><button class="ui circular icon button">
-                                            <i class="trash icon"></i>
-                                        </button> </td>
+                                        <td class="left aligned">
+                                            <button
+                                                    id="remove-readingprogram-button"
+                                                    data-program-id= "{{ reading_program.id }}"
+                                                    class="ui circular icon button">
+                                                <i class="trash icon"></i>
+                                            </button>
+                                        </td>
                                     </tr>
 
                                 {% endfor %}
@@ -156,19 +163,31 @@
                                 <th class="left aligned">حذف</th>
                             </tr></thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>ارباب حلقه ها</td>
-                                <td class="three wide">تالکین</td>
-                                <td class="two wide">علیزاده</td>
-                                <td>3.5</td>
-                                <td>
-                                    میرا هیچ معنایی دید که اصالت ی جامعه است. در چنین جامعه ای عرص
-                                </td>
-                                <td class="left aligned"><button class="ui circular icon button">
-                                    <i class="trash icon"></i>
-                                </button> </td>
-                            </tr>
+                            {% for review in reviews %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ review.book.title }}</td>
+                                    <td class="three wide">{{ review.book.author }}</td>
+                                    <td class="two wide">
+                                        {% if review.book.translator %}
+                                            {{ review.book.translator }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ review.book.get_avg_rating }}</td>
+                                    <td>
+                                        {{ review.text }}
+                                    </td>
+                                    <td class="left aligned">
+                                        <button id="remove-review-button"
+                                                data-review-id= "{{ review.id }}"
+                                                class="ui circular icon button">
+                                            <i class="trash icon"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
 
@@ -346,7 +365,52 @@
                             window.location.href = data.url;
                         }
                         else {
-                            console.error('cannot add');
+                            console.error('cannot remove');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                })
+            });
+
+            $('#remove-readingprogram-button').click(function() {
+                var id = $(this).attr('data-program-id');
+                $.ajax({
+                    url: "{% url 'profiles:readingprograms' user_profile.id %}" + id + "/remove/",
+                    method: 'post',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            window.location.href = data.url;
+                        }
+                        else {
+                            console.error('cannot remove');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                })
+            });
+
+
+            $('#remove-review-button').click(function() {
+                var id = $(this).attr('data-review-id');
+                $.ajax({
+                    url: "{% url 'profiles:reviews' user_profile.id %}" + id + "/remove/",
+                    method: 'post',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            window.location.href = data.url;
+                        }
+                        else {
+                            console.error('cannot remove');
                         }
                     },
                     error: function() {

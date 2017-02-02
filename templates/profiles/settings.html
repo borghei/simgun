@@ -1,0 +1,161 @@
+{% extends 'simgun/base.html' %}
+
+{% block title %}
+    <title>ویرایش پروفایل</title>
+{% endblock %}
+
+
+{% block styles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'profiles/css/style-settings.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="ui container setting-margin">
+
+        <h1>تنظیمات</h1>
+
+        <div class="ui divider"></div>
+
+        <div class="ui three column grid">
+            <div class="three wide column">
+                <img class="ui small rounded image" src="/{{ user_profile.avatar }}">
+                <div class="ui inverted grey button">تغییر تصویر کاربری</div>
+            </div>
+            <div class="two wide column">
+                <h4>نام کاربری</h4>
+            </div>
+            <div class="ten wide column">
+                <h5>{{ user_profile.user.username }}</h5>
+            </div>
+        </div>
+
+
+        <h2>اطلاعات شما</h2>
+        <div class="ui two column grid">
+            <div class="column">
+                <div class="ui form">
+                    <div class="ui two column grid">
+                        <div class="four wide column">
+                            <label>نام</label>
+                        </div>
+                        <div class="ten wide column">
+                            <div class="field">
+                                <input type="text" placeholder="نام" value="{{ user_profile.user.first_name }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui form">
+                    <div class="ui two column grid">
+                        <div class="four wide column">
+                            <label> نام خانوادگی</label>
+                        </div>
+                        <div class="ten wide column">
+                            <div class="field">
+                                <input type="text" placeholder="نام خانوادگی" value="{{ user_profile.user.last_name }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui form">
+                    <div class="ui two column grid">
+                        <div class="four wide column">
+                            <label> پست الکترونیکی</label>
+                        </div>
+                        <div class="ten wide column">
+                            <div class="field">
+                                <input type="text" placeholder="ایمیل" value="{{ user_profile.user.email }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui divider">
+        </div>
+        <div>
+            <h2>تغییر رمز عبور</h2>
+            <div class="ui form">
+                <div class="ui two column grid">
+                    <div class="two wide column">
+                        <label>رمز عبور فعلی</label>
+                    </div>
+                    <div class="five wide column">
+                        <div class="field">
+                            <input type="password" placeholder="رمز عبور فعلی">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui hidden divider"></div>
+            <div class="ui form">
+                <div class="ui two column grid">
+                    <div class="two wide column">
+                        <label>رمز عبور جدید</label>
+                    </div>
+                    <div class="five wide column">
+                        <div class="field">
+                            <input type="password" placeholder="رمز عبور جدید">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui form">
+                <div class="ui two column grid">
+                    <div class="two wide column">
+                        <label>تکرار رمز عبور جدید</label>
+                    </div>
+                    <div class="five wide column">
+                        <div class="field">
+                            <input type="password" placeholder="تکرار رمز عبور جدید">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui hidden divider"></div>
+        <div class="ui divider">
+        </div>
+        <div>
+            <h2>آدرس ها</h2>
+                <button class="ui button">افزودن آدرس جدید</button>
+            <div class="ui form">
+                <label>آدرس 1</label>
+                <div class="inline fields">
+                    <div class="three wide field">
+                        <input type="text" placeholder="استان">
+                    </div>
+                    <div class="three wide field">
+                        <input type="text" placeholder="شهر">
+                    </div>
+                    <div class="three wide field">
+                        <input type="text" placeholder="تلفن">
+                    </div>
+                </div>
+                <div class="inline fields">
+                    <div class="eight wide field">
+                        <input type="text" placeholder="آدرس">
+                    </div>
+                    <div class="three wide field">
+                        <input type="text" placeholder="کد پستی">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui hidden divider"></div>
+        <div class="ui hidden divider"></div>
+
+        <div>
+            <div class="ui left floated button">بازگشت</div>
+            <div class="ui left floated orange button">ثبت تغییرات</div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}
