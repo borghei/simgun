@@ -5,9 +5,11 @@ import os
 
 source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
 
-url = "http://shahreketabonline.com/products/43/163698/%D8%B3%D9%81%D8%B1%D9%87_%D8%A2%D8%B1%D8%A7%DB%8C%DB%8C_%D9%85%DB%8C%D9%88%D9%87_%D8%A2%D8%B1%D8%A7%DB%8C%DB%8C_%D9%88_%D8%AA%D8%B2_%DB%8C%D9%86%D8%A7%D8%AA_%D9%BE%D8%A7%D9%86%DB%8C%D8%B0"
+url = "http://shahreketabonline.com/products/115/29771/%D8%B3%DB%8C%D9%84%D9%85%D8%A7%D8%B1%DB%8C%D9%84%DB%8C%D9%88%D9%86"
 req = requests.get(url)
 soup = BeautifulSoup(req.content, "html.parser")
+
+print(soup.prettify())
 
 book_isbn = soup.find("span", {"itemprop": "isbn"}).text
 book_title = soup.find("span", {"itemprop": "name"}).text
@@ -23,7 +25,10 @@ with open(book_pic_path, "wb") as file:
     response = requests.get(image_source)
     file.write(response.content)
 
-#book_translator = soup.find("span", {"itemprop": "isbn"})
+book_translator = soup.find("label", text = "\n            مترجم            :").parent.find("strong").text
+
+print("translator")
+print(book_translator)
 #book_category = soup.find("span", {"itemprop": "isbn"})
 
 print(image_source)
