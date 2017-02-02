@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 from accounts.models import UserProfile
-from books.models import Book
+from books.models import Book, BookReview
 from profiles.models import WishlistBook, ShoppingbagBook, ReadingProgram
 
 
@@ -61,11 +61,6 @@ def shoppingbag(request, profile_id):
         })
 
 
-def readingprograms(request, profile_id):
-    if request.method == 'GET':
-        return profile(request, profile_id, 2)
-
-
 def create_readingprogram(request, profile_id):
     if request.method == 'POST':
         book_id = request.POST.get('book_id', -1)
@@ -106,12 +101,15 @@ def profile(request, profile_id, tab=1):
     user_profile = get_object_or_404(UserProfile, pk=profile_id)
     reading_programs = user_profile.readingprogram_set.all()
     favs = user_profile.wishlistbook_set.all()
+    reviews = user_profile.bookreview_set.all()
     return render(request, 'profiles/profile.html', {
         'reading_programs': reading_programs,
         'favs': favs,
+        'reviews': reviews,
         'user_profile': user_profile,
         'active_tab': tab,
     })
+
 
 def view_readingprogram(request, profile_id, program_id):
     if request.method == 'GET':
@@ -131,7 +129,43 @@ def view_readingprogram(request, profile_id, program_id):
         })
 
 
+def remove_readingprogram(request, profile_id, program_id):
+    user_profile = get_object_or_404(UserProfile, pk=profile_id)
+    reading_program = get_object_or_404(ReadingProgram, pk=program_id)
+    reading_program.delete()
+    return JsonResponse({'status': 'ok', 'url': reverse('profiles:readingprograms', args=(profile_id,))})
+
+
 def wishlist(request, profile_id):
     if request.method == 'GET':
         return profile(request, profile_id, 1)
 
+
+def readingprograms(request, profile_id):
+    if request.method == 'GET':
+        return profile(request, profile_id, 2)
+
+
+def reviews(request, profile_id):
+    if request.method == 'GET':
+        return profile(request, profile_id, 3)
+
+
+def remove_review(request, profile_id, review_id):
+    user_profile = get_object_or_404(UserProfile, pk=profile_id)
+    review = get_object_or_404(BookReview, pk=review_id)
+    review.delete()
+    print(reverse('profiles:reviews', args=(profile_id,)))
+    return JsonResponse({'status': 'ok', 'url': reverse('profiles:reviews', args=(profile_id,))})
+
+
+def remove_wishlist_book(request, profile_id):
+    if request.method == 'POST':
+        user_profile = get_object_or_404(UserProfile, pk=profile_id)
+        book_id = request.POST.get('book_id', -1)
+        if book_id == -1:
+            return JsonResponse({'status': 'failure'})
+        book = get_object_or_404(Book, pk=book_id)
+        wishlist = get_object_or_404(WishlistBook, user_profile=user_profile, book=book)
+        wishlist.delete()
+        return JsonResponse({'status': 'ok', 'url': reverse('profiles:wishlist', args=(profile_id,))})

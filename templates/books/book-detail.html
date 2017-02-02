@@ -322,7 +322,7 @@
 
                                 $('#remove-wishlist').click(function() {
                                     $.ajax({
-                                        url: "{% url 'profiles:remove_wishlist' user_profile.id %}",
+                                        url: "{% url 'profiles:remove_wishlist_book' user_profile.id %}",
                                         method: 'post',
                                         data: {
                                             book_id: {{ book.id }},
