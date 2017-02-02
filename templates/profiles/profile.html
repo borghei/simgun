@@ -100,9 +100,11 @@
                                             {% endif %}
                                         </td>
                                         <td>{{ reading_program.book.get_avg_rating }}</td>
-                                        <td>{{ reading_program.get_reading_percent }}
+                                        <td>{{ reading_program.get_reading_percent }} %
                                             <br>
-                                            <a href="#">به‌روزرسانی</a>
+                                            <a id="reading-link"
+                                               data-programid="{{ reading_program.id }}"
+                                               href="#" class="reading-link">به‌روزرسانی</a>
                                         </td>
                                         <td class="left aligned"><button class="ui circular icon button">
                                             <i class="trash icon"></i>
@@ -183,6 +185,46 @@
         </div>
     </div>
 
+    <div class="ui small modal" id="reading-modal">
+        <i class="close icon"></i>
+        <div class="header">بروزرسانی برنامه مطالعاتی</div>
+        <div class=" content">
+            <div class="content-margin"></div>
+            <div class="description">
+                <div class="ui grid container">
+                    <div class="three wide column">
+                        <div class="ui image">
+                            <img id="modal-img" class="" src="/">
+                        </div>
+                    </div>
+                    <div class="thirteen wide column">
+                        <div class="ui row">
+
+                            <h4 id="modal-title" class="ui header">در حال بارگذاری ...</h4>
+                            <div class="ui left labeled input">
+                                <div class="ui label">صفحه</div>
+                                <input id="modal-currentpage" type="text" placeholder="شماره صفحه">
+                                <div id="modal-pagecount" class="ui basic label" id="t-pages">از ...</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="ui indicating  progress" data-value="0" data-total="345" id="reading-progress-update">
+                                <div class="bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <div id="update-readingprogram" class="ui orange button">ذخیره</div>
+            <div class="ui inverted grey button " id="reading-cancel">بازگشت</div>
+        </div>
+    </div>
+
+
 {% endblock %}
 
 
@@ -211,7 +253,68 @@
                     $('#favlist-header').addClass('active', 'back-grey');
                     $('#favlist-tab').addClass('active');
             }
+
+
+            $('#reading-link').click(function () {
+                var program_id = $(this).attr('data-programid');
+                $.ajax({
+                    url: "{% url 'profiles:readingprograms' user_profile.id %}" + program_id + "/",
+                    method: 'get',
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            console.log(data);
+                            $('#modal-img').attr('src', "/" + data.book_image);
+                            $('#modal-title').text(data.book_title);
+                            $('#modal-pagecount').text(data.book_page_count);
+                            $('#modal-currentpage').val(data.current_page);
+                            $('#reading-progress-update').attr('data-total', data.book_page_count);
+                            $('#reading-progress-update').attr('data-value', data.current_page);
+                            $('#reading-progress-update').progress({
+                                label: 'ratio',
+                                text: {
+                                    ratio: '{value} از {total}'
+                                }
+                            });
+                            $('#modal-currentpage').on('input',function(){
+                                value = parseInt($('#modal-currentpage').val());
+                                console.log('value: ' + value);
+                                $('#reading-progress-update').progress('update progress', value);
+                            });
+                            $('#update-readingprogram').click(function() {
+                                value = parseInt($('#modal-currentpage').val());
+                                $.ajax({
+                                    url: "{% url 'profiles:readingprograms' user_profile.id %}" +
+                                    program_id + "/update/",
+                                    method: 'post',
+                                    data: {
+                                        current_page: value,
+                                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                                    },
+                                    success: function(data) {
+                                        if (data.status === "ok") {
+                                            window.location.href = data.url;
+                                        }
+                                        else {
+                                            console.error('cannot add');
+                                        }
+                                    },
+                                    error: function() {
+                                        console.error('eeeeerrrrrrooooorrrrrr');
+                                    }
+                                });
+                            });
+                        }
+                        else {
+                            console.error('cannot get program data');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                });
+            });
         });
     </script>
+    <script type="text/javascript" src="{% static 'accounts/js/profiles.js' %}"></script>
 {% endblock %}
 

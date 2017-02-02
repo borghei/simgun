@@ -19,6 +19,9 @@ urlpatterns = [
         name='readingprograms'),
     url(r'^(?P<profile_id>[0-9]+)/programs/add/$', login_required(views.create_readingprogram),
         name='create_readingprogram'),
-    url(r'^(?P<profile_id>[0-9]+)/programs/(?P<program_id>[0-9]+)/$', login_required(views.update_readingprogram),
+    url(r'^(?P<profile_id>[0-9]+)/programs/(?P<program_id>[0-9]+)/$',
+        login_required(views.view_readingprogram),
+        name='view_readingprogram'),
+    url(r'^(?P<profile_id>[0-9]+)/programs/(?P<program_id>[0-9]+)/update/$', login_required(views.update_readingprogram),
         name='update_readingprogram'),
 ]

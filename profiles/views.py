@@ -79,6 +79,11 @@ def create_readingprogram(request, profile_id):
         if book_id == -1:
             return JsonResponse({'status': 'failure'})
         user_profile = get_object_or_404(UserProfile, pk=profile_id)
+        # TODO check for golden User
+        if user_profile.bookreview_set.all().count() > 0:
+            return JsonResponse({
+                'status': 'failure',
+            })
         book = get_object_or_404(Book, pk=book_id)
         reading_program = ReadingProgram(user_profile=user_profile, book=book, current_page=0)
         reading_program.save()
@@ -87,13 +92,15 @@ def create_readingprogram(request, profile_id):
             'url': reverse('profiles:readingprograms', args=(profile_id,))
         })
 
+
 def update_readingprogram(request, profile_id, program_id):
     if request.method == 'POST':
         user_profile = get_object_or_404(UserProfile, pk=profile_id)
         reading_program = get_object_or_404(ReadingProgram, pk=program_id)
-        page_id = request.POST.get('current_page', -1)
+        page_id = int(request.POST.get('current_page', -1))
         if page_id > reading_program.current_page:
             reading_program.current_page = page_id
+            reading_program.save()
             return JsonResponse({
                 'status': 'ok',
                 'url': reverse('profiles:readingprograms', args=(profile_id,))
@@ -105,6 +112,23 @@ def update_readingprogram(request, profile_id, program_id):
 def profile(request, profile_id, tab=1):
     user_profile = get_object_or_404(UserProfile, pk=profile_id)
     reading_programs = user_profile.readingprogram_set.all()
-    return render(request, 'profiles/profile.html', {'reading_programs': reading_programs,
-                                                     'user_profile': user_profile,
-                                                     'active_tab': tab})
+    favs = user_profile.wishlistbook_set.all()
+    return render(request, 'profiles/profile.html', {
+        'reading_programs': reading_programs,
+        'favs': favs,
+        'user_profile': user_profile,
+        'active_tab': tab,
+    })
+
+
+def view_readingprogram(request, profile_id, program_id):
+    user_profile = get_object_or_404(UserProfile, pk=profile_id)
+    reading_program = get_object_or_404(ReadingProgram, pk=program_id)
+    book = reading_program.book
+    return JsonResponse({
+        'status': 'ok',
+        'book_title': book.title,
+        'book_page_count': book.page_count,
+        'book_image': book.pic.url,
+        'current_page': reading_program.current_page,
+    })
