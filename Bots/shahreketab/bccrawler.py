@@ -1,6 +1,7 @@
 __author__ = 'Shervin'
 from bs4 import BeautifulSoup
 import requests
+import urllib
 
 # url = "http://shahreketabonline.com"
 # r = requests.get(url)
@@ -13,18 +14,19 @@ url = "http://shahreketabonline.com/products/43/163698/%D8%B3%D9%81%D8%B1%D9%87_
 req = requests.get(url)
 soup = BeautifulSoup(req.content, "html.parser")
 
-book_isbn = soup.find("span", {"itemprop": "isbn"})
-book_title = soup.find("span", {"itemprop": "name"})
-book_author = soup.find("span", {"itemprop": "author"})
-book_pagecount = soup.find("span", {"itemprop": "numberOfPages"})
-book_publisher = soup.find("span", {"itemprop": "publisher"})
-book_price = soup.find("span", {"itemprop": "price"})
+book_isbn = soup.find("span", {"itemprop": "isbn"}).text
+book_title = soup.find("span", {"itemprop": "name"}).text
+book_author = soup.find("span", {"itemprop": "author"}).text
+book_pagecount = soup.find("span", {"itemprop": "numberOfPages"}).text
+book_publisher = soup.find("span", {"itemprop": "publisher"}).text
+book_price = soup.find("span", {"itemprop": "price"}).text
 book_description = [x.text for x in soup.find_all("div", {"style": "text-align: justify;"})][2::]
+book_pic_url = soup.find("img", {"class": "full-image img-responsive"})['src']
 
-#book_pic = soup.find("span", {"itemprop": "isbn"})
 #book_translator = soup.find("span", {"itemprop": "isbn"})
 #book_category = soup.find("span", {"itemprop": "isbn"})
 
+print(book_pic_url)
 print(book_isbn)
 print(book_price)
 print(book_pagecount)
