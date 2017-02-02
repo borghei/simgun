@@ -23,7 +23,6 @@ book_price = soup.find("span", {"itemprop": "price"})
 book_pic = soup.find("span", {"itemprop": "isbn"})
 book_translator = soup.find("span", {"itemprop": "isbn"})
 book_description = soup.find("span", {"itemprop": "description"})
-#comment
 book_category = soup.find("span", {"itemprop": "isbn"})
 
 
