@@ -97,14 +97,15 @@
         <div class="ui center aligned container">
             <div class="ui  four column grid ">
                 <div class="ui row">
-                    <div class="two wide right aligned column">
+                    <div class="three wide right aligned column">
                         <div class="ui animated large relaxed link right aligned list">
                             <h4 class="header bold" style="text-align: right">منو ها</h4>
                             </hr>
                             <a href="{% url 'home_page' %}" class="item">خانه</a>
+                            {% if user.is_authenticated %}
+                                <a class="item" id="support-button">تیکت پشتیبانی</a>
+                            {% endif %}
                             <a class="item">قوانین</a>
-                            <a class="item">درباره ما</a>
-                            <a class="item">ارتباط با ما</a>
                         </div>
                     </div>
                     <div class="three wide right aligned column">
@@ -131,7 +132,7 @@
                         </div>
                     </div>
 
-                    <div class="five wide right aligned column" >
+                    <div class="four wide right aligned column" >
 
                     </div>
                     <div class="six wide right aligned column">
@@ -179,6 +180,40 @@
     </div>
 </footer>
 
+
+{% if user.is_authenticated %}
+    <div class="ui modal" id="support-modal">
+        <i class="close icon"></i>
+        <div class="header">
+            تیکت پشتیبانی
+        </div>
+        <div class=" content">
+            <div class="content-margin">
+            </div>
+            <span></span>
+            <div class="description">
+                <form class="ui form">
+                    <div class="three fields">
+                        <div class="required field">
+                            <label>عنوان</label>
+                            <input type="text" placeholder="">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="sixteen wide required field">
+                            <label>متن جواب تیکت</label>
+                            <textarea type="text" ></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui orange button">ارسال</div>
+            <div class="ui inverted grey button " id="ticket-cancel">بازگشت</div>
+        </div>
+    </div>
+{% endif %}
 
 {% block scripts %}
 {% endblock %}

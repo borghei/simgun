@@ -172,14 +172,38 @@ def remove_wishlist_book(request, profile_id):
 
 
 def settings(request, profile_id):
+    user_profile = get_object_or_404(UserProfile, pk=profile_id)
     if request.method == 'GET':
-        user_profile = get_object_or_404(UserProfile, pk=profile_id)
-        return render(request,'profiles/settings.html',{
+        return render(request,'profiles/settings.html', {
             'user_profile': user_profile,
-
         })
     elif request.method == 'POST':
-        return None
+        error_msgs = []
+        user_profile.user.first_name = request.POST.get('first_name', user_profile.user.first_name)
+        user_profile.user.last_name = request.POST.get('last_name', user_profile.user.last_name)
+        user_profile.user.email = request.POST.get('email', user_profile.user.email)
+        current_password = request.POST.get('current_password', '')
+        if current_password != '':
+            if user_profile.user.check_password(current_password):
+                new_password = request.POST.get('new_password', '')
+                new_password_replay = request.POST.get('new_password_replay', '')
+                if new_password != '' and new_password_replay != '':
+                    if new_password == new_password_replay:
+                        if len(new_password) > 6:
+                            user_profile.user.set_password(new_password)
+                        else:
+                            error_msgs.append('رمز عبور جدید باید بیشتر از ۶ حرف باشد.')
+                    else:
+                        error_msgs.append('رمز عبور جدید و تکرار آن با هم هم‌خوانی ندارند.')
+                else:
+                    if new_password == '':
+                        error_msgs.append('رمز عبور جدید خالی است.')
+                    if new_password_replay == '':
+                        error_msgs.append('تکرار رمز عبور جدید خالی است.')
+            else:
+                error_msgs.append('رمز عبور فعلی اشتباه وارد شده است.')
+
+        return HttpResponseRedirect(reverse('profiles:settings', args=(profile_id,)))
 
 
 def upgrade_user(request, profile_id):
