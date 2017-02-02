@@ -74,31 +74,50 @@
                     <!-- second tab -->
                     <div class="ui bottom attached tab segment back-grey" data-tab="second">
                         <table class="ui  teal table">
-                            <thead>
-                            <tr><th class="one wide">#</th>
-                                <th class="four wide">عنوان</th>
-                                <th class="three wide">نویسنده</th>
-                                <th class="three wide">مترجم</th>
-                                <th>امتیاز</th>
-                                <th>خوانده شده</th>
-                                <th class="left aligned">حذف</th>
-                            </tr></thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>ارباب حلقه ها</td>
-                                <td class="three wide">تالکین</td>
-                                <td class="three wide">علیزاده</td>
-                                <td>3.5</td>
-                                <td>90%
-                                    <br>
-                                    <a href="#">ویرایش</a>
-                                </td>
-                                <td class="left aligned"><button class="ui circular icon button">
-                                    <i class="trash icon"></i>
-                                </button> </td>
-                            </tr>
-                            </tbody>
+
+                            {% if reading_programs %}
+
+                                <thead>
+                                <tr><th class="one wide">#</th>
+                                    <th class="four wide">عنوان</th>
+                                    <th class="three wide">نویسنده</th>
+                                    <th class="three wide">مترجم</th>
+                                    <th>امتیاز</th>
+                                    <th>خوانده شده</th>
+                                    <th class="left aligned">حذف</th>
+                                </tr></thead>
+                                <tbody>
+                                {% for reading_program in reading_programs %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ reading_program.book.title }}</td>
+                                        <td class="three wide">{{ reading_program.book.author }}</td>
+                                        <td class="three wide">
+                                            {% if reading_program.book.translator %}
+                                                {{ reading_program.book.translator }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ reading_program.book.get_avg_rating }}</td>
+                                        <td>{{ reading_program.get_reading_percent }}
+                                            <br>
+                                            <a href="#">به‌روزرسانی</a>
+                                        </td>
+                                        <td class="left aligned"><button class="ui circular icon button">
+                                            <i class="trash icon"></i>
+                                        </button> </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+
+                            {% else %}
+                                <div class="ui center aligned container">
+تاکنون برنامه‌ی مطالعاتی‌ای ایجاد نکرده‌اید.
+                                </div>
+                            {% endif %}
                         </table>
 
                     </div>

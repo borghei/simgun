@@ -103,6 +103,5 @@ def update_readingprogram(request, profile_id, program_id):
 def profile(request, profile_id):
     user_profile = get_object_or_404(UserProfile, pk=profile_id)
     reading_programs = user_profile.readingprogram_set.all()
-
     return render(request, 'profiles/profile.html', {'reading_programs': reading_programs,
                                                      'user_profile': user_profile})

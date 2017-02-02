@@ -4,7 +4,7 @@
 
 
 <!-- show more script -->
-$(document).ready(function() {
+jQuery(document).ready(function() {
     $.fn.shorten = function (settings) {
 
         var config = {
@@ -53,4 +53,19 @@ $(document).ready(function() {
 
     };
 
-})(jQuery);
+});
+
+
+$(document).ready(function() {
+    $(function(){
+        $('.menu .item')
+            .tab();
+    });
+    $(function(){
+        $('.ui.checkbox')
+            .checkbox()
+    });
+
+});
+
+
