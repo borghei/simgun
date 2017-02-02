@@ -28,6 +28,9 @@ def scrape_page(url):
     try:
         book_translator = soup.find("label", text = "\n            مترجم            :").parent.find("strong").text
         info['translator'] = book_translator
-    except:
-        info['translator'] = ""
+    except AttributeError:
+        info['translator'] = ''
+
     return info
+
+print(scrape_page("http://shahreketabonline.com/products/43/163698/%D8%B3%D9%81%D8%B1%D9%87_%D8%A2%D8%B1%D8%A7%DB%8C%DB%8C_%D9%85%DB%8C%D9%88%D9%87_%D8%A2%D8%B1%D8%A7%DB%8C%DB%8C_%D9%88_%D8%AA%D8%B2_%DB%8C%D9%86%D8%A7%D8%AA_%D9%BE%D8%A7%D9%86%DB%8C%D8%B0"))
