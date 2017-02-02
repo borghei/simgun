@@ -21,9 +21,16 @@ book_publisher = soup.find("span", {"itemprop": "publisher"})
 book_price = soup.find("span", {"itemprop": "price"})
 
 #book_pic = soup.find("span", {"itemprop": "isbn"})
-book_translator = soup.find("span", {"itemprop": "isbn"})
-book_description = soup.find_all("div", {"itemprop": "description"})
-book_category = soup.find("span", {"style": "text-align: justify;"})
+#book_translator = soup.find("span", {"itemprop": "isbn"})
+book_description = soup.find_all("div", {"style": "text-align: justify;"})
+#book_category = soup.find("span", {"itemprop": "isbn"})
 
-print(g_data)
+print(book_isbn)
+print(book_price)
+print(book_pagecount)
+print(book_publisher)
+print(book_title)
+print(book_author)
+for item in book_description:
+    print(item.text)
 
