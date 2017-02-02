@@ -77,8 +77,11 @@ def readingprograms(request, profile_id):
 
 def create_readingprogram(request, profile_id):
     if request.method == 'POST':
-        user_profile = get_object_or_404(UserProfile, user=request.user)
-        book = get_object_or_404(Book, pk=request.POST['book_id'])
+        book_id = request.POST.get('book_id', -1)
+        if book_id == -1:
+            return HttpResponseRedirect(reverse('profiles:readingprograms', args=(profile_id,)))
+        user_profile = get_object_or_404(UserProfile, pk=profile_id)
+        book = get_object_or_404(Book, pk=book_id)
         current_page = request.POST['current_page']
         reading_program = ReadingProgram(user_profile=user_profile, book=book, current_page=current_page)
         reading_program.save()

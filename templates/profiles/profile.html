@@ -31,22 +31,22 @@
             <div class="thirteen wide column right floating">
                 <div class="ui container">
                     <div class="ui top attached tabular menu">
-                        <a class="active item back-grey" data-tab="first">
+                        <a id="favlist-header" class="item" data-tab="first">
                             <span class="tab-title">لیست علاقه مندی ها</span>
                         </a>
-                        <a class="item " data-tab="second">
+                        <a id="readingprogram-header" class="item " data-tab="second">
                             <span class="tab-title">برنامه مطالعاتی</span>
                         </a>
-                        <a class="item  " data-tab="third">
-                            <span class=" center text tab-title">نقد ها</span>
+                        <a id="reviews-header" class="item" data-tab="third">
+                            <span class=" center text tab-title">نقدها</span>
                         </a>
-                        <a class="item" data-tab="forth">
+                        <a id="ordershistory-header" class="item" data-tab="forth">
                             <span class="tab-title">تاریخچه سفارشات</span>
                         </a>
                     </div>
                     <!-- first tab -->
-                    <div class="ui bottom attached tab segment active back-grey" data-tab="first">
-                        <table class="ui  red table">
+                    <div id="favlist-tab" class="ui bottom attached tab segment back-grey" data-tab="first">
+                        <table class="ui red table">
                             <thead>
                             <tr><th class="one wide">#</th>
                                 <th class="four wide">عنوان</th>
@@ -72,7 +72,7 @@
 
                     </div>
                     <!-- second tab -->
-                    <div class="ui bottom attached tab segment back-grey" data-tab="second">
+                    <div id="readingprogram-tab" class="ui bottom attached tab segment back-grey" data-tab="second">
                         <table class="ui  teal table">
 
                             {% if reading_programs %}
@@ -122,7 +122,7 @@
 
                     </div>
                     <!-- third tab -->
-                    <div class="ui bottom attached tab segment back-grey" data-tab="third">
+                    <div id="reviews-tab" class="ui bottom attached tab segment back-grey" data-tab="third">
                         <table class="ui  blue table">
                             <thead>
                             <tr><th class="one wide">#</th>
@@ -152,7 +152,7 @@
 
                     </div>
                     <!-- forth tab -->
-                    <div class="ui bottom attached tab segment back-grey history-margin" data-tab="forth">
+                    <div id="ordershistory-tab" class="ui bottom attached tab segment back-grey history-margin" data-tab="forth">
                         <table class="ui  purple table">
                             <thead>
                             <tr><th class="one wide">#</th>
@@ -187,6 +187,6 @@
 
 
 {% block scripts %}
-
+    <script type="text/javascript" src="{% static 'accounts/js/profile.js' %}"></script>
 {% endblock %}
 
