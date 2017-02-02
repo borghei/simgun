@@ -13,4 +13,10 @@ url = "http://shahreketabonline.com/products/43/163698/%D8%B3%D9%81%D8%B1%D9%87_
 req = requests.get(url)
 soup = BeautifulSoup(req.content, "html.parser")
 
+book_isbn = soup.find("span", {"itemprop": "isbn"})
+book_title = soup.find("span", {"itemprop": "name"})
+book_author = soup.find("span", {"itemprop": "author"})
+book_pagecount = soup.find("span", {"itemprop": "numberOfPages"})
+book_publisher = soup.find("span", {"itemprop": "publisher"})
+book_price = soup.find("span", {"itemprop": "price"})
 
