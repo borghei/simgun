@@ -21,9 +21,9 @@ def book_details(request, book_id):
     # related_books = random(related_books)
     #TODO this method is very slow
     related_books = related_books.order_by('?')[0:4]
-    book_rate_avg = 0
     all_bookratings = book.bookrating_set.all()
     user = request.user
+    user_profile = None
     if user.is_authenticated:
         user_profile = get_object_or_404(UserProfile, user=user)
         book_rate = user_profile.bookrating_set.filter(book=book)
@@ -42,6 +42,7 @@ def book_details(request, book_id):
         'related_books': related_books,
         'book_rate': book_rate_avg,
         'user_book_rate': user_book_rate,
+        'user_profile': user_profile,
     })
 
 

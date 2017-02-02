@@ -26,7 +26,7 @@
                 <button id="add-wishlist" class="ui grey inverted labeled icon button fav-button">
                     <i class="star icon"></i>افزودن به علاقه مندی ها
                 </button>
-                <button class="ui grey inverted labeled icon button fav-button">
+                <button id="add-readingprogram" class="ui grey inverted labeled icon button fav-button">
                     <i class="book icon"></i> افزودن به برنامه مطالعاتی
                 </button>
 
@@ -308,7 +308,7 @@
                 });
                 $('#add-wishlist').click(function() {
                     $.ajax({
-                        url: "{% url 'profiles:add_wishlist' user.id %}",
+                        url: "{% url 'profiles:add_wishlist' user_profile.id %}",
                         method: 'post',
                         data: {
                             book_id: {{ book.id }},
@@ -322,7 +322,7 @@
 
                                 $('#remove-wishlist').click(function() {
                                     $.ajax({
-                                        url: "{% url 'profiles:remove_wishlist' user.id %}",
+                                        url: "{% url 'profiles:remove_wishlist' user_profile.id %}",
                                         method: 'post',
                                         data: {
                                             book_id: {{ book.id }},
@@ -356,7 +356,7 @@
 
                 $('#add-shoppingbag').click(function() {
                     $.ajax({
-                        url: "{% url 'profiles:add_shoppingbag' user.id %}",
+                        url: "{% url 'profiles:add_shoppingbag' user_profile.id %}",
                         method: 'post',
                         data: {
                             book_id: {{ book.id }},
@@ -375,7 +375,30 @@
                             console.error('eeeeerrrrrrooooorrrrrr');
                         }
                     });
-                })
+                });
+
+                $('#add-readingprogram').click(function() {
+                    $.ajax({
+                        url: "{% url 'profiles:create_readingprogram' user_profile.id %}",
+                        method: 'post',
+                        data: {
+                            book_id: {{ book.id }},
+                            csrfmiddlewaretoken: '{{ csrf_token }}',
+
+                        },
+                        success: function(data) {
+                            if (data.status === "ok") {
+                                window.location.href = data.url;
+                            }
+                            else {
+                                console.error('cannot add');
+                            }
+                        },
+                        error: function() {
+                            console.error('eeeeerrrrrrooooorrrrrr');
+                        }
+                    });
+                });
             });
 
         </script>
@@ -394,6 +417,10 @@
                 $('#add-shoppingbag').click(function() {
                     window.location.href = '{% url 'accounts:login' %}';
                 });
+                $('#add-readingprogram').click(function() {
+                    window.location.href = '{% url 'accounts:login' %}';
+                });
+
             });
         </script>
 

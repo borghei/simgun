@@ -70,23 +70,22 @@ def shoppingbag(request, profile_id):
 
 def readingprograms(request, profile_id):
     if request.method == 'GET':
-        user_profile = get_object_or_404(UserProfile, pk=profile_id)
-        reading_programs = user_profile.readingprogram_set.all()
-        #TODO reading program data must be set
+        return profile(request, profile_id, 2)
 
 
 def create_readingprogram(request, profile_id):
     if request.method == 'POST':
         book_id = request.POST.get('book_id', -1)
         if book_id == -1:
-            return HttpResponseRedirect(reverse('profiles:readingprograms', args=(profile_id,)))
+            return JsonResponse({'status': 'failure'})
         user_profile = get_object_or_404(UserProfile, pk=profile_id)
         book = get_object_or_404(Book, pk=book_id)
-        current_page = request.POST['current_page']
-        reading_program = ReadingProgram(user_profile=user_profile, book=book, current_page=current_page)
+        reading_program = ReadingProgram(user_profile=user_profile, book=book, current_page=0)
         reading_program.save()
-        return HttpResponseRedirect(reverse('profiles:readingprograms', args=(profile_id,)))
-
+        return JsonResponse({
+            'status': 'ok',
+            'url': reverse('profiles:readingprograms', args=(profile_id,))
+        })
 
 def update_readingprogram(request, profile_id, program_id):
     if request.method == 'POST':
@@ -103,8 +102,9 @@ def update_readingprogram(request, profile_id, program_id):
             return JsonResponse({'status': 'failure'})
 
 
-def profile(request, profile_id):
+def profile(request, profile_id, tab=1):
     user_profile = get_object_or_404(UserProfile, pk=profile_id)
     reading_programs = user_profile.readingprogram_set.all()
     return render(request, 'profiles/profile.html', {'reading_programs': reading_programs,
-                                                     'user_profile': user_profile})
+                                                     'user_profile': user_profile,
+                                                     'active_tab': tab})

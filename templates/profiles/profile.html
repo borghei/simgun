@@ -115,7 +115,7 @@
 
                             {% else %}
                                 <div class="ui center aligned container">
-تاکنون برنامه‌ی مطالعاتی‌ای ایجاد نکرده‌اید.
+                                    تاکنون برنامه‌ی مطالعاتی‌ای ایجاد نکرده‌اید.
                                 </div>
                             {% endif %}
                         </table>
@@ -187,6 +187,31 @@
 
 
 {% block scripts %}
-    <script type="text/javascript" src="{% static 'accounts/js/profile.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var active_tab = {{ active_tab }};
+            switch (active_tab) {
+                case 1:
+                    $('#favlist-header').addClass('active', 'back-grey');
+                    $('#favlist-tab').addClass('active');
+                    break;
+                case 2:
+                    $('#readingprogram-header').addClass('active', 'back-grey');
+                    $('#readingprogram-tab').addClass('active');
+                    break;
+                case 3:
+                    $('#reviews-header').addClass('active', 'back-grey');
+                    $('#reviews-tab').addClass('active');
+                    break;
+                case 4:
+                    $('#ordershistory-header').addClass('active', 'back-grey');
+                    $('#ordershistory-tab').addClass('active');
+                    break;
+                default:
+                    $('#favlist-header').addClass('active', 'back-grey');
+                    $('#favlist-tab').addClass('active');
+            }
+        });
+    </script>
 {% endblock %}
 
