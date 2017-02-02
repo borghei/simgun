@@ -1,7 +1,6 @@
 __author__ = 'Shervin'
 from bs4 import BeautifulSoup
 import requests
-import urllib
 import os
 
 source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
