@@ -7,15 +7,17 @@
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'general/css/semantic/semantic.css' %}"/>
-    <link rel="stylesheet" href="{% static 'general/css/generic-style.css'%}"/>
+    <link rel="stylesheet" href="{% static 'general/css/generic-style.css' %}"/>
 
     {% block styles %}
     {% endblock %}
 
     <script type="text/javascript" src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'general/js/semantic.min.js' %}"></script>
+
     <script type="text/javascript" src="{% static 'general/js/generic-script.js' %}"></script>
     <script type="text/javascript" src="{% static 'general/js/header-footer.js' %}"></script>
+
 
 </head>
 <body>
@@ -31,9 +33,9 @@
                     سلام {{ user.first_name }} {{ user.last_name }} !
                     <a href="/accounts/logout/">(خروج)</a>
                 {% else %}
-                    <a href="#">ثبت نام کنید</a>
+                    <a href="{% url 'accounts:user_register' %}">ثبت نام کنید</a>
                     یا
-                    <a href="#">وارد شوید</a> </span>
+                    <a href="{% url 'accounts:user_login' %}">وارد شوید</a> </span>
                 {% endif %}
 
                 </div>
@@ -41,7 +43,8 @@
                     <div class="ui search">
                         <div class="ui simple scrolling fluid search left icon input search-tab">
                             <i class="search icon"></i>
-                            <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب/نام نویسنده/ISPN">
+
+                            <input class="prompt" style="text-align: right" type="text" placeholder="نام کتاب">
                         </div>
                         <div class="results"></div>
                     </div>
@@ -51,9 +54,9 @@
                 <h2 class="logo">کتاب خوار</h2>
             </div>
             <div class="two wide column center aligned">
-                <div >
+                <a href="{% url 'home_page' %}">
                     <img class="logo-img" src="{% static 'site-media/photos/general/logo.png' %}">
-                </div>
+                </a>
             </div>
 
         </div>
@@ -65,19 +68,19 @@
                 سبد خرید
             </a>
             <a class=" red link item">
-                کتاب فانتزی
+                کتاب عمومی
             </a>
             <a class="purple link item">
                 کتاب فانتزی
             </a>
             <a class="blue link item">
-                کتاب فانتزی
+                کتاب آموزشی
             </a>
             <a class="pink link item">
-                کتاب فانتزی
+                کتاب تاریخ
             </a>
             <a class="teal link item">
-                کتاب فانتزی
+                کتاب هنر
             </a>
         </div>
     </div>
@@ -94,14 +97,15 @@
         <div class="ui center aligned container">
             <div class="ui  four column grid ">
                 <div class="ui row">
-                    <div class="two wide right aligned column">
+                    <div class="three wide right aligned column">
                         <div class="ui animated large relaxed link right aligned list">
                             <h4 class="header bold" style="text-align: right">منو ها</h4>
                             </hr>
-                            <a class="item">خانه</a>
-                            <a class="item">سرویس ها</a>
-                            <a class="item">درباره ما</a>
-                            <a class="item">ارتباط با ما</a>
+                            <a href="{% url 'home_page' %}" class="item">خانه</a>
+                            {% if user.is_authenticated %}
+                                <a class="item" id="support-button">تیکت پشتیبانی</a>
+                            {% endif %}
+                            <a class="item">قوانین</a>
                         </div>
                     </div>
                     <div class="three wide right aligned column">
@@ -109,13 +113,26 @@
 
                             <h4 class="header bold"> پروفایل شما</h4>
                             </hr>
-                            <a class="item">ورود یا ثبت نام</a>
-                            <a class="item">حساب کاربری</a>
-                            <a class="item">سبد خرید</a>
+                            {% if user.is_authenticated %}
+                                {% if user.userprofile %}
+                                    <a href="{% url 'profiles:profile' user.userprofile.id %}"
+                                       class="item">حساب کاربری
+                                    </a>
+                                    <a class="item">سبد خرید</a>
+
+                                {% elif user.vendorprofile %}
+                                    <a href="{% url 'vendors:vendor_profile' user.vendorprofile.id %}"
+                                       class="item">حساب ارائه‌دهنده</a>
+
+                                {% endif %}
+                            {% else %}
+                                <a class="item" href="{% url 'accounts:user_login' %}">ورود</a>
+                                <a class="item" href="{% url 'accounts:user_register' %}">ثبت نام</a>
+                            {% endif %}
                         </div>
                     </div>
 
-                    <div class="five wide right aligned column" >
+                    <div class="four wide right aligned column" >
 
                     </div>
                     <div class="six wide right aligned column">
@@ -163,8 +180,44 @@
     </div>
 </footer>
 
+
+{% if user.is_authenticated %}
+    <div class="ui modal" id="support-modal">
+        <i class="close icon"></i>
+        <div class="header">
+            تیکت پشتیبانی
+        </div>
+        <div class=" content">
+            <div class="content-margin">
+            </div>
+            <span></span>
+            <div class="description">
+                <form class="ui form">
+                    <div class="three fields">
+                        <div class="required field">
+                            <label>عنوان</label>
+                            <input type="text" placeholder="">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="sixteen wide required field">
+                            <label>متن جواب تیکت</label>
+                            <textarea type="text" ></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui orange button">ارسال</div>
+            <div class="ui inverted grey button " id="ticket-cancel">بازگشت</div>
+        </div>
+    </div>
+{% endif %}
+
 {% block scripts %}
 {% endblock %}
+
 
 </body>
 </html>

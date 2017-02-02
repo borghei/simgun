@@ -9,4 +9,8 @@ $(document).ready(function() {
             .siblings('.item')
             .removeClass('active');
     });
+    $('#support-modal')
+        .modal('attach events', '#support-button', 'show')
+        .modal('attach events', '#ticket-cancel', 'cancel')
+    ;
 });

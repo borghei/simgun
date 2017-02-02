@@ -1,0 +1,425 @@
+{% extends 'simgun/base.html' %}
+
+
+{% block title %}
+    <title>مشخصات کاربری</title>
+{% endblock %}
+
+{% block styles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'profiles/css/style-profile.css' %}"/>
+{% endblock %}
+
+
+{% block content %}
+    <div class="ui container con-margin page-wrap">
+        <div class="ui grid container">
+            <!-- information -->
+            <div class="three wide column right aligned ">
+                <h2 class="ui header">{{ user_profile.user.first_name}} {{ user_profile.user.last_name }}</h2>
+                <div class="ui small rounded image center aligned">
+                    <img src="/{{ user_profile.avatar }}">
+                </div>
+                <div class="ui divider " ></div>
+                <div class="ui animated large relaxed link right aligned list">
+                    <a class="underline-link item right aligned"
+                       href="{% url 'profiles:settings' user_profile.id %}">ویرایش مشخصات</a>
+                    <a class="underline-link item"
+                       href="{% url 'profiles:upgrade_user' user_profile.id %}">ارتقا به کاربر طلایی</a>
+                </div>
+
+            </div>
+            <!-- tab info -->
+            <div class="thirteen wide column right floating">
+                <div class="ui container">
+                    <div class="ui top attached tabular menu">
+                        <a id="favlist-header" class="item" data-tab="first">
+                            <span class="tab-title">لیست علاقه مندی ها</span>
+                        </a>
+                        <a id="readingprogram-header" class="item " data-tab="second">
+                            <span class="tab-title">برنامه مطالعاتی</span>
+                        </a>
+                        <a id="reviews-header" class="item" data-tab="third">
+                            <span class=" center text tab-title">نقدها</span>
+                        </a>
+                        <a id="ordershistory-header" class="item" data-tab="forth">
+                            <span class="tab-title">تاریخچه سفارشات</span>
+                        </a>
+                    </div>
+                    <!-- first tab -->
+                    <div id="favlist-tab" class="ui bottom attached tab segment back-grey" data-tab="first">
+                        <table class="ui red table">
+                            {% if favs %}
+                                <thead>
+                                <tr><th class="one wide">#</th>
+                                    <th class="four wide">عنوان</th>
+                                    <th>نویسنده</th>
+                                    <th>مترجم</th>
+                                    <th>امتیاز</th>
+                                    <th class="left aligned">حذف</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for fav in favs %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ fav.book.title }}</td>
+                                        <td>{{ fav.book.author }}</td>
+                                        <td>
+                                            {% if fav.book.translator %}
+                                                {{ fav.book.translator }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ fav.book.get_avg_rating }}</td>
+                                        <td class="left aligned">
+                                            <button id="remove-fav-button"
+                                                    data-fav-id="{{ fav.id }}" class="ui circular icon button">
+                                                <i class="trash icon"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            {% else %}
+                                <div class="ui center aligned container">
+                                    تاکنون علاقمندی‌ای ثبت نکرده‌اید.
+                                </div>
+                            {% endif %}
+
+                        </table>
+
+                    </div>
+                    <!-- second tab -->
+                    <div id="readingprogram-tab" class="ui bottom attached tab segment back-grey" data-tab="second">
+                        <table class="ui  teal table">
+
+                            {% if reading_programs %}
+
+                                <thead>
+                                <tr><th class="one wide">#</th>
+                                    <th class="four wide">عنوان</th>
+                                    <th class="three wide">نویسنده</th>
+                                    <th class="three wide">مترجم</th>
+                                    <th>امتیاز</th>
+                                    <th>خوانده شده</th>
+                                    <th class="left aligned">حذف</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for reading_program in reading_programs %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ reading_program.book.title }}</td>
+                                        <td class="three wide">{{ reading_program.book.author }}</td>
+                                        <td class="three wide">
+                                            {% if reading_program.book.translator %}
+                                                {{ reading_program.book.translator }}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ reading_program.book.get_avg_rating }}</td>
+                                        <td>{{ reading_program.get_reading_percent }} %
+                                            <br>
+                                            <a id="reading-link"
+                                               data-programid="{{ reading_program.id }}"
+                                               href="#" class="reading-link">به‌روزرسانی</a>
+                                        </td>
+                                        <td class="left aligned">
+                                            <button
+                                                    id="remove-readingprogram-button"
+                                                    data-program-id= "{{ reading_program.id }}"
+                                                    class="ui circular icon button">
+                                                <i class="trash icon"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+
+                            {% else %}
+                                <div class="ui center aligned container">
+                                    تاکنون برنامه‌ی مطالعاتی‌ای ایجاد نکرده‌اید.
+                                </div>
+                            {% endif %}
+                        </table>
+
+                    </div>
+                    <!-- third tab -->
+                    <div id="reviews-tab" class="ui bottom attached tab segment back-grey" data-tab="third">
+                        <table class="ui  blue table">
+                            <thead>
+                            <tr><th class="one wide">#</th>
+                                <th class="four wide">عنوان</th>
+                                <th class="three wide">نویسنده</th>
+                                <th class="two wide">مترجم</th>
+                                <th class="one wide">امتیاز</th>
+                                <th>نقد</th>
+                                <th class="left aligned">حذف</th>
+                            </tr></thead>
+                            <tbody>
+                            {% for review in reviews %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ review.book.title }}</td>
+                                    <td class="three wide">{{ review.book.author }}</td>
+                                    <td class="two wide">
+                                        {% if review.book.translator %}
+                                            {{ review.book.translator }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ review.book.get_avg_rating }}</td>
+                                    <td>
+                                        {{ review.text }}
+                                    </td>
+                                    <td class="left aligned">
+                                        <button id="remove-review-button"
+                                                data-review-id= "{{ review.id }}"
+                                                class="ui circular icon button">
+                                            <i class="trash icon"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!-- forth tab -->
+                    <div id="ordershistory-tab" class="ui bottom attached tab segment back-grey history-margin" data-tab="forth">
+                        <table class="ui  purple table">
+                            <thead>
+                            <tr><th class="one wide">#</th>
+                                <th class="four wide">عنوان</th>
+                                <th class="three wide">نویسنده</th>
+                                <th class="three wide">مترجم</th>
+                                <th class="one wide">امتیاز</th>
+                                <th>قیمت (تومان)</th>
+                                <th class="left aligned">فاکتور</th>
+                            </tr></thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>ارباب حلقه ها</td>
+                                <td class="three wide">تالکین</td>
+                                <td class="three wide">علیزاده</td>
+                                <td>3.5</td>
+                                <td>28000 </td>
+                                <td class="left aligned"><button class="ui circular icon button">
+                                    <i class="file text outline icon"></i>
+                                </button> </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui small modal" id="reading-modal">
+        <i class="close icon"></i>
+        <div class="header">بروزرسانی برنامه مطالعاتی</div>
+        <div class=" content">
+            <div class="content-margin"></div>
+            <div class="description">
+                <div class="ui grid container">
+                    <div class="three wide column">
+                        <div class="ui image">
+                            <img id="modal-img" class="" src="/">
+                        </div>
+                    </div>
+                    <div class="thirteen wide column">
+                        <div class="ui row">
+
+                            <h4 id="modal-title" class="ui header">در حال بارگذاری ...</h4>
+                            <div class="ui left labeled input">
+                                <div class="ui label">صفحه</div>
+                                <input id="modal-currentpage" type="text" placeholder="شماره صفحه">
+                                <div id="modal-pagecount" class="ui basic label" id="t-pages">از ...</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="ui indicating  progress" data-value="0" data-total="345" id="reading-progress-update">
+                                <div class="bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <div id="update-readingprogram" class="ui orange button">ذخیره</div>
+            <div class="ui inverted grey button " id="reading-cancel">بازگشت</div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var active_tab = {{ active_tab }};
+            switch (active_tab) {
+                case 1:
+                    $('#favlist-header').addClass('active', 'back-grey');
+                    $('#favlist-tab').addClass('active');
+                    break;
+                case 2:
+                    $('#readingprogram-header').addClass('active', 'back-grey');
+                    $('#readingprogram-tab').addClass('active');
+                    break;
+                case 3:
+                    $('#reviews-header').addClass('active', 'back-grey');
+                    $('#reviews-tab').addClass('active');
+                    break;
+                case 4:
+                    $('#ordershistory-header').addClass('active', 'back-grey');
+                    $('#ordershistory-tab').addClass('active');
+                    break;
+                default:
+                    $('#favlist-header').addClass('active', 'back-grey');
+                    $('#favlist-tab').addClass('active');
+            }
+
+            $('#reading-link').click(function () {
+                var program_id = $(this).attr('data-programid');
+                $.ajax({
+                    url: "{% url 'profiles:readingprograms' user_profile.id %}" + program_id + "/",
+                    method: 'get',
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            console.log(data);
+                            $('#modal-img').attr('src', "/" + data.book_image);
+                            $('#modal-title').text(data.book_title);
+                            $('#modal-pagecount').text(data.book_page_count);
+                            $('#modal-currentpage').val(data.current_page);
+                            $('#reading-progress-update').attr('data-total', data.book_page_count);
+                            $('#reading-progress-update').attr('data-value', data.current_page);
+                            $('#reading-progress-update').progress({
+                                label: 'ratio',
+                                text: {
+                                    ratio: '{value} از {total}'
+                                }
+                            });
+                            $('#modal-currentpage').on('input',function(){
+                                value = parseInt($('#modal-currentpage').val());
+                                console.log('value: ' + value);
+                                $('#reading-progress-update').progress('update progress', value);
+                            });
+                            $('#update-readingprogram').click(function() {
+                                value = parseInt($('#modal-currentpage').val());
+                                $.ajax({
+                                    url: "{% url 'profiles:readingprograms' user_profile.id %}" +
+                                    program_id + "/update/",
+                                    method: 'post',
+                                    data: {
+                                        current_page: value,
+                                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                                    },
+                                    success: function(data) {
+                                        if (data.status === "ok") {
+                                            window.location.href = data.url;
+                                        }
+                                        else {
+                                            console.error('cannot add');
+                                        }
+                                    },
+                                    error: function() {
+                                        console.error('eeeeerrrrrrooooorrrrrr');
+                                    }
+                                });
+                            });
+                        }
+                        else {
+                            console.error('cannot get program data');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                });
+            });
+
+            $('#remove-fav-button').click(function() {
+                var id = $(this).attr('data-fav-id');
+                $.ajax({
+                    url: "{% url 'profiles:wishlist' user_profile.id %}" + id + "/remove/",
+                    method: 'post',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            window.location.href = data.url;
+                        }
+                        else {
+                            console.error('cannot remove');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                })
+            });
+
+            $('#remove-readingprogram-button').click(function() {
+                var id = $(this).attr('data-program-id');
+                $.ajax({
+                    url: "{% url 'profiles:readingprograms' user_profile.id %}" + id + "/remove/",
+                    method: 'post',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            window.location.href = data.url;
+                        }
+                        else {
+                            console.error('cannot remove');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                })
+            });
+
+
+            $('#remove-review-button').click(function() {
+                var id = $(this).attr('data-review-id');
+                $.ajax({
+                    url: "{% url 'profiles:reviews' user_profile.id %}" + id + "/remove/",
+                    method: 'post',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            window.location.href = data.url;
+                        }
+                        else {
+                            console.error('cannot remove');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                })
+            });
+        });
+    </script>
+    <script type="text/javascript" src="{% static 'accounts/js/profiles.js' %}"></script>
+{% endblock %}
+

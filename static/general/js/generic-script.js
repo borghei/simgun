@@ -60,4 +60,28 @@ $(document).ready(function () {
                 window.location.href = '/search/?best=' + $('#search-bar').val();
         }
     });
+
+});
+
+
+$(document).ready(function() {
+    $(function(){
+        $('.menu .item')
+            .tab();
+    });
+    $(function(){
+        $('.ui.checkbox')
+            .checkbox()
+    });
+
+});
+
+
+    $('#search-bar').keypress(function (e) {
+        if (e.which == 13) {
+            var queryLength = $(this).val().length;
+            if (queryLength > 1 && queryLength < 100)
+                window.location.href = '/search/?best=' + $('#search-bar').val();
+        }
+    });
 })(jQuery);
