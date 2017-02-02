@@ -20,10 +20,10 @@ book_pagecount = soup.find("span", {"itemprop": "numberOfPages"})
 book_publisher = soup.find("span", {"itemprop": "publisher"})
 book_price = soup.find("span", {"itemprop": "price"})
 
-book_pic = soup.find("span", {"itemprop": "isbn"})
+#book_pic = soup.find("span", {"itemprop": "isbn"})
 book_translator = soup.find("span", {"itemprop": "isbn"})
-book_description = soup.find("span", {"itemprop": "description"})
-book_category = soup.find("span", {"itemprop": "isbn"})
+book_description = soup.find_all("div", {"itemprop": "description"})
+book_category = soup.find("span", {"style": "text-align: justify;"})
 
 
 
