@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>کتاب خوار |‌ جستجو برای {{ title }}</title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'general/css/semantic/semantic.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'general/css/generic-style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'search/css/style-search.css' %}"/>
+
+    <script src="{% static 'general/js/jquery-3.1.0.min.js' %}"></script>
+    <script src="{% static 'general/js/semantic.min.js' %}"></script>
+    <script src="{% static 'general/js/generic-script.js' %}"></script>
+</head>
+<body>
+
+<!-- header -->
+
+<header class="header1">
+    <div class="ui menu back-grey-menu no-borders">
+        <div class="ui grid container ">
+            <div class="ten wide column right aligned">
+                <div class="ui row row-margin1">
+            <span>فروشگاه اینترنتی کتاب خوار ،
+                {% if user.is_authenticated %}
+                    سلام {{ user.first_name }} {{ user.last_name }} !
+                    <a href="/accounts/logout/">(خروج)</a>
+                {% else %}
+                    <a href="/accounts/register/">ثبت نام کنید</a>
+                    یا
+                    <a href="/accounts/login/">وارد شوید</a> </span>
+                {% endif %}
+
+                </div>
+                <div class="ui row row-margin2">
+                    <div class="ui search">
+                        <div class="ui simple scrolling fluid search left icon input search-tab">
+                            <i class="search icon"></i>
+                            <input id="search-bar" class="prompt" style="text-align: right" type="text"
+                                   placeholder="نام کتاب/نام نویسنده/ISBN"/>
+                        </div>
+                        <div class="results"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="four wide column left aligned">
+                <h2 class="logo">کتاب خوار</h2>
+            </div>
+            <div class="two wide column center aligned">
+                <div>
+                    <img class="logo-img" src="{% static 'site-media/photos/general/logo.png' %}">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ui menu  no-borders " id="menu2">
+        <div class="ui container">
+            <a class="green header link item">
+                <i class="shop icon"></i>
+                سبد خرید
+            </a>
+            <a class=" red link item">
+                رمان
+            </a>
+            <a class="purple link item">
+                داستان کوتاه
+            </a>
+            <a class="blue link item">
+                آموزشی
+            </a>
+            <a class="pink link item">
+                فرهنگ و هنر
+            </a>
+            <a class="teal link item">
+                فانتزی
+            </a>
+        </div>
+    </div>
+
+</header>
+
+<div class="ui container search-margin">
+
+       <!-- Search Result-->
+    <div class="ui grid container center aligned row-margin1">
+        <h2>متاسفانه نتیجه ای برای عبارت "{{ title }}" یافت نشد!</h2>
+    </div>
+    <!-- Search Box-->
+    <form id="search_form" class="ui grid container centered aligned" method="get">
+        <div class="twelve wide column right aligned back-grey">
+            <div class="ui grid container">
+                <div class="ui row">
+                    <h2 class="ui header">جستجو</h2>
+                </div>
+                <div class="ui divider tab-divider"></div>
+                <!-- Search Form -->
+                <div class="ui row">
+                    <!-- Right Column -->
+                    <div class="eight wide column">
+                        <div class="ui form">
+                            <div class="inline fields">
+                                <div class="five wide field">
+                                    <label for="title">نام محصول</label>
+                                </div>
+                                <div class="eleven wide field">
+                                    <input id="title" name="q" type="text" value=""/>
+                                </div>
+                            </div>
+                            <div class="inline fields">
+                                <div class="five wide field">
+                                    <label for="author">نویسنده</label>
+                                </div>
+                                <div class="eleven wide field">
+                                    <input name="author" id="author" type="text" value=""/>
+                                </div>
+                            </div>
+                            <div class="inline fields">
+                                <div class="five wide field">
+                                    <label for="translator">مترجم</label>
+                                </div>
+                                <div class="eleven wide field">
+                                    <input name="translator" id="translator" type="text" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Left Column -->
+                    <div class="eight wide column right aligned">
+                        <div class="ui form">
+                            <div class="inline fields">
+                                <div class="five wide field">
+                                    <label for="publisher">ناشر</label>
+                                </div>
+                                <div class="eleven wide field">
+                                    <input name="publisher" id="publisher" type="text" value="">
+                                </div>
+                            </div>
+
+                            <div class="inline fields">
+                                <div class="five wide field">
+                                    <label for="isbn">شابک/ISBN</label>
+                                </div>
+                                <div class="eleven wide field">
+                                    <input name="isbn" id="isbn" type="text" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Price Range-->
+                <div class="ui row">
+                    <div class="full wide column">
+                        <div class="ui form">
+                            <div class="inline fields">
+                                <div class="two wide field">
+                                    <label for="min_price">محدوده قیمت</label>
+                                </div>
+                                <div class="five wide field">
+                                    <input name="min_price" id="min_price" title="text" value="">
+                                </div>
+                                <div class="one wide field">
+                                    <h5>تا</h5>
+                                </div>
+                                <div class="five wide field">
+                                    <input name="max_price" id="max_price" title="text" value="">
+                                </div>
+                                <div class="one wide field">
+                                    <h5>تومان</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Book Type-->
+                <div class="ui row">
+                    <div class="full wide column">
+                        <div class="ui form">
+                            <div class="inline fields">
+                                <div class="two wide field">
+                                    <h5>نوع کتاب</h5>
+                                </div>
+                                <div class="three wide field">
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" tabindex="0" class="hidden" name="book">
+                                    </div>
+                                    <span class="checkbox-label">کتاب کاغذی</span>
+                                </div>
+                                <div class="three wide field">
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" tabindex="0" class="hidden" name="book">
+                                    </div>
+                                    <span class="checkbox-label">کتاب رقمی</span>
+                                </div>
+                                <div class="three wide field">
+                                    <div class="ui radio checkbox">
+                                        <input type="radio" tabindex="0" class="hidden" name="book">
+                                    </div>
+                                    <span class="checkbox-label">کتاب صوتی</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- search button -->
+                <div class="ui row">
+                    <div class="left column left aligned">
+                        <input id="submit_search_form" type="submit" class="ui button" tabindex="0" value="جستجو">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<footer class="site-footer">
+    <div class="ui vertical footer segment">
+        <div class="ui center aligned container">
+            <div class="ui  four column grid ">
+                <div class="ui row">
+                    <div class="two wide right aligned column">
+                        <div class="ui animated large relaxed link right aligned list">
+                            <h4 class="header bold" style="text-align: right">منو ها</h4>
+                            </hr>
+                            <a class="item">خانه</a>
+                            <a class="item">سرویس ها</a>
+                            <a class="item">درباره ما</a>
+                            <a class="item">ارتباط با ما</a>
+                        </div>
+                    </div>
+                    <div class="three wide right aligned column">
+                        <div class="ui animated large relaxed link right aligned list">
+
+                            <h4 class="header bold"> پروفایل شما</h4>
+                            </hr>
+                            <a class="item">ورود یا ثبت نام</a>
+                            <a class="item">حساب کاربری</a>
+                            <a class="item">سبد خرید</a>
+                        </div>
+                    </div>
+
+                    <div class="five wide right aligned column">
+
+                    </div>
+                    <div class="six wide right aligned column">
+                        <h4 class="header">درباره ما</h4>
+                        <div>
+                            <p>
+                                as;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
+                                a;klfghafs;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
+                                a;klfgh
+                                <br>
+                                as;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
+                                a;klfghaf
+                                <br>
+                                as;kljfrfhgjhkjkllhgcfxdfchhbkjnkahvgsfjas'a
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui vertical footer2 segment">
+        <div class="ui center aligned container">
+            <div class="ui grid container">
+                <div class="ten wide column right aligned">
+                    <div class="ui horizontal large list">
+                        <div class="item">
+                            <svg class="icon-gmail ">
+                                <use xlink:href="/static/media/photos/general/icons.svg#gmail"></use>
+                            </svg>
+                            </a></li>
+                        </div>
+                        <div class="item">
+                            <svg class="icon-instagram ">
+                                <use xlink:href="/static/media/photos/general/icons.svg#instagram"></use>
+                            </svg>
+                        </div>
+                        <div class="item">
+                            <svg class="icon-telegram ">
+                                <use xlink:href="/static/media/photos/general/icons.svg#telegram"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="six wide column right aligned">
+                    <h5 class="ui header copyright">Copyright © 2016 ketab khaar</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- jquery script -->
+<!-- send form-->
+
+<script>
+    $("#submit_search_form").click(function () {
+        $("input").each(function () {
+            if ($(this).val() == '') {
+                $(this).remove();
+            }
+        });
+        $("#search_form").submit();
+    });
+
+
+</script>
+<script>
+    $(function () {
+        $('.ui.rating')
+            .rating({
+                initialRating: 0,
+                maxRating: 5
+            })
+        ;
+        $('#rate-star')
+            .rating('setting', 'clearable', true)
+        ;
+        $('#rate-star2')
+            .rating({
+                initialRating: 3,
+                maxRating: 5
+            })
+            .rating('disable')
+        ;
+        $('.ui.dropdown')
+            .dropdown()
+        ;
+        $('.special.cards .image').dimmer({
+            on: 'hover'
+        });
+    })
+</script>
+<script type="text/javascript">
+    $('.ui.radio.checkbox')
+        .checkbox()
+    ;
+
+</script>
+
+</body>
+</html>

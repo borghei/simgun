@@ -20,25 +20,26 @@ jQuery(document).ready(function() {
 
         $(document).off("click", '.morelink');
 
-        $(document).on({click: function () {
+        $(document).on({
+            click: function () {
 
-            var $this = $(this);
-            if ($this.hasClass('less')) {
-                $this.removeClass('less');
-                $this.html(config.moreText);
-            } else {
-                $this.addClass('less');
-                $this.html(config.lessText);
+                var $this = $(this);
+                if ($this.hasClass('less')) {
+                    $this.removeClass('less');
+                    $this.html(config.moreText);
+                } else {
+                    $this.addClass('less');
+                    $this.html(config.lessText);
+                }
+                $this.parent().prev().toggle();
+                $this.prev().toggle();
+                return false;
             }
-            $this.parent().prev().toggle();
-            $this.prev().toggle();
-            return false;
-        }
         }, '.morelink');
 
         return this.each(function () {
             var $this = $(this);
-            if($this.hasClass("shortened")) return;
+            if ($this.hasClass("shortened")) return;
 
             $this.addClass("shortened");
             var content = $this.html();
@@ -69,3 +70,11 @@ $(document).ready(function() {
 });
 
 
+    $('#search-bar').keypress(function (e) {
+        if (e.which == 13) {
+            var queryLength = $(this).val().length;
+            if (queryLength > 1 && queryLength < 100)
+                window.location.href = '/search/?best=' + $('#search-bar').val();
+        }
+    });
+})(jQuery);
