@@ -23,18 +23,12 @@ def add_to_wishlist(request, profile_id):
             return JsonResponse({'status': 'failure'})
 
 
-def remove_from_wishlist(request, profile_id):
+def remove_from_wishlist(request, profile_id, wishlist_id):
     if request.method == 'POST':
-        book_id = request.POST.get('book_id')
-        book = get_object_or_404(Book, pk=book_id)
-        user = get_object_or_404(User, pk=profile_id)
-        user_profile = get_object_or_404(UserProfile, user=user)
-        wishlist_book = WishlistBook.objects.filter(user_profile=user_profile, book=book)
-        if wishlist_book.count() == 0:
-            return JsonResponse({'status': 'failure'})
-        else:
-            wishlist_book.delete()
-            return JsonResponse({'status': 'ok'})
+        user_profile = get_object_or_404(UserProfile, pk=profile_id)
+        wishlist_book = get_object_or_404(WishlistBook, pk=wishlist_id)
+        wishlist_book.delete()
+        return JsonResponse({'status': 'ok', 'url': reverse('profiles:wishlist', args=(profile_id,))})
 
 
 # TODO if the book is not available ...
@@ -119,15 +113,25 @@ def profile(request, profile_id, tab=1):
         'active_tab': tab,
     })
 
-
 def view_readingprogram(request, profile_id, program_id):
-    user_profile = get_object_or_404(UserProfile, pk=profile_id)
-    reading_program = get_object_or_404(ReadingProgram, pk=program_id)
-    book = reading_program.book
-    return JsonResponse({
-        'status': 'ok',
-        'book_title': book.title,
-        'book_page_count': book.page_count,
-        'book_image': book.pic.url,
-        'current_page': reading_program.current_page,
-    })
+    if request.method == 'GET':
+        user_profile = get_object_or_404(UserProfile, pk=profile_id)
+        reading_program = get_object_or_404(ReadingProgram, pk=program_id)
+        book = reading_program.book
+        return JsonResponse({
+            'status': 'ok',
+            'book_title': book.title,
+            'book_page_count': book.page_count,
+            'book_image': book.pic.url,
+            'current_page': reading_program.current_page,
+        })
+    else:
+        return JsonResponse({
+            'status': 'failure'
+        })
+
+
+def wishlist(request, profile_id):
+    if request.method == 'GET':
+        return profile(request, profile_id, 1)
+

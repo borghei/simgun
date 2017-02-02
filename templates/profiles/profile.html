@@ -72,7 +72,8 @@
                                         </td>
                                         <td>{{ fav.book.get_avg_rating }}</td>
                                         <td class="left aligned">
-                                            <button class="ui circular icon button">
+                                            <button id="remove-fav-button"
+                                                    data-fav-id="{{ fav.id }}" class="ui circular icon button">
                                                 <i class="trash icon"></i>
                                             </button>
                                         </td>
@@ -82,7 +83,7 @@
                                 </tbody>
                             {% else %}
                                 <div class="ui center aligned container">
-                                تاکنون علاقمندی‌ای ثبت نکرده‌اید.
+                                    تاکنون علاقمندی‌ای ثبت نکرده‌اید.
                                 </div>
                             {% endif %}
 
@@ -273,7 +274,6 @@
                     $('#favlist-tab').addClass('active');
             }
 
-
             $('#reading-link').click(function () {
                 var program_id = $(this).attr('data-programid');
                 $.ajax({
@@ -331,6 +331,28 @@
                         console.error('eeeeerrrrrrooooorrrrrr');
                     }
                 });
+            });
+
+            $('#remove-fav-button').click(function() {
+                var id = $(this).attr('data-fav-id');
+                $.ajax({
+                    url: "{% url 'profiles:wishlist' user_profile.id %}" + id + "/remove/",
+                    method: 'post',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            window.location.href = data.url;
+                        }
+                        else {
+                            console.error('cannot add');
+                        }
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                })
             });
         });
     </script>
