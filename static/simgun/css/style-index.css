@@ -182,3 +182,7 @@
     padding-left: 0;
     padding-right: 0;
 }
+
+.ui.progress:last-child {
+    margin: 1.5em 0em 1.5em !important;
+}

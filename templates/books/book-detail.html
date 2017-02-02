@@ -23,7 +23,13 @@
                 <button id="add-shoppingbag" class="ui orange inverted button link">افزودن به سبد خرید</button>
 
                 {#            TODO the element must check if the book is already in wishlist or not#}
-                <button id="add-wishlist" class="ui grey inverted labeled icon button fav-button"> <i class="star icon"></i> افزودن به علاقه مندی ها </button>
+                <button id="add-wishlist" class="ui grey inverted labeled icon button fav-button">
+                    <i class="star icon"></i>افزودن به علاقه مندی ها
+                </button>
+                <button class="ui grey inverted labeled icon button fav-button">
+                    <i class="book icon"></i> افزودن به برنامه مطالعاتی
+                </button>
+
                 <div class="ui divider"></div>
                 <div>
                     <h3 class="ui header">امتیاز دهید</h3>
@@ -93,24 +99,30 @@
                             </div>
                         </div>
                         <div class="ui row">
-                            <div class="ui items">
-                                {% for review in book.bookreview_set.all %}
-                                    <div class="item">
-                                        <div class="image">
-                                            <img src="/{{ user.userprofile.avatar }}">
-                                        </div>
-                                        <div class="content">
-                                            <a class="header">{{ review.user_profile }}</a>
-                                            <div class="meta">
-                                                <span>{{ review.text }}</span>
+                            <div class="sixteen wide column">
+                                <div class="ui items">
+                                    {% for review in book.bookreview_set.all %}
+                                        <div class="item">
+                                            <div class="image">
+                                                <img src="/{{ user.userprofile.avatar }}">
                                             </div>
-                                            <div class="description">
-                                                <p></p>
+                                            <div class="content">
+                                                <a class="header">{{ review.user_profile }}</a>
+                                                <div class="meta">
+                                                    <span>{{ review.text }}</span>
+                                                </div>
+                                                <div class="description">
+                                                    <p></p>
+                                                </div>
+                                                <div class="extra">
+                                                    <div class="left floated">
+                                                        {{ review.date }}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="aligned extra">{{ review.date }}</div>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -215,13 +227,13 @@
         $(function(){
             $('.ui.rating')
                 .rating({
-                    initialRating: 0,
+                    initialRating: {{ user_book_rate }},
                     maxRating: 5
                 })
             ;
             $('#rate-star2')
                 .rating({
-                    initialRating: {{ book_rate }},
+                    initialRating: parseInt({{ book_rate }}),
                     maxRating: 5
                 })
                 .rating('disable')
@@ -246,7 +258,29 @@
                 {#            TODO should can change the rating#}
 
                 $('#rate-star')
-                    .rating('enable');
+                    .rating('setting', 'onRate', function(value) {
+                        $.ajax({
+                            url: "{% url 'books:rate_book' book.id %}",
+                            method: 'post',
+                            async: false,
+                            data: {
+                                'rate': value,
+                                csrfmiddlewaretoken: '{{ csrf_token }}',
+                            },
+                            success: function(data) {
+                                if (data.status == 'ok') {
+                                    window.location.href = data.url
+                                }
+                                else {
+                                    console.error('cannot rate')
+                                }
+                            },
+                            error: function() {
+                                console.error('eeeeerrrrrrooooorrrrrr');
+                            }
+                        });
+                    });
+
 
 
                 $('#send-comment-btn').click(function() {

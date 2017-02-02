@@ -92,7 +92,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="sixteen wide center aligned column">
-                                                    <div class="ui small button">به‌روزرسانی برنامه</div>
+                                                    <div class="ui small button reading-button">به‌روزرسانی برنامه</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -487,7 +487,8 @@
                                                     </div>
                                                 </div>
 
-                                            </div>                                        </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -499,6 +500,46 @@
             </div>
         </div>
     </div>
+
+    <div class="ui small modal" id="reading-modal">
+        <i class="close icon"></i>
+        <div class="header">بروزرسانی برنامه مطالعاتی</div>
+        <div class=" content">
+            <div class="content-margin"></div>
+            <div class="description">
+                <div class="ui grid container">
+                    <div class="three wide column">
+                        <div class="ui image">
+                            <img class="" src="img/kafka.jpeg">
+                        </div>
+                    </div>
+                    <div class="thirteen wide column">
+                        <div class="ui row">
+
+                            <h4 class="ui header">کافکا در کرانه</h4>
+                            <div class="ui left labeled input">
+                                <div class="ui label">صفحه</div>
+                                <input type="text" placeholder="شماره صفحه" id="inputPageNo">
+                                <div class="ui basic label" id="t-pages">از 345</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="ui indicating  progress" data-value="0" data-total="345" id="reading-progress-update">
+                                <div class="bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui orange button">ذخیره</div>
+            <div class="ui inverted grey button " id="reading-cancel">بازگشت</div>
+        </div>
+    </div>
+
 {% endblock %}
 
 

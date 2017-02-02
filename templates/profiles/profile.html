@@ -1,0 +1,173 @@
+{% extends 'simgun/base.html' %}
+
+
+{% block title %}
+    <title>مشخصات کاربری</title>
+{% endblock %}
+
+{% block styles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'profiles/css/style-profile.css' %}"/>
+{% endblock %}
+
+
+{% block content %}
+    <div class="ui container con-margin page-wrap">
+        <div class="ui grid container">
+            <!-- information -->
+            <div class="three wide column right aligned ">
+                <h2 class="ui header">{{ user_profile.user.first_name}} {{ user_profile.user.last_name }}</h2>
+                <div class="ui small rounded image center aligned">
+                    <img src="/{{ user_profile.avatar }}">
+                </div>
+                <div class="ui divider " ></div>
+                <div class="ui animated large relaxed link right aligned list">
+                    <a class="underline-link item right aligned" href="settings.html">تنظیمات</a>
+                    <a class="underline-link item" href="settings.html ">ارتقا به کاربر طلایی</a>
+                </div>
+
+            </div>
+            <!-- tab info -->
+            <div class="thirteen wide column right floating">
+                <div class="ui container">
+                    <div class="ui top attached tabular menu">
+                        <a class="active item back-grey" data-tab="first">
+                            <span class="tab-title">لیست علاقه مندی ها</span>
+                        </a>
+                        <a class="item " data-tab="second">
+                            <span class="tab-title">برنامه مطالعاتی</span>
+                        </a>
+                        <a class="item  " data-tab="third">
+                            <span class=" center text tab-title">نقد ها</span>
+                        </a>
+                        <a class="item" data-tab="forth">
+                            <span class="tab-title">تاریخچه سفارشات</span>
+                        </a>
+                    </div>
+                    <!-- first tab -->
+                    <div class="ui bottom attached tab segment active back-grey" data-tab="first">
+                        <table class="ui  red table">
+                            <thead>
+                            <tr><th class="one wide">#</th>
+                                <th class="four wide">عنوان</th>
+                                <th>نویسنده</th>
+                                <th>مترجم</th>
+                                <th>امتیاز</th>
+                                <th class="left aligned">حذف</th>
+                            </tr></thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>ارباب حلقه ها</td>
+                                <td>تالکین</td>
+                                <td>علیزاده</td>
+                                <td>3.5</td>
+                                <td class="left aligned"><button class="ui circular icon button">
+                                    <i class="trash icon"></i>
+                                </button> </td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                    <!-- second tab -->
+                    <div class="ui bottom attached tab segment back-grey" data-tab="second">
+                        <table class="ui  teal table">
+                            <thead>
+                            <tr><th class="one wide">#</th>
+                                <th class="four wide">عنوان</th>
+                                <th class="three wide">نویسنده</th>
+                                <th class="three wide">مترجم</th>
+                                <th>امتیاز</th>
+                                <th>خوانده شده</th>
+                                <th class="left aligned">حذف</th>
+                            </tr></thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>ارباب حلقه ها</td>
+                                <td class="three wide">تالکین</td>
+                                <td class="three wide">علیزاده</td>
+                                <td>3.5</td>
+                                <td>90%
+                                    <br>
+                                    <a href="#">ویرایش</a>
+                                </td>
+                                <td class="left aligned"><button class="ui circular icon button">
+                                    <i class="trash icon"></i>
+                                </button> </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!-- third tab -->
+                    <div class="ui bottom attached tab segment back-grey" data-tab="third">
+                        <table class="ui  blue table">
+                            <thead>
+                            <tr><th class="one wide">#</th>
+                                <th class="four wide">عنوان</th>
+                                <th class="three wide">نویسنده</th>
+                                <th class="two wide">مترجم</th>
+                                <th class="one wide">امتیاز</th>
+                                <th>نقد</th>
+                                <th class="left aligned">حذف</th>
+                            </tr></thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>ارباب حلقه ها</td>
+                                <td class="three wide">تالکین</td>
+                                <td class="two wide">علیزاده</td>
+                                <td>3.5</td>
+                                <td>
+                                    میرا هیچ معنایی دید که اصالت ی جامعه است. در چنین جامعه ای عرص
+                                </td>
+                                <td class="left aligned"><button class="ui circular icon button">
+                                    <i class="trash icon"></i>
+                                </button> </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!-- forth tab -->
+                    <div class="ui bottom attached tab segment back-grey history-margin" data-tab="forth">
+                        <table class="ui  purple table">
+                            <thead>
+                            <tr><th class="one wide">#</th>
+                                <th class="four wide">عنوان</th>
+                                <th class="three wide">نویسنده</th>
+                                <th class="three wide">مترجم</th>
+                                <th class="one wide">امتیاز</th>
+                                <th>قیمت (تومان)</th>
+                                <th class="left aligned">فاکتور</th>
+                            </tr></thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>ارباب حلقه ها</td>
+                                <td class="three wide">تالکین</td>
+                                <td class="three wide">علیزاده</td>
+                                <td>3.5</td>
+                                <td>28000 </td>
+                                <td class="left aligned"><button class="ui circular icon button">
+                                    <i class="file text outline icon"></i>
+                                </button> </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}
+

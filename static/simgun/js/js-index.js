@@ -22,5 +22,23 @@ $(document).ready(function() {
             percentPosition: false,
         });
 
+        $('#reading-modal')
+            .modal('attach events', '.reading-button', 'show')
+            .modal('attach events', '#reading-cancel', 'cancel')
+        ;
+        $('#reading-progress-update').progress({
+            label: 'ratio',
+            text: {
+                ratio: '{value} از {total}'
+            }
+        });
+        $('#inputPageNo').on('input',function(){
+
+            value = parseInt($('#inputPageNo').val());
+            console.log('value: ' + value);
+            // $('#reading-progress-update').attr('data-value', value);
+            $('#reading-progress-update').progress('update progress', value);
+        });
+
     });
 });

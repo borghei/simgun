@@ -27,6 +27,16 @@ class Book(models.Model):
     def __str__(self):
         return self.title + ' - ' + self.publisher
 
+    def get_avg_rating(self):
+        book_rate_avg = 0
+        all_bookratings = self.bookrating_set.all()
+        for book_rate in all_bookratings:
+            book_rate_avg += book_rate.rate
+        book_rate_avg /= all_bookratings.count()
+        book_rate_avg = float('{0: .2f}'.format(book_rate_avg))
+        return book_rate_avg
+
+
 
 class BookReview(models.Model):
     text = models.CharField(max_length=512)
@@ -42,3 +52,6 @@ class BookRating(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     rate = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.book) + ' - ' + str(self.user_profile) + ' - ' + str(self.rate)

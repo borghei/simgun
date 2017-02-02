@@ -5,6 +5,8 @@ from profiles import views
 
 app_name = 'profiles'
 urlpatterns = [
+    url(r'^(?P<profile_id>[0-9]+)/', login_required(views.profile),
+        name='profile'),
     url(r'^(?P<profile_id>[0-9]+)/wishlist/add/$', login_required(views.add_to_wishlist),
         name='add_wishlist'),
     url(r'^(?P<profile_id>[0-9]+)/wishlist/remove/$', login_required(views.remove_from_wishlist),
