@@ -2,7 +2,9 @@ __author__ = 'Shervin'
 from bs4 import BeautifulSoup
 import requests
 import urllib
+import os
 
+source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
 # url = "http://shahreketabonline.com"
 # r = requests.get(url)
 #
@@ -21,7 +23,12 @@ book_pagecount = soup.find("span", {"itemprop": "numberOfPages"}).text
 book_publisher = soup.find("span", {"itemprop": "publisher"}).text
 book_price = soup.find("span", {"itemprop": "price"}).text
 book_description = [x.text for x in soup.find_all("div", {"style": "text-align: justify;"})][2::]
+
 book_pic_url = soup.find("img", {"class": "full-image img-responsive"})['src']
+fullimagename = os.path.join(source_path,str(book_isbn)+".jpg")
+with open(fullimagename, "wb") as file:
+    response = requests.get(book_pic_url)
+    file.write(response.content)
 
 #book_translator = soup.find("span", {"itemprop": "isbn"})
 #book_category = soup.find("span", {"itemprop": "isbn"})
