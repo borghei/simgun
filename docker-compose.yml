@@ -5,6 +5,6 @@
      command: python manage.py runserver 0.0.0.0:80
      volumes:
        - .:/code
-       - /opt/backups/ketabkhar/db.sqlite3:/code/db.sqlite3
+       - /opt/backups/ketabkhar:/code
      ports:
        - "80:80"
