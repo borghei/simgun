@@ -55,6 +55,19 @@ def url_in_list(url, listobj):
     return (http_version in listobj) or (https_version in listobj)
 
 
+def getlinks(pageurl, domain, soup):
+    links = [a.attrs.get('href') for a in soup.select('a[href]')]
+    links = [urldefrag(link)[0] for link in links]
+    links = [link for link in links if link]
+    links = [link if bool(urlparse(link).netloc) else urljoin(pageurl, link) \
+        for link in links]
+
+    if domain:
+        links = [link for link in links if samedomain(urlparse(link).netloc, domain)]
+
+    return links
+
+
 def scrape_page(url):
     info = {}
     source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
