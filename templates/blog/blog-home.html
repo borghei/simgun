@@ -1,0 +1,47 @@
+{% extends 'simgun/base.html' %}
+
+{% block title %}
+    <title>کتاب‌خوار - بلاگ</title>
+{% endblock %}
+
+{% block styles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/style-blog.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="ui container blog-margin">
+        <div class="ui grid container">
+            <div class="ui row">
+                <h2>اخبار</h2>
+                <div class="ui divider blog-divider"></div>
+            </div>
+            <div class="ui row">
+                <div class="ui two cards">
+                    {% for post in posts %}
+                        <div class="ui raised link yellow card ">
+                            <div class="content">
+                                <div class="header">{{ post.title }}</div>
+                                <div class="meta">{{ post.date|date:"M d, Y" }}</div>
+                                <div class="description">
+                                    <p>{{ post.content|truncatechars:100 }}</p>
+                                </div>
+                            </div>
+                            <div class="extra content">
+                        <span class="left floated">
+                            <a href="{% url 'blog:blog_post' post.id %}">                               بیشتر بخوانید</a>
+                        </span>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

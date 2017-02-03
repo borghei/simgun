@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^search/', include('search.urls')),
     url(r'^premium/', include('premium.urls')),
     url(r'^vendors/', include('vendors.urls')),
-    url(r'^orders/', include('buying.urls'))
+    url(r'^orders/', include('buying.urls')),
+    url(r'^blog/', include('blog.urls'))
 ]

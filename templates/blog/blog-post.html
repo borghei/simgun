@@ -1,0 +1,25 @@
+{% extends 'simgun/base.html' %}
+
+{% block title %}
+    <title>کتاب‌خوار - بلاگ</title>
+{% endblock %}
+
+{% block styles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/style-blog.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="ui container blog-margin">
+        <div class="ui grid container">
+            <div class="ui row">
+                <h2>{{ post.title }}</h2>
+                <div class="ui divider blog-divider"></div>
+            </div>
+            <div class="ui row post-text ">
+                {{ post.content }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

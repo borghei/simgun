@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'books.apps.BooksConfig',
     'vendors.apps.VendorsConfig',
     'buying.apps.BuyingConfig',
+    'blog.apps.BlogConfig',
     'django_extensions',
 ]
 
