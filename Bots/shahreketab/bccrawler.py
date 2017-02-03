@@ -49,6 +49,12 @@ def pagehandler(pageurl, pageresponse):
     return True
 
 
+def url_in_list(url, listobj):
+    http_version = url.replace('https://', 'http://')
+    https_version = url.replace('http://', 'https://')
+    return (http_version in listobj) or (https_version in listobj)
+
+
 def scrape_page(url):
     info = {}
     source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
