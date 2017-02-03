@@ -1,11 +1,16 @@
 from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import render
 
 from books.models import Book
 
 
 def search(request):
-    title, results, query = advanced_search(request)
+    try:
+        title, results, query = advanced_search(request)
+    except Exception:
+        raise Http404
+
     if not results:
         return render(request, 'search/advanced-search-404.html', {
             'title': title})
