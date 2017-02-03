@@ -9,7 +9,8 @@ from collections import deque
 read the web page, create a DOM of the page, and extract a
 list of the targets of all links on the page
 """
-def crawler(startpage, maxpages=100, singledomain=False):
+
+def recursive_crawl(startpage, maxpages=100, singledomain=False):
 
     pagequeue = deque()
     pagequeue.append(startpage)
@@ -35,7 +36,7 @@ def crawler(startpage, maxpages=100, singledomain=False):
         soup = BeautifulSoup(response.text, "html.parser")
         crawled.append(url)
         pages += 1
-        if pagehandler(url, response, soup):
+        if pagehandler(url, response):
             links = getlinks(url, domain, soup)
             for link in links:
                 if not url_in_list(link, crawled) and not url_in_list(link, pagequeue):
@@ -113,4 +114,4 @@ def scrape_page(url):
 
     return info
 
-recursive_crawl("http://shahreketabonline.com/")
+recursive_crawl("http://www.adinehbook.com/")
