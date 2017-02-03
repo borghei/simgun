@@ -75,12 +75,3 @@ $(document).ready(function() {
     });
 
 });
-
-
-$('#search-bar').keypress(function (e) {
-    if (e.which == 13) {
-        var queryLength = $(this).val().length;
-        if (queryLength > 1 && queryLength < 100)
-            window.location.href = '/search/?best=' + $('#search-bar').val();
-    }
-});
