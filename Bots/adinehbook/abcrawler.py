@@ -108,12 +108,15 @@ def scrape_page(soup):
     except:
         return
 
-    info['title'] = soup.find("meta", {"property": "og:title"})['content']
-    info['author'] = soup.find("meta", {"property": "book:author"})['content'].translate({ord(c): None for c in '~'})
-    info['page_count'] = soup.find("b", text = "تعداد صفحه:").next_sibling.translate({ord(c): None for c in ' '})
-    info['publisher'] = soup.find("b", text="نشر:").next_sibling
-    info['price'] = soup.find("b", {"class": "price"}).text
-    info['description'] = soup.find("meta", {"name": "description"})['content'].translate({ord(c): None for c in '-1234567890~'})
+    try:
+        info['title'] = soup.find("meta", {"property": "og:title"})['content']
+        info['author'] = soup.find("meta", {"property": "book:author"})['content'].translate({ord(c): None for c in '~'})
+        info['page_count'] = soup.find("b", text = "تعداد صفحه:").next_sibling.translate({ord(c): None for c in ' '})
+        info['publisher'] = soup.find("b", text="نشر:").next_sibling
+        info['price'] = soup.find("b", {"class": "price"}).text
+        info['description'] = soup.find("meta", {"name": "description"})['content'].translate({ord(c): None for c in '-1234567890~'})
+    except AttributeError:
+        return {}
 
     image_source = soup.find("meta", {"property": "og:image"})['content']
     info['pic'] = os.path.join(image_source_path,str(info['isbn'])+".jpg")
