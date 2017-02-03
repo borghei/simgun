@@ -10,7 +10,7 @@ read the web page, create a DOM of the page, and extract a
 list of the targets of all links on the page
 """
 
-def recursive_crawl(startpage, maxpages=100, singledomain=False):
+def recursive_crawl(startpage, maxpages=200, singledomain=False):
 
     information = {}
     pagequeue = deque()
@@ -38,7 +38,7 @@ def recursive_crawl(startpage, maxpages=100, singledomain=False):
 
         if (page_info is not None):
             information[url] = page_info
-            
+
         pages += 1
         if pagehandler(url, response):
             links = getlinks(url, domain, soup)
@@ -48,7 +48,9 @@ def recursive_crawl(startpage, maxpages=100, singledomain=False):
 
     return
 
-
+"""
+the below method is for bugfixing only
+"""
 def pagehandler(pageurl, pageresponse):
     print('Crawling:' + pageurl + ' ({0} bytes)'.format(len(pageresponse.text)))
     return True
@@ -64,8 +66,7 @@ def getlinks(pageurl, domain, soup):
     links = [a.attrs.get('href') for a in soup.select('a[href]')]
     links = [urldefrag(link)[0] for link in links]
     links = [link for link in links if link]
-    links = [link if bool(urlparse(link).netloc) else urljoin(pageurl, link) \
-        for link in links]
+    links = [link if bool(urlparse(link).netloc) else urljoin(pageurl, link) for link in links]
 
     if domain:
         links = [link for link in links if samedomain(urlparse(link).netloc, domain)]
@@ -115,5 +116,3 @@ def scrape_page(soup):
         info['translator'] = ''
 
     return info
-
-recursive_crawl("http://www.adinehbook.com/")
