@@ -141,7 +141,9 @@ def save_to_json(info, path):
         json.dump(info, fp)
     return
 
+
 def hasNumbers(inputString):
     return bool(re.search(r'\d', inputString))
 
-recursive_crawl("http://shahreketabonline.com/",1000)
+
+recursive_crawl("http://shahreketabonline.com/", 1000)

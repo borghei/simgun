@@ -1,6 +1,7 @@
 __author__ = 'Shervin manzuri'
 from bs4 import BeautifulSoup
 import requests
+import json
 import os
 from urllib.parse import urldefrag, urljoin, urlparse
 from collections import deque
@@ -88,7 +89,8 @@ def samedomain(netloc1, netloc2):
 
 def scrape_page(soup):
     info = {}
-    source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
+    image_source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
+    json_source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
     print(soup.prettify())
 
@@ -107,7 +109,7 @@ def scrape_page(soup):
     # info['category'] = soup.find("label", text = "دسته‌بندی").next_sibling[3:]
 
     image_source = soup.find("meta", {"property": "og:image"})['content']
-    info['pic'] = os.path.join(source_path,str(info['isbn'])+".jpg")
+    info['pic'] = os.path.join(image_source_path,str(info['isbn'])+".jpg")
     with open(info['pic'], "wb") as file:
         response = requests.get(image_source)
         file.write(response.content)
@@ -118,6 +120,14 @@ def scrape_page(soup):
     except AttributeError:
         info['translator'] = ''
 
+    save_to_json(info, json_source_path)
+
     return info
+
+
+def save_to_json(info, path):
+    with open(path, 'w') as fp:
+        json.dump(info, fp)
+    return
 
 recursive_crawl("http://www.adinehbook.com/gp/product/9643124797/ref=tbs_img_1000_6/891-4163377-8102068",1)
