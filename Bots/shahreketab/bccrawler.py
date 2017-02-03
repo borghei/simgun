@@ -2,13 +2,49 @@ __author__ = 'Shervin manzuri'
 from bs4 import BeautifulSoup
 import requests
 import os
+from urllib.parse import urldefrag, urljoin, urlparse
 from collections import deque
 
-def recursive_crawl(start_url):
-    response = requests.get(start_url)
-    soup = BeautifulSoup(response.text, "html.parser")
-    links = [a.attrs.get('href') for a in soup.select('a[href]')]
+"""
+read the web page, create a DOM of the page, and extract a
+list of the targets of all links on the page
+"""
+def crawler(startpage, maxpages=100, singledomain=False):
+
+    pagequeue = deque()
+    pagequeue.append(startpage)
+    crawled = []
+    domain = urlparse(startpage).netloc if singledomain else None
+
+    pages = 0
+    failed = 0
+
+    sess = requests.session()
+    while pages < maxpages and pagequeue:
+        url = pagequeue.popleft()
+
+        try:
+            response = sess.get(url)
+        except (requests.exceptions.MissingSchema,
+                requests.exceptions.InvalidSchema):
+            failed += 1
+            continue
+        if not response.headers['content-type'].startswith('text/html'):
+            continue
+
+        soup = BeautifulSoup(response.text, "html.parser")
+        crawled.append(url)
+        pages += 1
+        if pagehandler(url, response, soup):
+            links = getlinks(url, domain, soup)
+            for link in links:
+                if not url_in_list(link, crawled) and not url_in_list(link, pagequeue):
+                    pagequeue.append(link)
+
     return
+
+
+
 
 
 def scrape_page(url):
@@ -43,3 +79,5 @@ def scrape_page(url):
         info['translator'] = ''
 
     return info
+
+recursive_crawl("http://shahreketabonline.com/")
