@@ -2,6 +2,7 @@ __author__ = 'Shervin manzuri'
 from bs4 import BeautifulSoup
 import requests
 import os
+import re
 from urllib.parse import urldefrag, urljoin, urlparse
 from collections import deque
 
@@ -63,7 +64,7 @@ def url_in_list(url, listobj):
 
 
 def getlinks(pageurl, domain, soup):
-    links = [a.attrs.get('href') for a in soup.select('a[href]')]
+    links = [a.attrs.get('href') for a in soup.select('a[href]') if hasNumbers(a.attrs.get('href'))]
     links = [urldefrag(link)[0] for link in links]
     links = [link for link in links if link]
     links = [link if bool(urlparse(link).netloc) else urljoin(pageurl, link) for link in links]
@@ -92,6 +93,7 @@ def scrape_page(soup):
 
     try:
         info['isbn'] = soup.find("span", {"itemprop": "isbn"}).text
+        print("BOOK FOUND!!!")
     except AttributeError:
         return
 
@@ -116,3 +118,9 @@ def scrape_page(soup):
         info['translator'] = ''
 
     return info
+
+
+def hasNumbers(inputString):
+    return bool(re.search(r'\d', inputString))
+
+recursive_crawl("http://shahreketabonline.com/",100)
