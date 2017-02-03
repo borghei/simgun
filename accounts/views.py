@@ -26,7 +26,6 @@ def user_register(request):
 
             user_profile = UserProfile(
                 user=user,
-                # birthday=form.cleaned_data.get('birthday')
             )
 
             user_profile.save()

@@ -153,6 +153,7 @@
                     <!-- third tab -->
                     <div id="reviews-tab" class="ui bottom attached tab segment back-grey" data-tab="third">
                         <table class="ui  blue table">
+                        {% if reviews %}
                             <thead>
                             <tr><th class="one wide">#</th>
                                 <th class="four wide">عنوان</th>
@@ -189,6 +190,11 @@
                                 </tr>
                             {% endfor %}
                             </tbody>
+                        {% else %}
+                            <div class="ui center aligned container">
+                            تاکنون هیچ نقدی ثبت نکرده‌اید.
+                            </div>
+                        {% endif %}
                         </table>
 
                     </div>

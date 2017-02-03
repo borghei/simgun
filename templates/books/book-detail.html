@@ -407,17 +407,22 @@
         <script>
             $(function() {
                 $('#add-wishlist').click(function() {
-                    window.location.href = '{% url 'accounts:login' %}';
+                    window.location.href = '{% url 'accounts:user_login' %}';
                 });
                 $('#comment').click(function() {
-                    window.location.href = '{% url 'accounts:login' %}';
+                    window.location.href = '{% url 'accounts:user_login' %}';
                 });
                 $('#add-shoppingbag').click(function() {
-                    window.location.href = '{% url 'accounts:login' %}';
+                    window.location.href = '{% url 'accounts:user_login' %}';
                 });
                 $('#add-readingprogram').click(function() {
-                    window.location.href = '{% url 'accounts:login' %}';
+                    window.location.href = '{% url 'accounts:user_login' %}';
                 });
+
+                $('#rate-star')
+                    .rating('setting', 'onRate', function() {
+                        window.location.href = "{% url 'accounts:user_login' %}"
+                    });
 
             });
         </script>
