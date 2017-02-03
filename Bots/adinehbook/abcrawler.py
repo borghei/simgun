@@ -47,8 +47,8 @@ def crawl(startpage, robotstexturl, maxpages=200, singledomain=False):
 
         if (page_info is not None):
             information[url] = page_info
+            pages += 1
 
-        pages += 1
         if pagehandler(url, response):
             links = getlinks(url, domain, soup)
             for link in links:
@@ -112,6 +112,8 @@ def scrape_page(soup):
         info['publisher'] = soup.find("b", text="نشر:").next_sibling
         info['price'] = soup.find("b", {"class": "price"}).text
         info['description'] = soup.find("meta", {"name": "description"})['content'].translate({ord(c): None for c in '-1234567890~'})
+        info['category'] = ""
+        info['translator'] = ""
     except AttributeError:
         return {}
 
@@ -133,11 +135,10 @@ def save_to_json(info, path):
     return
 
 
-def crawl_adinehbook(max_breadth= 100):
+def crawl_adinehbook(max_breadth= 200):
     website_url = "http://www.adinehbook.com"
     website_robotsdottext = "http://www.adinehbook.com/robots.txt"
     allbooks = crawl(website_url, website_robotsdottext, max_breadth)
     print(allbooks)
     return
 
-crawl_adinehbook()

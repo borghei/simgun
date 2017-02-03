@@ -32,9 +32,7 @@ def crawl(startpage, robotstexturl, maxpages=200, singledomain=True):
     while pages < maxpages and pagequeue:
         url = pagequeue.popleft()
 
-        if not rp.can_fetch("*", url):
-            print('lol')
-            continue
+        if not rp.can_fetch("*", url): continue
 
         try:
             response = sess.get(url)
@@ -51,8 +49,8 @@ def crawl(startpage, robotstexturl, maxpages=200, singledomain=True):
 
         if (page_info is not None):
             information[url] = page_info
+            pages += 1
 
-        pages += 1
         if pagehandler(url, response):
             links = getlinks(url, domain, soup, crawled)
             for link in links:
@@ -106,8 +104,7 @@ def scrape_page(soup):
 
     try:
         info['isbn'] = soup.find("span", {"itemprop": "isbn"}).text
-        print("BOOK FOUND!!!")
-        print(info['isbn'])
+        if not info['isbn']: return
     except AttributeError:
         return
 
@@ -122,13 +119,13 @@ def scrape_page(soup):
     try:
         info['category'] = soup.find("label", text = "دسته‌بندی").next_sibling[3:]
     except AttributeError:
-        print("could not categorize: ", soup.find("meta",{"property": "og:url"})['content'])
+        info['category'] = ""
 
     image_source = soup.find("img", {"class": "full-image img-responsive"})['src']
     info['pic'] = os.path.join(image_source_path,str(info['isbn'])+".jpg")
-    # with open(info['pic'], "wb") as file:
-    #     response = requests.get(image_source)
-    #     file.write(response.content)
+    with open(info['pic'], "wb") as file:
+        response = requests.get(image_source)
+        file.write(response.content)
 
     try:
         book_translator = soup.find("label", text = "\n            مترجم            :").parent.find("strong").text
@@ -136,8 +133,8 @@ def scrape_page(soup):
     except AttributeError:
         info['translator'] = ''
 
-    # json_path = os.path.join(json_source_path,str(info['isbn'])+".json")
-    # save_to_json(info, json_path)
+    json_path = os.path.join(json_source_path,str(info['isbn'])+".json")
+    save_to_json(info, json_path)
 
     return info
 
@@ -154,12 +151,8 @@ def hasNumbers(inputString):
 
 def crawl_shahreketab(max_breadth= 100):
     allbooks = {}
-    website_urls = ["http://shahreketabonline.com/ptype/general-book/", "http://shahreketabonline.com/ptype/academic-book/", "http://shahreketabonline.com/ptype/foreign-book/"]
-    website_robotsdottext = "http://www.adinehbook.com/robots.txt"
-    for website_url in website_urls:
-        allbooks.update(crawl(website_url, website_robotsdottext, max_breadth))
+    website_url = "http://shahreketabonline.com/ptype/general-book/"
+    website_robotsdottext = "http://shahreketabonline.com/robots.txt"
+    allbooks.update(crawl(website_url, website_robotsdottext, max_breadth))
     print(allbooks)
     return
-
-crawl("http://shahreketabonline.com/ptype/general-book/", 1000)
-
