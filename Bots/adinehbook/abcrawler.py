@@ -12,7 +12,7 @@ read the web page, create a DOM of the page, and extract a
 list of the targets of all links on the page
 """
 
-def recursive_crawl(startpage, robotstexturl, maxpages=200, singledomain=False):
+def crawl(startpage, robotstexturl, maxpages=200, singledomain=False):
 
     rp = urllib.robotparser.RobotFileParser()
     rp.set_url(robotstexturl)
@@ -30,9 +30,7 @@ def recursive_crawl(startpage, robotstexturl, maxpages=200, singledomain=False):
     while pages < maxpages and pagequeue:
         url = pagequeue.popleft()
 
-        if not rp.can_fetch("*", url):
-            print('lol')
-            continue
+        if not rp.can_fetch("*", url): continue
 
         try:
             response = sess.get(url)
@@ -57,7 +55,7 @@ def recursive_crawl(startpage, robotstexturl, maxpages=200, singledomain=False):
                 if not url_in_list(link, crawled) and not url_in_list(link, pagequeue):
                     pagequeue.append(link)
 
-    return
+    return information
 
 """
 the below method is for bugfixing only
@@ -104,9 +102,8 @@ def scrape_page(soup):
 
     try:
         info['isbn'] = soup.find("meta", {"property": "book:isbn"})['content'].translate({ord(c): None for c in '-'})
-        print(info['isbn'])
     except:
-        return
+        return {}
 
     try:
         info['title'] = soup.find("meta", {"property": "og:title"})['content']
@@ -135,5 +132,12 @@ def save_to_json(info, path):
         json.dump(info, fp)
     return
 
-recursive_crawl("http://www.adinehbook.com", "http://www.adinehbook.com/robots.txt", 100)
-# recursive_crawl("http://www.adinehbook.com/gp/product/9643124797/",1)
+
+def crawl_adinehbook(max_breadth= 100):
+    website_url = "http://www.adinehbook.com"
+    website_robotsdottext = "http://www.adinehbook.com/robots.txt"
+    allbooks = crawl(website_url, website_robotsdottext, max_breadth)
+    print(allbooks)
+    return
+
+crawl_adinehbook()

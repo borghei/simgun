@@ -14,7 +14,7 @@ list of the targets of all links on the page
 """
 
 
-def recursive_crawl(startpage, robotstexturl, maxpages=200, singledomain=True):
+def crawl(startpage, robotstexturl, maxpages=200, singledomain=True):
 
     rp = urllib.robotparser.RobotFileParser()
     rp.set_url(robotstexturl)
@@ -32,7 +32,9 @@ def recursive_crawl(startpage, robotstexturl, maxpages=200, singledomain=True):
     while pages < maxpages and pagequeue:
         url = pagequeue.popleft()
 
-        if not rp.can_fetch("*", url): continue
+        if not rp.can_fetch("*", url):
+            print('lol')
+            continue
 
         try:
             response = sess.get(url)
@@ -57,7 +59,7 @@ def recursive_crawl(startpage, robotstexturl, maxpages=200, singledomain=True):
                 if not url_in_list(link, crawled) and not url_in_list(link, pagequeue):
                     pagequeue.append(link)
 
-    return
+    return information
 
 """
 the below method is for bugfixing only
@@ -150,6 +152,14 @@ def hasNumbers(inputString):
     return bool(re.search(r'\d', inputString))
 
 
-recursive_crawl("http://shahreketabonline.com/ptype/general-book/", 1000)
+def crawl_shahreketab(max_breadth= 100):
+    allbooks = {}
+    website_urls = ["http://shahreketabonline.com/ptype/general-book/", "http://shahreketabonline.com/ptype/academic-book/", "http://shahreketabonline.com/ptype/foreign-book/"]
+    website_robotsdottext = "http://www.adinehbook.com/robots.txt"
+    for website_url in website_urls:
+        allbooks.update(crawl(website_url, website_robotsdottext, max_breadth))
+    print(allbooks)
+    return
 
-# recursive_crawl("http://shahreketabonline.com/products/47/168217/%D8%AF%D8%B1%D8%A2%D9%85%D8%AF%DB%8C_%D8%AC%D8%AF%DB%8C%D8%AF_%D8%A8%D9%87_%D9%81%D9%84%D8%B3%D9%81%D9%87_%D8%B9%D9%84%D9%85",1)
+crawl("http://shahreketabonline.com/ptype/general-book/", 1000)
+
