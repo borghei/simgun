@@ -120,7 +120,8 @@ def scrape_page(soup):
     except AttributeError:
         info['translator'] = ''
 
-    save_to_json(info, json_source_path)
+    json_path = os.path.join(json_source_path,str(info['isbn'])+".json")
+    save_to_json(info, json_path)
 
     return info
 
