@@ -12,13 +12,13 @@ list of the targets of all links on the page
 
 def recursive_crawl(startpage, maxpages=100, singledomain=False):
 
+    information = {}
     pagequeue = deque()
     pagequeue.append(startpage)
     crawled = []
     domain = urlparse(startpage).netloc if singledomain else None
 
     pages = 0
-    failed = 0
 
     sess = requests.session()
     while pages < maxpages and pagequeue:
@@ -28,13 +28,17 @@ def recursive_crawl(startpage, maxpages=100, singledomain=False):
             response = sess.get(url)
         except (requests.exceptions.MissingSchema,
                 requests.exceptions.InvalidSchema):
-            failed += 1
             continue
         if not response.headers['content-type'].startswith('text/html'):
             continue
 
         soup = BeautifulSoup(response.text, "html.parser")
         crawled.append(url)
+        page_info = scrape_page(soup)
+
+        if (page_info is not None):
+            information[url] = page_info
+            
         pages += 1
         if pagehandler(url, response):
             links = getlinks(url, domain, soup)
@@ -81,11 +85,9 @@ def samedomain(netloc1, netloc2):
     return domain1 == domain2
 
 
-def scrape_page(url):
+def scrape_page(soup):
     info = {}
     source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
-    req = requests.get(url)
-    soup = BeautifulSoup(req.content, "html.parser")
 
     try:
         info['isbn'] = soup.find("span", {"itemprop": "isbn"}).text
