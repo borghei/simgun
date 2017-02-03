@@ -68,6 +68,18 @@ def getlinks(pageurl, domain, soup):
     return links
 
 
+def samedomain(netloc1, netloc2):
+    domain1 = netloc1.lower()
+    if '.' in domain1:
+        domain1 = domain1.split('.')[-2] + '.' + domain1.split('.')[-1]
+
+    domain2 = netloc2.lower()
+    if '.' in domain2:
+        domain2 = domain2.split('.')[-2] + '.' + domain2.split('.')[-1]
+
+    return domain1 == domain2
+
+
 def scrape_page(url):
     info = {}
     source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
