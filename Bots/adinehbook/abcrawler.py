@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 import os
+import urllib.robotparser
 from urllib.parse import urldefrag, urljoin, urlparse
 from collections import deque
 
@@ -11,7 +12,11 @@ read the web page, create a DOM of the page, and extract a
 list of the targets of all links on the page
 """
 
-def recursive_crawl(startpage, maxpages=200, singledomain=False):
+def recursive_crawl(startpage, robotstexturl, maxpages=200, singledomain=False):
+
+    rp = urllib.robotparser.RobotFileParser()
+    rp.set_url(robotstexturl)
+    rp.read()
 
     information = {}
     pagequeue = deque()
@@ -24,6 +29,10 @@ def recursive_crawl(startpage, maxpages=200, singledomain=False):
     sess = requests.session()
     while pages < maxpages and pagequeue:
         url = pagequeue.popleft()
+
+        if not rp.can_fetch("*", url):
+            print('lol')
+            continue
 
         try:
             response = sess.get(url)
@@ -123,4 +132,5 @@ def save_to_json(info, path):
         json.dump(info, fp)
     return
 
-recursive_crawl("http://www.adinehbook.com/gp/product/9643124797/ref=tbs_img_1000_6/891-4163377-8102068",1)
+recursive_crawl("http://www.adinehbook.com", "http://www.adinehbook.com/robots.txt", 100)
+# recursive_crawl("http://www.adinehbook.com/gp/product/9643124797/",1)
