@@ -103,11 +103,14 @@ def scrape_page(soup):
     print(info['title'])
     info['author'] = soup.find("meta", {"property": "book:author"})['content'].translate({ord(c): None for c in '~'})
     print(info['author'])
-    # info['description'] = [x.text for x in soup.find_all("div", {"style": "text-align: justify;"})][2::]
-    # info['page_count'] = soup.find("span", {"itemprop": "numberOfPages"}).text
-    # info['publisher'] = soup.find("span", {"itemprop": "publisher"}).text
-    # info['price'] = soup.find("span", {"itemprop": "price"}).text
+    info['page_count'] = soup.find("b", text = "تعداد صفحه:").next_sibling.translate({ord(c): None for c in ' '})
+    print(info['page_count'])
+    info['publisher'] = soup.find("b", text="نشر:").next_sibling
+    print(info['publisher'])
+    info['price'] = soup.find("b", {"class": "price"}).text
+    print(info['price'])
     # info['category'] = soup.find("label", text = "دسته‌بندی").next_sibling[3:]
+    #info['description'] = [x.text for x in soup.find_all("div", {"style": "text-align: justify;"})][2::]
 
     image_source = soup.find("meta", {"property": "og:image"})['content']
     info['pic'] = os.path.join(image_source_path,str(info['isbn'])+".jpg")
@@ -132,4 +135,4 @@ def save_to_json(info, path):
         json.dump(info, fp)
     return
 
-recursive_crawl("http://www.adinehbook.com/gp/product/9643124797/ref=tbs_img_1000_6/891-4163377-8102068",20)
+recursive_crawl("http://www.adinehbook.com/gp/product/9643124797/ref=tbs_img_1000_6/891-4163377-8102068",1)

@@ -34,7 +34,7 @@ def recursive_crawl(startpage, maxpages=200, singledomain=True):
         if not response.headers['content-type'].startswith('text/html'):
             continue
 
-        response.encoding = 'utf-8'
+        response.encoding = "utf-8"
         soup = BeautifulSoup(response.text, "lxml")
         crawled.append(url)
         page_info = scrape_page(soup)
@@ -104,9 +104,7 @@ def scrape_page(soup):
     info['title'] = soup.find("span", {"itemprop": "name"}).text
     print(info['title'])
     info['author'] = soup.find("span", {"itemprop": "author"}).text
-    print(info['author'])
     info['description'] = [x.text for x in soup.find_all("div", {"style": "text-align: justify;"})][2::]
-    print(info['description'])
     info['page_count'] = soup.find("span", {"itemprop": "numberOfPages"}).text
     info['publisher'] = soup.find("span", {"itemprop": "publisher"}).text
     info['price'] = soup.find("span", {"itemprop": "price"}).text
@@ -143,5 +141,4 @@ def hasNumbers(inputString):
     return bool(re.search(r'\d', inputString))
 
 
-#recursive_crawl("http://shahreketabonline.com/ptype/general-book/", 1000)
-recursive_crawl("http://shahreketabonline.com/products/47/168217/%D8%AF%D8%B1%D8%A2%D9%85%D8%AF%DB%8C_%D8%AC%D8%AF%DB%8C%D8%AF_%D8%A8%D9%87_%D9%81%D9%84%D8%B3%D9%81%D9%87_%D8%B9%D9%84%D9%85",1)
+recursive_crawl("http://shahreketabonline.com/ptype/general-book/", 1000)
