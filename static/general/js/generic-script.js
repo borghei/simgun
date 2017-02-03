@@ -60,4 +60,18 @@ $(document).ready(function () {
                 window.location.href = '/search/?best=' + $('#search-bar').val();
         }
     });
-})(jQuery);
+
+});
+
+
+$(document).ready(function() {
+    $(function(){
+        $('.menu .item')
+            .tab();
+    });
+    $(function(){
+        $('.ui.checkbox')
+            .checkbox()
+    });
+
+});

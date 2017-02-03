@@ -1,5 +1,6 @@
 # Create your views here.
 from django.shortcuts import render
 
+
 def home_page(request):
-    return render(request, "ketabkhor/index.html")
+    return render(request, "simgun/index.html")

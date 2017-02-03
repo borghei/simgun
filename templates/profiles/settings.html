@@ -1,0 +1,174 @@
+{% extends 'simgun/base.html' %}
+
+{% block title %}
+    <title>ویرایش پروفایل</title>
+{% endblock %}
+
+
+{% block styles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'profiles/css/style-settings.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="ui container setting-margin">
+
+        <div class="ui grid container">
+
+            <div class="row">
+                <h1>تنظیمات</h1>
+                <div class="ui divider setting-divider"></div>
+            </div>
+
+            <div class="row">
+                <div class="four wide column">
+                    <div class="ui grid">
+                        <div class="row">
+                            <img class="ui small rounded image image-size " src="img/matthew.png">
+                        </div>
+                        <div class="row">
+                            <button class="ui left floated grey inverted submit button" type="file" >تغییر عکس کاربری</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="two wide column">
+                    <h3>نام کاربری</h3>
+                </div>
+                <div class="three wide column">
+                    <h5>فلانی</h5>
+                </div>
+            </div>
+            <div class="row">
+                <h3>اطلاعات شما</h3>
+            </div>
+            <div class="row">
+                <div class="sixteen wide column">
+                    <form class="ui  form submit-form" name="information">
+                        <div class="ui  two fields">
+                            <div class="eight wide  field">
+                                <label>نام</label>
+                                <input name="name" type="text" placeholder="نام">
+                            </div>
+                            <div class="eight wide field">
+                                <label>نام خانوادگی</label>
+                                <input name="familyName" type="text" placeholder="نام خانوادگی">
+                            </div>
+                        </div>
+                        <div class="ui  two fields">
+                            <div class="eight wide field">
+                                <label>پست الکترونیکی</label>
+                                <input name="email" type="email" placeholder="email">
+                            </div>
+                        </div>
+                        <button class="ui left floated orange submit button" type="submit" >ثبت تغییرات</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="ui divider"></div>
+            <div class="row">
+                <h3>تغییر رمز عبور</h3>
+            </div>
+            <div class="row">
+                <div class="sixteen wide column">
+                    <form class="ui  form submit-form">
+                        <div class="ui  one fields">
+                            <div class="eight wide  field">
+                                <label>رمز عبور فعلی</label>
+                                <input name="passwordCurrent" type="password" placeholder="Current Pasword">
+                            </div>
+                        </div>
+                        <div class="ui  one fields">
+                            <div class="eight wide field">
+                                <label>رمز عبور جدید</label>
+                                <input name="passwordNew" type="password" placeholder="New Password">
+                            </div>
+                        </div>
+                        <div class="ui  one fields">
+                            <div class="eight wide field">
+                                <label>تکرار رمز عبور جدید</label>
+                                <input name="passwordNewReply" type="password" placeholder="Confirm New Password">
+                            </div>
+                        </div>
+                        <button class="ui left floated orange submit button" type="submit" >ثبت تغییرات</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui divider"></div>
+        <div class="row">
+            <h3>آدرس ها</h3>
+        </div>
+        <div class="row">
+            <div>
+
+                <div class="adr-fields">
+                    <h5 id="close-icon-show">
+                        <i class="close orange icon" id="close-icon"></i>
+                        آدرس 1
+                    </h5>
+                    <div class="ui form ">
+                        <div class="ui three fields">
+                            <div class="field">
+                                <input type="text" placeholder="استان">
+                            </div>
+                            <div class="field">
+                                <input type="text" placeholder="شهر">
+                            </div>
+                            <div class="field">
+                                <input type="text" placeholder="تلفن">
+                            </div>
+                        </div>
+                        <div class="ui  fields">
+                            <div class="twelve wide  field">
+                                <input type="text" placeholder="آدرس">
+                            </div>
+                            <div class="four wide  field">
+                                <input type="text" placeholder="کد پستی">
+                            </div>
+                        </div>
+                        <button class="ui button button-margin" id="address-button">افزودن آدرس جدید</button>
+                    </div>
+                </div>
+            </div>
+            <div class="back-grey-menu " id="address-field">
+                <div class="ui form ">
+                    <div class="ui three fields">
+                        <div class="field">
+                            <input type="text" placeholder="استان">
+                        </div>
+                        <div class="field">
+                            <input type="text" placeholder="شهر">
+                        </div>
+                        <div class="field">
+                            <input type="text" placeholder="تلفن">
+                        </div>
+                    </div>
+                    <div class="ui  fields">
+                        <div class="twelve wide  field">
+                            <input type="text" placeholder="آدرس">
+                        </div>
+                        <div class="four wide  field">
+                            <input type="text" placeholder="کد پستی">
+                        </div>
+                    </div>
+                </div>
+                <button class="ui orange button " id="accept-button">ثبت</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="ui left floated button">بازگشت</div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="{% static 'profiles/js/settings.js' %}"></script>
+{% endblock %}

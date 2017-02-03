@@ -26,7 +26,6 @@ def user_register(request):
 
             user_profile = UserProfile(
                 user=user,
-                # birthday=form.cleaned_data.get('birthday')
             )
 
             user_profile.save()
@@ -48,11 +47,11 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             #TODO should redirect to the last page user was in
-            return render(request, 'ketabkhor/index.html', {})
+            return render(request, 'simgun/index.html', {})
         else:
             return render(request, 'accounts/login.html', {'login_form': form})
 
 
 def user_logout(request):
     logout(request)
-    return render(request, 'ketabkhor/index.html', {})
+    return render(request, 'simgun/index.html', {})

@@ -1,0 +1,45 @@
+{% extends 'simgun/base.html' %}
+
+{% block title %}
+    <title>ارتقا به کاربر طلایی</title>
+{% endblock %}
+
+
+{% block styles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'profiles/css/style-permium.css' %}"/>
+{% endblock %}
+
+
+{% block content %}
+    <div class="ui container con-margin page-wrap">
+        <div class="ui grid container">
+            <div class="two wide column"></div>
+            <div class="twelve wide column left aligned premium-grey box-shadow">
+                <div >
+                    <a class="ui orange ribbon label"> پیشنهاد ویژه</a>
+                </div>
+                <div class="ui grid center aligned">
+                    <div class="sixteen wide column">
+                        <img src="{% static 'site-media/photos/general/anchoochak.png' %}">
+                        <h1 class="ui font-header">ارتقا به کاربر طلایی </h1>
+                        <h3 class="ui grey header">استفاده از خدمات دریافت کتاب رقمی</h3>
+                        <h3 class="ui grey header">استفاده از خدمات دریافت کتاب صوتی</h3>
+                        <h3 class="ui grey header">امکان اضافه کردن چندین برنامه مطالعاتی</h3>
+                        <div class="ui divider"></div>
+                        <button class="ui inverted orange button">ارتقا حساب</button>
+                        <h4 class="ui light-orange header">فقط برای 9900 تومان / 3 ماه</h4>
+                    </div>
+                </div>
+
+            </div>
+            <div class="two wide column"></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}
