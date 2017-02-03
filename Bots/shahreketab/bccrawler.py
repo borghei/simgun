@@ -44,7 +44,9 @@ def crawler(startpage, maxpages=100, singledomain=False):
     return
 
 
-
+def pagehandler(pageurl, pageresponse):
+    print('Crawling:' + pageurl + ' ({0} bytes)'.format(len(pageresponse.text)))
+    return True
 
 
 def scrape_page(url):
