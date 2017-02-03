@@ -1,22 +1,33 @@
-__author__ = 'Shervin'
+__author__ = 'Shervin manzuri'
 from bs4 import BeautifulSoup
 import requests
 import os
+from collections import deque
 
-source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
+def recursive_crawl(start_url):
+    response = requests.get(start_url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    links = [a.attrs.get('href') for a in soup.select('a[href]')]
+    return
+
 
 def scrape_page(url):
     info = {}
+    source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
     req = requests.get(url)
     soup = BeautifulSoup(req.content, "html.parser")
 
-    info['isbn'] = soup.find("span", {"itemprop": "isbn"}).text
+    try:
+        info['isbn'] = soup.find("span", {"itemprop": "isbn"}).text
+    except AttributeError:
+        return
+
     info['title'] = soup.find("span", {"itemprop": "name"}).text
     info['author'] = soup.find("span", {"itemprop": "author"}).text
     info['description'] = [x.text for x in soup.find_all("div", {"style": "text-align: justify;"})][2::]
     info['page_count'] = soup.find("span", {"itemprop": "numberOfPages"}).text
     info['publisher'] = soup.find("span", {"itemprop": "publisher"}).text
-    info['price']  = soup.find("span", {"itemprop": "price"}).text
+    info['price'] = soup.find("span", {"itemprop": "price"}).text
     info['category'] = soup.find("label", text = "دسته‌بندی").next_sibling[3:]
 
     image_source = soup.find("img", {"class": "full-image img-responsive"})['src']
@@ -32,5 +43,3 @@ def scrape_page(url):
         info['translator'] = ''
 
     return info
-
-print(scrape_page("http://shahreketabonline.com/products/43/163698/%D8%B3%D9%81%D8%B1%D9%87_%D8%A2%D8%B1%D8%A7%DB%8C%DB%8C_%D9%85%DB%8C%D9%88%D9%87_%D8%A2%D8%B1%D8%A7%DB%8C%DB%8C_%D9%88_%D8%AA%D8%B2_%DB%8C%D9%86%D8%A7%D8%AA_%D9%BE%D8%A7%D9%86%DB%8C%D8%B0"))
