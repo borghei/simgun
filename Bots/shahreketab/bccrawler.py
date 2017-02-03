@@ -13,19 +13,8 @@ read the web page, create a DOM of the page, and extract a
 list of the targets of all links on the page
 """
 
-# def crawl_shahreketabonline():
-#     global crawled = []
-#     start_url = "http://shahreketabonline.com/ptype/general-book/"
-#     initial_response = requests.get(start_url)
-#     raw_soup = BeautifulSoup(initial_response.content, "html.parser")
-#     urls = raw_soup.find("ul", {"class" : "clearfix catPageItem"})
-#     links = [a.attrs.get('href') for a in urls.select('a[href]') if hasNumbers(a.attrs.get('href'))]
-#
-#
-#     return
-
 def recursive_crawl(startpage, maxpages=200, singledomain=True):
-    global crawled
+    crawled = []
     information = {}
     pagequeue = deque()
     pagequeue.append(startpage)
@@ -45,7 +34,8 @@ def recursive_crawl(startpage, maxpages=200, singledomain=True):
         if not response.headers['content-type'].startswith('text/html'):
             continue
 
-        soup = BeautifulSoup(response.text, "html.parser")
+        response.encoding = 'utf-8'
+        soup = BeautifulSoup(response.text, "lxml")
         crawled.append(url)
         page_info = scrape_page(soup)
 
@@ -54,7 +44,7 @@ def recursive_crawl(startpage, maxpages=200, singledomain=True):
 
         pages += 1
         if pagehandler(url, response):
-            links = getlinks(url, domain, soup)
+            links = getlinks(url, domain, soup, crawled)
             for link in links:
                 if not url_in_list(link, crawled) and not url_in_list(link, pagequeue):
                     pagequeue.append(link)
@@ -75,8 +65,8 @@ def url_in_list(url, listobj):
     return (http_version in listobj) or (https_version in listobj)
 
 
-def getlinks(pageurl, domain, soup):
-    links = [a.attrs.get('href') for a in soup.select('a[href]') if hasNumbers(a.attrs.get('href'))]
+def getlinks(pageurl, domain, soup, crawled):
+    links = [a['href'] for a in soup.find("div", {"id": "middle-column"}).find_all("a") if hasNumbers(a['href']) and a['href'] not in crawled]
     links = [urldefrag(link)[0] for link in links]
     links = [link for link in links if link]
     links = [link if bool(urlparse(link).netloc) else urljoin(pageurl, link) for link in links]
@@ -107,22 +97,29 @@ def scrape_page(soup):
     try:
         info['isbn'] = soup.find("span", {"itemprop": "isbn"}).text
         print("BOOK FOUND!!!")
+        print(info['isbn'])
     except AttributeError:
         return
 
     info['title'] = soup.find("span", {"itemprop": "name"}).text
+    print(info['title'])
     info['author'] = soup.find("span", {"itemprop": "author"}).text
+    print(info['author'])
     info['description'] = [x.text for x in soup.find_all("div", {"style": "text-align: justify;"})][2::]
+    print(info['description'])
     info['page_count'] = soup.find("span", {"itemprop": "numberOfPages"}).text
     info['publisher'] = soup.find("span", {"itemprop": "publisher"}).text
     info['price'] = soup.find("span", {"itemprop": "price"}).text
-    info['category'] = soup.find("label", text = "دسته‌بندی").next_sibling[3:]
+    try:
+        info['category'] = soup.find("label", text = "دسته‌بندی").next_sibling[3:]
+    except AttributeError:
+        print("could not categorize: ", soup.find("meta",{"property": "og:url"})['content'])
 
     image_source = soup.find("img", {"class": "full-image img-responsive"})['src']
     info['pic'] = os.path.join(image_source_path,str(info['isbn'])+".jpg")
-    with open(info['pic'], "wb") as file:
-        response = requests.get(image_source)
-        file.write(response.content)
+    # with open(info['pic'], "wb") as file:
+    #     response = requests.get(image_source)
+    #     file.write(response.content)
 
     try:
         book_translator = soup.find("label", text = "\n            مترجم            :").parent.find("strong").text
@@ -130,8 +127,8 @@ def scrape_page(soup):
     except AttributeError:
         info['translator'] = ''
 
-    json_path = os.path.join(json_source_path,str(info['isbn'])+".json")
-    save_to_json(info, json_path)
+    # json_path = os.path.join(json_source_path,str(info['isbn'])+".json")
+    # save_to_json(info, json_path)
 
     return info
 
@@ -146,4 +143,5 @@ def hasNumbers(inputString):
     return bool(re.search(r'\d', inputString))
 
 
-recursive_crawl("http://shahreketabonline.com/", 1000)
+#recursive_crawl("http://shahreketabonline.com/ptype/general-book/", 1000)
+recursive_crawl("http://shahreketabonline.com/products/47/168217/%D8%AF%D8%B1%D8%A2%D9%85%D8%AF%DB%8C_%D8%AC%D8%AF%DB%8C%D8%AF_%D8%A8%D9%87_%D9%81%D9%84%D8%B3%D9%81%D9%87_%D8%B9%D9%84%D9%85",1)

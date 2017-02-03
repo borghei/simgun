@@ -33,7 +33,8 @@ def recursive_crawl(startpage, maxpages=200, singledomain=False):
         if not response.headers['content-type'].startswith('text/html'):
             continue
 
-        soup = BeautifulSoup(response.text, "html.parser")
+        response.encoding = "utf-8"
+        soup = BeautifulSoup(response.text, 'lxml')
         crawled.append(url)
         page_info = scrape_page(soup)
 
@@ -92,16 +93,16 @@ def scrape_page(soup):
     image_source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
     json_source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
-    print(soup.prettify())
-
     try:
         info['isbn'] = soup.find("meta", {"property": "book:isbn"})['content'].translate({ord(c): None for c in '-'})
         print(info['isbn'])
-    except AttributeError:
+    except:
         return
 
     info['title'] = soup.find("meta", {"property": "og:title"})['content']
-    info['author'] = soup.find("meta", {"property": "book:author"})['content']
+    print(info['title'])
+    info['author'] = soup.find("meta", {"property": "book:author"})['content'].translate({ord(c): None for c in '~'})
+    print(info['author'])
     # info['description'] = [x.text for x in soup.find_all("div", {"style": "text-align: justify;"})][2::]
     # info['page_count'] = soup.find("span", {"itemprop": "numberOfPages"}).text
     # info['publisher'] = soup.find("span", {"itemprop": "publisher"}).text
@@ -110,9 +111,9 @@ def scrape_page(soup):
 
     image_source = soup.find("meta", {"property": "og:image"})['content']
     info['pic'] = os.path.join(image_source_path,str(info['isbn'])+".jpg")
-    with open(info['pic'], "wb") as file:
-        response = requests.get(image_source)
-        file.write(response.content)
+    # with open(info['pic'], "wb") as file:
+    #     response = requests.get(image_source)
+    #     file.write(response.content)
 
     try:
         book_translator = soup.find("labehttp://www.adinehbook.com/gp/product/9643124797/ref=tbs_img_1000_6/891-4163377-8102068l", text = "\n            مترجم            :").parent.find("strong").text
@@ -120,8 +121,8 @@ def scrape_page(soup):
     except AttributeError:
         info['translator'] = ''
 
-    json_path = os.path.join(json_source_path,str(info['isbn'])+".json")
-    save_to_json(info, json_path)
+    # json_path = os.path.join(json_source_path,str(info['isbn'])+".json")
+    # save_to_json(info, json_path)
 
     return info
 
@@ -131,4 +132,4 @@ def save_to_json(info, path):
         json.dump(info, fp)
     return
 
-recursive_crawl("http://www.adinehbook.com/gp/product/9643124797/ref=tbs_img_1000_6/891-4163377-8102068",1)
+recursive_crawl("http://www.adinehbook.com/gp/product/9643124797/ref=tbs_img_1000_6/891-4163377-8102068",20)
