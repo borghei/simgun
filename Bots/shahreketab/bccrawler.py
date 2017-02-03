@@ -2,6 +2,8 @@ __author__ = 'Shervin manzuri'
 from bs4 import BeautifulSoup
 import requests
 import os
+import json
+import urllib.robotparser
 import re
 from urllib.parse import urldefrag, urljoin, urlparse
 from collections import deque
@@ -11,12 +13,22 @@ read the web page, create a DOM of the page, and extract a
 list of the targets of all links on the page
 """
 
-def recursive_crawl(startpage, maxpages=200, singledomain=False):
+# def crawl_shahreketabonline():
+#     global crawled = []
+#     start_url = "http://shahreketabonline.com/ptype/general-book/"
+#     initial_response = requests.get(start_url)
+#     raw_soup = BeautifulSoup(initial_response.content, "html.parser")
+#     urls = raw_soup.find("ul", {"class" : "clearfix catPageItem"})
+#     links = [a.attrs.get('href') for a in urls.select('a[href]') if hasNumbers(a.attrs.get('href'))]
+#
+#
+#     return
 
+def recursive_crawl(startpage, maxpages=200, singledomain=True):
+    global crawled
     information = {}
     pagequeue = deque()
     pagequeue.append(startpage)
-    crawled = []
     domain = urlparse(startpage).netloc if singledomain else None
 
     pages = 0
@@ -89,7 +101,8 @@ def samedomain(netloc1, netloc2):
 
 def scrape_page(soup):
     info = {}
-    source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
+    image_source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images")
+    json_source_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
     try:
         info['isbn'] = soup.find("span", {"itemprop": "isbn"}).text
@@ -106,7 +119,7 @@ def scrape_page(soup):
     info['category'] = soup.find("label", text = "دسته‌بندی").next_sibling[3:]
 
     image_source = soup.find("img", {"class": "full-image img-responsive"})['src']
-    info['pic'] = os.path.join(source_path,str(info['isbn'])+".jpg")
+    info['pic'] = os.path.join(image_source_path,str(info['isbn'])+".jpg")
     with open(info['pic'], "wb") as file:
         response = requests.get(image_source)
         file.write(response.content)
@@ -117,10 +130,18 @@ def scrape_page(soup):
     except AttributeError:
         info['translator'] = ''
 
+    json_path = os.path.join(json_source_path,str(info['isbn'])+".json")
+    save_to_json(info, json_path)
+
     return info
 
+
+def save_to_json(info, path):
+    with open(path, 'w') as fp:
+        json.dump(info, fp)
+    return
 
 def hasNumbers(inputString):
     return bool(re.search(r'\d', inputString))
 
-recursive_crawl("http://shahreketabonline.com/",100)
+recursive_crawl("http://shahreketabonline.com/",1000)
