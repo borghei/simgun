@@ -100,32 +100,20 @@ def scrape_page(soup):
         return
 
     info['title'] = soup.find("meta", {"property": "og:title"})['content']
-    print(info['title'])
     info['author'] = soup.find("meta", {"property": "book:author"})['content'].translate({ord(c): None for c in '~'})
-    print(info['author'])
     info['page_count'] = soup.find("b", text = "تعداد صفحه:").next_sibling.translate({ord(c): None for c in ' '})
-    print(info['page_count'])
     info['publisher'] = soup.find("b", text="نشر:").next_sibling
-    print(info['publisher'])
     info['price'] = soup.find("b", {"class": "price"}).text
-    print(info['price'])
-    # info['category'] = soup.find("label", text = "دسته‌بندی").next_sibling[3:]
-    #info['description'] = [x.text for x in soup.find_all("div", {"style": "text-align: justify;"})][2::]
+    info['description'] = soup.find("meta", {"name": "description"})['content'].translate({ord(c): None for c in '-1234567890~'})
 
     image_source = soup.find("meta", {"property": "og:image"})['content']
     info['pic'] = os.path.join(image_source_path,str(info['isbn'])+".jpg")
-    # with open(info['pic'], "wb") as file:
-    #     response = requests.get(image_source)
-    #     file.write(response.content)
+    with open(info['pic'], "wb") as file:
+        response = requests.get(image_source)
+        file.write(response.content)
 
-    try:
-        book_translator = soup.find("labehttp://www.adinehbook.com/gp/product/9643124797/ref=tbs_img_1000_6/891-4163377-8102068l", text = "\n            مترجم            :").parent.find("strong").text
-        info['translator'] = book_translator
-    except AttributeError:
-        info['translator'] = ''
-
-    # json_path = os.path.join(json_source_path,str(info['isbn'])+".json")
-    # save_to_json(info, json_path)
+    json_path = os.path.join(json_source_path,str(info['isbn'])+".json")
+    save_to_json(info, json_path)
 
     return info
 
