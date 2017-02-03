@@ -174,7 +174,7 @@ def remove_wishlist_book(request, profile_id):
 def settings(request, profile_id):
     user_profile = get_object_or_404(UserProfile, pk=profile_id)
     if request.method == 'GET':
-        return render(request,'profiles/settings.html', {
+        return render(request, 'profiles/settings.html', {
             'user_profile': user_profile,
         })
     elif request.method == 'POST':

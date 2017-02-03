@@ -35,15 +35,15 @@
                 {% else %}
                     <a href="{% url 'accounts:user_register' %}">ثبت نام کنید</a>
                     یا
-                    <a href="{% url 'accounts:user_login' %}">وارد شوید</a> </span>
+                    <a href="{% url 'accounts:user_login' %}">وارد شوید</a>
                 {% endif %}
+            </span>
 
                 </div>
                 <div class="ui row row-margin2">
                     <div class="ui search">
                         <div class="ui simple scrolling fluid search left icon input search-tab">
                             <i class="search icon"></i>
-
                             <input id="search-bar" class="prompt" style="text-align: right" type="text" placeholder="نام کتاب">
                         </div>
                         <div class="results"></div>
@@ -120,8 +120,8 @@
                                     </a>
                                     <a class="item">سبد خرید</a>
 
-                                {% elif user.vendorprofile %}
-                                    <a href="{% url 'vendors:vendor_profile' user.vendorprofile.id %}"
+                                {% elif user.vendor %}
+                                    <a href="{% url 'vendors:vendor_profile' user.vendor.id %}"
                                        class="item">حساب ارائه‌دهنده</a>
 
                                 {% endif %}
@@ -160,17 +160,6 @@
         <div class="ui center aligned container">
             <div class="ui grid container">
                 <div class="ten wide column right aligned">
-                    <div class="ui horizontal large list">
-                        <div class="item">
-                            <svg class="icon-gmail "><use xlink:href="/static/media/photos/general/icons.svg#gmail"></use></svg></a></li>
-                        </div>
-                        <div class="item">
-                            <svg class="icon-instagram "><use xlink:href="/static/media/photos/general/icons.svg#instagram"></use></svg>
-                        </div>
-                        <div class="item">
-                            <svg class="icon-telegram "><use xlink:href="/static/media/photos/general/icons.svg#telegram"></use></svg>
-                        </div>
-                    </div>
                 </div>
                 <div class="six wide column right aligned">
                     <h5 class="ui header copyright" >Copyright © 2016 ketab khaar</h5>
