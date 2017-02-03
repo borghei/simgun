@@ -14,4 +14,6 @@ def blog_home_page(request):
 
 def blog_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    return HttpResponse("post %s" % post)
+    return render(request, 'blog/blog-post.html', {
+        'post': post
+    })
