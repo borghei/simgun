@@ -5,3 +5,4 @@
 * [Changelog](#changelog)
 
 
+*  `python manage.py graph_models -a -o simgun.png`
