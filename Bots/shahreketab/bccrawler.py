@@ -13,7 +13,13 @@ read the web page, create a DOM of the page, and extract a
 list of the targets of all links on the page
 """
 
-def recursive_crawl(startpage, maxpages=200, singledomain=True):
+
+def recursive_crawl(startpage, robotstexturl, maxpages=200, singledomain=True):
+
+    rp = urllib.robotparser.RobotFileParser()
+    rp.set_url(robotstexturl)
+    rp.read()
+
     crawled = []
     information = {}
     pagequeue = deque()
@@ -25,6 +31,8 @@ def recursive_crawl(startpage, maxpages=200, singledomain=True):
     sess = requests.session()
     while pages < maxpages and pagequeue:
         url = pagequeue.popleft()
+
+        if not rp.can_fetch("*", url): continue
 
         try:
             response = sess.get(url)
@@ -102,9 +110,10 @@ def scrape_page(soup):
         return
 
     info['title'] = soup.find("span", {"itemprop": "name"}).text
-    print(info['title'])
     info['author'] = soup.find("span", {"itemprop": "author"}).text
     info['description'] = [x.text for x in soup.find_all("div", {"style": "text-align: justify;"})][2::]
+    if not info['description']:
+        info['description'] = soup.find("meta", {"name": "description"})['content']
     info['page_count'] = soup.find("span", {"itemprop": "numberOfPages"}).text
     info['publisher'] = soup.find("span", {"itemprop": "publisher"}).text
     info['price'] = soup.find("span", {"itemprop": "price"}).text
@@ -142,3 +151,5 @@ def hasNumbers(inputString):
 
 
 recursive_crawl("http://shahreketabonline.com/ptype/general-book/", 1000)
+
+# recursive_crawl("http://shahreketabonline.com/products/47/168217/%D8%AF%D8%B1%D8%A2%D9%85%D8%AF%DB%8C_%D8%AC%D8%AF%DB%8C%D8%AF_%D8%A8%D9%87_%D9%81%D9%84%D8%B3%D9%81%D9%87_%D8%B9%D9%84%D9%85",1)
