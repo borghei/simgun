@@ -4,6 +4,6 @@
      build: .
      command: python manage.py runserver 0.0.0.0:80
      volumes:
-       - /opt/backups/ketabkhar:/code
+       - .:/code
      ports:
        - "80:80"
