@@ -2,7 +2,7 @@
 
 
 {% block title %}
-    <title>کتاب خوار - ثبت نام</title>
+    <title>زنبیل - ثبت نام</title>
 {% endblock %}
 
 {% block styles %}
@@ -29,7 +29,7 @@
                         </div>
                     {% else %}
                         <div class="eight wide right aligned column">
-                            <form class="ui form" action="/accounts/register/" method="post">
+                            <form class="ui form" action="{% url 'accounts:user_register' %}" method="post">
                                 {% csrf_token %}
                                 <div class="ui grid">
                                     <div class="row">

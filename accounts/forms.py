@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 
+
 class UserRegisterForm(forms.Form):
     username = forms.CharField(label='نام کاربری', max_length=64, required=True)
     firstname = forms.CharField(label='نام', max_length=64, required=True)
@@ -13,7 +14,7 @@ class UserRegisterForm(forms.Form):
     def clean_password_r(self):
         password1 = self.cleaned_data.get('password')
         password2 = self.cleaned_data.get('password_r')
-        if password1 != password2:
+        if password1 and password1 != password2:
             raise forms.ValidationError('رمز عبور و تکرار رمز عبور، هم‌خوانی ندارند!')
         return password2
 

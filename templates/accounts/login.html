@@ -2,7 +2,7 @@
 
 
 {% block title %}
-    <title>کتاب خوار - ورود</title>
+    <title>زنبیل - ورود</title>
 {% endblock %}
 
 {% block styles %}
@@ -21,7 +21,7 @@
 
                 <div class="ui center aligned grid">
                     <div class="ten wide column">
-                        <form class="ui form" action="/accounts/login/" method="post">
+                        <form class="ui form" action="{% url 'accounts:user_login' %}" method="post">
                             {% csrf_token %}
                             <div class="ui center aligned grid">
                                 <div class="row">
