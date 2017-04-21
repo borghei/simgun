@@ -1,6 +1,6 @@
 from django.db import models
 
-from .models import UserProfile
+from accounts.models import UserProfile
 from books.models import Book
 
 
