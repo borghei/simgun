@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from accounts.models import UserProfile
 from product.models import Product, Review
-from profiles.models import WishlistBook, ShoppingbagBook, ReadingProgram
+from profiles.models import WishlistBook, ShoppingbagBook#, ReadingProgram
 
 
 def add_to_wishlist(request, profile_id):
@@ -61,40 +61,40 @@ def shoppingbag(request, profile_id):
         })
 
 
-def create_readingprogram(request, profile_id):
-    if request.method == 'POST':
-        book_id = request.POST.get('book_id', -1)
-        if book_id == -1:
-            return JsonResponse({'status': 'failure'})
-        user_profile = get_object_or_404(UserProfile, pk=profile_id)
-        # TODO check for golden User
-        if user_profile.bookreview_set.all().count() > 0:
-            return JsonResponse({
-                'status': 'failure',
-            })
-        book = get_object_or_404(Product, pk=book_id)
-        reading_program = ReadingProgram(user_profile=user_profile, book=book, current_page=0)
-        reading_program.save()
-        return JsonResponse({
-            'status': 'ok',
-            'url': reverse('profiles:readingprograms', args=(profile_id,))
-        })
+# def create_readingprogram(request, profile_id):
+#     if request.method == 'POST':
+#         book_id = request.POST.get('book_id', -1)
+#         if book_id == -1:
+#             return JsonResponse({'status': 'failure'})
+#         user_profile = get_object_or_404(UserProfile, pk=profile_id)
+#         # TODO check for golden User
+#         if user_profile.bookreview_set.all().count() > 0:
+#             return JsonResponse({
+#                 'status': 'failure',
+#             })
+#         book = get_object_or_404(Product, pk=book_id)
+#         reading_program = ReadingProgram(user_profile=user_profile, book=book, current_page=0)
+#         reading_program.save()
+#         return JsonResponse({
+#             'status': 'ok',
+#             'url': reverse('profiles:readingprograms', args=(profile_id,))
+#         })
 
 
-def update_readingprogram(request, profile_id, program_id):
-    if request.method == 'POST':
-        user_profile = get_object_or_404(UserProfile, pk=profile_id)
-        reading_program = get_object_or_404(ReadingProgram, pk=program_id)
-        page_id = int(request.POST.get('current_page', -1))
-        if page_id > reading_program.current_page:
-            reading_program.current_page = page_id
-            reading_program.save()
-            return JsonResponse({
-                'status': 'ok',
-                'url': reverse('profiles:readingprograms', args=(profile_id,))
-            })
-        else:
-            return JsonResponse({'status': 'failure'})
+# def update_readingprogram(request, profile_id, program_id):
+#     if request.method == 'POST':
+#         user_profile = get_object_or_404(UserProfile, pk=profile_id)
+#         reading_program = get_object_or_404(ReadingProgram, pk=program_id)
+#         page_id = int(request.POST.get('current_page', -1))
+#         if page_id > reading_program.current_page:
+#             reading_program.current_page = page_id
+#             reading_program.save()
+#             return JsonResponse({
+#                 'status': 'ok',
+#                 'url': reverse('profiles:readingprograms', args=(profile_id,))
+#             })
+#         else:
+#             return JsonResponse({'status': 'failure'})
 
 
 def profile(request, profile_id, tab=1):
@@ -111,29 +111,29 @@ def profile(request, profile_id, tab=1):
     })
 
 
-def view_readingprogram(request, profile_id, program_id):
-    if request.method == 'GET':
-        user_profile = get_object_or_404(UserProfile, pk=profile_id)
-        reading_program = get_object_or_404(ReadingProgram, pk=program_id)
-        book = reading_program.book
-        return JsonResponse({
-            'status': 'ok',
-            'book_title': book.title,
-            'book_page_count': book.page_count,
-            'book_image': book.pic.url,
-            'current_page': reading_program.current_page,
-        })
-    else:
-        return JsonResponse({
-            'status': 'failure'
-        })
-
-
-def remove_readingprogram(request, profile_id, program_id):
-    user_profile = get_object_or_404(UserProfile, pk=profile_id)
-    reading_program = get_object_or_404(ReadingProgram, pk=program_id)
-    reading_program.delete()
-    return JsonResponse({'status': 'ok', 'url': reverse('profiles:readingprograms', args=(profile_id,))})
+# def view_readingprogram(request, profile_id, program_id):
+#     if request.method == 'GET':
+#         user_profile = get_object_or_404(UserProfile, pk=profile_id)
+#         reading_program = get_object_or_404(ReadingProgram, pk=program_id)
+#         book = reading_program.book
+#         return JsonResponse({
+#             'status': 'ok',
+#             'book_title': book.title,
+#             'book_page_count': book.page_count,
+#             'book_image': book.pic.url,
+#             'current_page': reading_program.current_page,
+#         })
+#     else:
+#         return JsonResponse({
+#             'status': 'failure'
+#         })
+#
+#
+# def remove_readingprogram(request, profile_id, program_id):
+#     user_profile = get_object_or_404(UserProfile, pk=profile_id)
+#     reading_program = get_object_or_404(ReadingProgram, pk=program_id)
+#     reading_program.delete()
+#     return JsonResponse({'status': 'ok', 'url': reverse('profiles:readingprograms', args=(profile_id,))})
 
 
 def wishlist(request, profile_id):
@@ -141,9 +141,9 @@ def wishlist(request, profile_id):
         return profile(request, profile_id, 1)
 
 
-def readingprograms(request, profile_id):
-    if request.method == 'GET':
-        return profile(request, profile_id, 2)
+# def readingprograms(request, profile_id):
+#     if request.method == 'GET':
+#         return profile(request, profile_id, 2)
 
 
 def reviews(request, profile_id):
