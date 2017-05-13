@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from accounts.models import UserProfile
-from books.models import Book, BookReview, BookRating
+from product.models import Product, Review, Rating
 
 
 def random(query_set):
@@ -16,7 +16,7 @@ def random(query_set):
 
 #TODO too large method
 def book_details(request, book_id):
-    book = get_object_or_404(Book, pk=book_id)
+    book = get_object_or_404(Product, pk=book_id)
     related_books = book.category.book_set.exclude(pk=book_id)
     # related_books = random(related_books)
     #TODO this method is very slow
@@ -51,14 +51,14 @@ def add_book_review(request, book_id):
         if request.POST.get('text').strip() == '':
             return JsonResponse({'status': 'failure'})
 
-        book = get_object_or_404(Book, pk=book_id)
+        book = get_object_or_404(Product, pk=book_id)
         user_profile = get_object_or_404(UserProfile, user=request.user)
 
-        book_review = BookReview(user_profile=user_profile,
-                                 book=book,
-                                 text=request.POST.get('text'))
+        book_review = Review(user_profile=user_profile,
+                             book=book,
+                             text=request.POST.get('text'))
         book_review.save()
-        return JsonResponse({'status': 'ok', 'url': reverse('books:book_details', args=(book_id, ))})
+        return JsonResponse({'status': 'ok', 'url': reverse('product:book_details', args=(book_id, ))})
     else:
         return JsonResponse({'status': 'failure'})
 
@@ -69,14 +69,14 @@ def rate_book(request, book_id):
         rate = request.POST.get('rate', -1)
         if rate == -1:
             return JsonResponse({'status': 'failure'})
-        book = get_object_or_404(Book, pk=book_id)
+        book = get_object_or_404(Product, pk=book_id)
         user_profile = get_object_or_404(UserProfile, user=request.user)
-        book_rate, created = BookRating.objects.get_or_create(
+        book_rate, created = Rating.objects.get_or_create(
             book=book,
             user_profile=user_profile
         )
         book_rate.rate = rate
         book_rate.save()
-        return JsonResponse({'status': 'ok', 'url': reverse('books:book_details', args=(book_id,))})
+        return JsonResponse({'status': 'ok', 'url': reverse('product:book_details', args=(book_id,))})
     else:
         return JsonResponse({'status': 'failure'})

@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render
 
-from books.models import Book
+from product.models import Product
 
 
 def search(request):
@@ -17,7 +17,7 @@ def search(request):
 
     return render(request, 'search/advanced-search.html', {
         'title': title,
-        'books': results,
+        'product': results,
         'form_data': query
     })
 
@@ -68,9 +68,9 @@ def search_by_best_guess(query):
     best = query['best']
     try:
         isbn = int(best)
-        return Book.objects.filter(isbn__exact=isbn)
+        return Product.objects.filter(isbn__exact=isbn)
     except ValueError:
-        return Book.objects.filter(Q(title__contains=best).__or__(Q(author__contains=best)))
+        return Product.objects.filter(Q(title__contains=best).__or__(Q(author__contains=best)))
 
 
 def search_by_params(query):
@@ -84,7 +84,7 @@ def search_by_params(query):
     # Then we can do this all in one step instead of needing to call
     # 'filter' and deal with intermediate data structures.
     q_objs = [Q(**{qdict[k]: query[k]}) for k in qdict.keys() if k in query]
-    search_results = Book.objects.select_related().filter(*q_objs)
+    search_results = Product.objects.select_related().filter(*q_objs)
     if 'min_price' in query and 'max_price' in query:
         search_results = search_results.filter(price__range=(query['min_price'], query['max_price']))
     return search_results

@@ -5,24 +5,25 @@ from django.db import models
 from accounts.models import UserProfile
 
 
-class BookCategory(models.Model):
+class Category(models.Model):
     title = models.CharField(max_length=64)
 
     def __str__(self):
         return self.title
 
 
-class Book(models.Model):
-    isbn = models.IntegerField(default=0, null=True)
+class Product(models.Model):
     title = models.CharField(max_length=127)
-    author = models.CharField(max_length=63)
-    translator = models.CharField(max_length=63, default='', null=True, blank=True)
-    description = models.CharField(max_length=1024)
-    page_count = models.IntegerField(default=0)
-    publisher = models.CharField(max_length=128)
+    description = models.CharField(max_length=2048)  # max_length is in chars
     price = models.IntegerField(default=0)
-    pic = models.ImageField(upload_to='static/site-media/photos/books/', blank=True, null=True, default='')
-    category = models.ForeignKey(BookCategory, on_delete=models.CASCADE, null=True)
+    mainPic = models.ImageField(upload_to='static/site-media/photos/product/', blank=True, null=True, default='')
+    # todo add array of pics
+    # add count field
+    # weigth
+    # add order's count
+
+    #
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.title + ' - ' + self.publisher
@@ -40,20 +41,19 @@ class Book(models.Model):
         return book_rate_avg
 
 
-
-class BookReview(models.Model):
+class Review(models.Model):
     text = models.CharField(max_length=512)
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Product, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.title + ' - ' + str(self.book)
 
 
-class BookRating(models.Model):
+class Rating(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Product, on_delete=models.CASCADE)
     rate = models.IntegerField(default=0)
 
     def __str__(self):

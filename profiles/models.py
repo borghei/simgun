@@ -1,12 +1,12 @@
 from django.db import models
 from accounts.models import UserProfile
 
-from books.models import Book
+from product.models import Product
 
 
 class WishlistBook(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.user_profile) + ' - ' + str(self.book)
@@ -14,7 +14,7 @@ class WishlistBook(models.Model):
 
 class ShoppingbagBook(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Product, on_delete=models.CASCADE)
     book_count = models.IntegerField(default=1)
 
     def __str__(self):
@@ -23,7 +23,7 @@ class ShoppingbagBook(models.Model):
 
 class ReadingProgram(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Product, on_delete=models.CASCADE)
     current_page = models.IntegerField(default=0)
 
     def get_reading_percent(self):

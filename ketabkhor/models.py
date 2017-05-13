@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-
 class BlogPost(models.Model):
     title = models.CharField(max_length=127)
     context = models.CharField(max_length=2047)

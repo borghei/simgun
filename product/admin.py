@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from books.models import Book, BookReview, BookCategory, BookRating
+from product.models import Product, Review, Category, Rating
 
-admin.site.register(BookCategory)
-admin.site.register(Book)
-admin.site.register(BookReview)
-admin.site.register(BookRating)
+admin.site.register(Category)
+admin.site.register(Product)
+admin.site.register(Review)
+admin.site.register(Rating)

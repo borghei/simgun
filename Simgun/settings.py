@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'ketabkhor.apps.KetabkhorConfig',
     'accounts.apps.AccountsConfig',
     'profiles.apps.ProfilesConfig',
-    'books.apps.BooksConfig',
+    'product.apps.ProductsConfig',
     'vendors.apps.VendorsConfig',
     'buying.apps.BuyingConfig',
     'blog.apps.BlogConfig',

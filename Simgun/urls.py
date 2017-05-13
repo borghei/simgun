@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
-from books.models import Book
+from product.models import Product
 from ketabkhor import views
 
 
@@ -31,7 +31,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 class BookSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Book
+        model = Product
         fields = ('isbn', 'title', 'author', 'translator')
 
 
@@ -42,19 +42,19 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.all()
+    queryset = Product.objects.all()
     serializer_class = BookSerializer
 
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
-router.register(r'books', BookViewSet)
+router.register(r'product', BookViewSet)
 
 urlpatterns = [
     url(r'^$', views.home_page, name='home_page'),
     url(r'^admin/', admin.site.urls),
-    url(r'^books/', include('books.urls')),
+    url(r'^product/', include('product.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^profiles/', include('profiles.urls')),
     url(r'^vendors/', include('vendors.urls')),

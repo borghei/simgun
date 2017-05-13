@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from accounts.models import Vendor, UserProfile
-from books.models import Book, BookCategory
+from product.models import Product, Category
 from vendors.models import BookVendor, ShoppingbagVendor
 
 
@@ -18,10 +18,10 @@ def add_book(request, vendor_id):
     if request.method == 'POST':
         vendor = get_object_or_404(Vendor, pk=vendor_id)
         isbn = request.POST['isbn']
-        book = Book.objects.filter(isbn=isbn)
+        book = Product.objects.filter(isbn=isbn)
         if book.count() == 0:
             # category = BookCategory.objects.filter(title='عمومی')[0]
-            book = Book(
+            book = Product(
                 isbn=request.POST['isbn'],
                 title=request.POST['title'],
                 author=request.POST['author'],

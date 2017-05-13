@@ -6,14 +6,14 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 from accounts.models import UserProfile
-from books.models import Book, BookReview
+from product.models import Product, Review
 from profiles.models import WishlistBook, ShoppingbagBook, ReadingProgram
 
 
 def add_to_wishlist(request, profile_id):
     if request.method == 'POST':
         book_id = request.POST.get('book_id')
-        book = get_object_or_404(Book, pk=book_id)
+        book = get_object_or_404(Product, pk=book_id)
         user_profile = get_object_or_404(UserProfile, pk=profile_id)
         if WishlistBook.objects.filter(user_profile=user_profile, book=book).count() == 0:
             wishlist_book = WishlistBook(user_profile=user_profile, book=book)
@@ -34,7 +34,7 @@ def remove_from_wishlist(request, profile_id, wishlist_id):
 # TODO if the book is not available ...
 def add_to_shoppingbag(request, profile_id):
     if request.method == 'POST':
-        book = get_object_or_404(Book, pk=request.POST.get('book_id'))
+        book = get_object_or_404(Product, pk=request.POST.get('book_id'))
         user_profile = get_object_or_404(UserProfile, user=request.user)
         temp_shoppingbag_book = ShoppingbagBook.objects.filter(user_profile=user_profile, book=book)
         if temp_shoppingbag_book.count() == 0:
@@ -72,7 +72,7 @@ def create_readingprogram(request, profile_id):
             return JsonResponse({
                 'status': 'failure',
             })
-        book = get_object_or_404(Book, pk=book_id)
+        book = get_object_or_404(Product, pk=book_id)
         reading_program = ReadingProgram(user_profile=user_profile, book=book, current_page=0)
         reading_program.save()
         return JsonResponse({
@@ -153,7 +153,7 @@ def reviews(request, profile_id):
 
 def remove_review(request, profile_id, review_id):
     user_profile = get_object_or_404(UserProfile, pk=profile_id)
-    review = get_object_or_404(BookReview, pk=review_id)
+    review = get_object_or_404(Review, pk=review_id)
     review.delete()
     print(reverse('profiles:reviews', args=(profile_id,)))
     return JsonResponse({'status': 'ok', 'url': reverse('profiles:reviews', args=(profile_id,))})
@@ -165,7 +165,7 @@ def remove_wishlist_book(request, profile_id):
         book_id = request.POST.get('book_id', -1)
         if book_id == -1:
             return JsonResponse({'status': 'failure'})
-        book = get_object_or_404(Book, pk=book_id)
+        book = get_object_or_404(Product, pk=book_id)
         wishlist = get_object_or_404(WishlistBook, user_profile=user_profile, book=book)
         wishlist.delete()
         return JsonResponse({'status': 'ok', 'url': reverse('profiles:wishlist', args=(profile_id,))})
