@@ -277,6 +277,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             var active_tab = {{ active_tab }};
+            console.log(active_tab);
             switch (active_tab) {
                 case 1:
                     $('#favlist-header').addClass('active', 'back-grey');
@@ -379,28 +380,6 @@
                     }
                 })
             });
-
-            $('#remove-readingprogram-button').click(function() {
-                var id = $(this).attr('data-program-id');
-{#                $.ajax({#}
-{#                    url: "{% url 'profiles:readingprograms' user_profile.id %}" + id + "/remove/",#}
-{#                    method: 'post',#}
-{#                    data: {#}
-{#                        csrfmiddlewaretoken: '{{ csrf_token }}',#}
-{#                    },#}
-{#                    success: function(data) {#}
-{#                        if (data.status === "ok") {#}
-{#                            window.location.href = data.url;#}
-{#                        }#}
-{#                        else {#}
-{#                            console.error('cannot remove');#}
-{#                        }#}
-{#                    },#}
-{#                    error: function() {#}
-{#                        console.error('eeeeerrrrrrooooorrrrrr');#}
-{#                    }#}
-{#                })#}
-{#            });#}
 
 
             $('#remove-review-button').click(function() {
