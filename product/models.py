@@ -21,7 +21,7 @@ class Product(models.Model):
     description = models.CharField(max_length=2048)  # max_length is in chars
     price = models.IntegerField(default=0)
     mainPic = models.ImageField(upload_to=_get_image_filename, blank=True, null=True, default='')
-    # todo add array of pics
+    # boundary will chekck on views
     itemCount = models.IntegerField(default=0)
     weight = models.IntegerField(default=0)
     orderCount = models.IntegerField(default=0)

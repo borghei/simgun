@@ -99,13 +99,13 @@ def shoppingbag(request, profile_id):
 
 def profile(request, profile_id, tab=1):
     user_profile = get_object_or_404(UserProfile, pk=profile_id)
-    reading_programs = user_profile.readingprogram_set.all()
+    # reading_programs = user_profile.readingprogram_set.all()
     favs = user_profile.wishlistbook_set.all()
-    reviews = user_profile.bookreview_set.all()
+    # reviews = user_profile.bookreview_set.all()
     return render(request, 'profiles/profile.html', {
-        'reading_programs': reading_programs,
+        # 'reading_programs': reading_programs,
         'favs': favs,
-        'reviews': reviews,
+        # 'reviews': reviews,
         'user_profile': user_profile,
         'active_tab': tab,
     })

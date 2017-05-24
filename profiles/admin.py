@@ -5,4 +5,4 @@ from profiles.models import WishlistBook, ShoppingbagBook#, ReadingProgram
 
 admin.site.register(WishlistBook)
 admin.site.register(ShoppingbagBook)
-admin.site.register(ReadingProgram)#
+# admin.site.register(ReadingProgram)#

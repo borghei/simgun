@@ -36,9 +36,9 @@
                         <a id="favlist-header" class="item" data-tab="first">
                             <span class="tab-title">لیست علاقه مندی ها</span>
                         </a>
-                        <a id="readingprogram-header" class="item " data-tab="second">
-                            <span class="tab-title">برنامه مطالعاتی</span>
-                        </a>
+{#                        <a id="readingprogram-header" class="item " data-tab="second">#}
+{#                            <span class="tab-title">برنامه مطالعاتی</span>#}
+{#                        </a>#}
                         <a id="reviews-header" class="item" data-tab="third">
                             <span class=" center text tab-title">نقدها</span>
                         </a>
@@ -282,10 +282,10 @@
                     $('#favlist-header').addClass('active', 'back-grey');
                     $('#favlist-tab').addClass('active');
                     break;
-                case 2:
-                    $('#readingprogram-header').addClass('active', 'back-grey');
-                    $('#readingprogram-tab').addClass('active');
-                    break;
+{#                case 2:#}
+{#                    $('#readingprogram-header').addClass('active', 'back-grey');#}
+{#                    $('#readingprogram-tab').addClass('active');#}
+{#                    break;#}
                 case 3:
                     $('#reviews-header').addClass('active', 'back-grey');
                     $('#reviews-tab').addClass('active');
@@ -301,61 +301,61 @@
 
             $('#reading-link').click(function () {
                 var program_id = $(this).attr('data-programid');
-                $.ajax({
-                    url: "{% url 'profiles:readingprograms' user_profile.id %}" + program_id + "/",
-                    method: 'get',
-                    success: function(data) {
-                        if (data.status === "ok") {
-                            console.log(data);
-                            $('#modal-img').attr('src', "/" + data.book_image);
-                            $('#modal-title').text(data.book_title);
-                            $('#modal-pagecount').text(data.book_page_count);
-                            $('#modal-currentpage').val(data.current_page);
-                            $('#reading-progress-update').attr('data-total', data.book_page_count);
-                            $('#reading-progress-update').attr('data-value', data.current_page);
-                            $('#reading-progress-update').progress({
-                                label: 'ratio',
-                                text: {
-                                    ratio: '{value} از {total}'
-                                }
-                            });
-                            $('#modal-currentpage').on('input',function(){
-                                value = parseInt($('#modal-currentpage').val());
-                                console.log('value: ' + value);
-                                $('#reading-progress-update').progress('update progress', value);
-                            });
-                            $('#update-readingprogram').click(function() {
-                                value = parseInt($('#modal-currentpage').val());
-                                $.ajax({
-                                    url: "{% url 'profiles:readingprograms' user_profile.id %}" +
-                                    program_id + "/update/",
-                                    method: 'post',
-                                    data: {
-                                        current_page: value,
-                                        csrfmiddlewaretoken: '{{ csrf_token }}',
-                                    },
-                                    success: function(data) {
-                                        if (data.status === "ok") {
-                                            window.location.href = data.url;
-                                        }
-                                        else {
-                                            console.error('cannot add');
-                                        }
-                                    },
-                                    error: function() {
-                                        console.error('eeeeerrrrrrooooorrrrrr');
-                                    }
-                                });
-                            });
-                        }
-                        else {
-                            console.error('cannot get program data');
-                        }
-                    },
-                    error: function() {
-                        console.error('eeeeerrrrrrooooorrrrrr');
-                    }
-                });
+{#                $.ajax({#}
+{#                    url: "{% url 'profiles:readingprograms' user_profile.id %}" + program_id + "/",#}
+{#                    method: 'get',#}
+{#                    success: function(data) {#}
+{#                        if (data.status === "ok") {#}
+{#                            console.log(data);#}
+{#                            $('#modal-img').attr('src', "/" + data.book_image);#}
+{#                            $('#modal-title').text(data.book_title);#}
+{#                            $('#modal-pagecount').text(data.book_page_count);#}
+{#                            $('#modal-currentpage').val(data.current_page);#}
+{#                            $('#reading-progress-update').attr('data-total', data.book_page_count);#}
+{#                            $('#reading-progress-update').attr('data-value', data.current_page);#}
+{#                            $('#reading-progress-update').progress({#}
+{#                                label: 'ratio',#}
+{#                                text: {#}
+{#                                    ratio: '{value} از {total}'#}
+{#                                }#}
+{#                            });#}
+{#                            $('#modal-currentpage').on('input',function(){#}
+{#                                value = parseInt($('#modal-currentpage').val());#}
+{#                                console.log('value: ' + value);#}
+{#                                $('#reading-progress-update').progress('update progress', value);#}
+{#                            });#}
+{#                            $('#update-readingprogram').click(function() {#}
+{#                                value = parseInt($('#modal-currentpage').val());#}
+{#                                $.ajax({#}
+{#                                    url: "{% url 'profiles:readingprograms' user_profile.id %}" +#}
+{#                                    program_id + "/update/",#}
+{#                                    method: 'post',#}
+{#                                    data: {#}
+{#                                        current_page: value,#}
+{#                                        csrfmiddlewaretoken: '{{ csrf_token }}',#}
+{#                                    },#}
+{#                                    success: function(data) {#}
+{#                                        if (data.status === "ok") {#}
+{#                                            window.location.href = data.url;#}
+{#                                        }#}
+{#                                        else {#}
+{#                                            console.error('cannot add');#}
+{#                                        }#}
+{#                                    },#}
+{#                                    error: function() {#}
+{#                                        console.error('eeeeerrrrrrooooorrrrrr');#}
+{#                                    }#}
+{#                                });#}
+{#                            });#}
+{#                        }#}
+{#                        else {#}
+{#                            console.error('cannot get program data');#}
+{#                        }#}
+{#                    },#}
+{#                    error: function() {#}
+{#                        console.error('eeeeerrrrrrooooorrrrrr');#}
+{#                    }#}
+{#                });#}
             });
 
             $('#remove-fav-button').click(function() {
@@ -382,25 +382,25 @@
 
             $('#remove-readingprogram-button').click(function() {
                 var id = $(this).attr('data-program-id');
-                $.ajax({
-                    url: "{% url 'profiles:readingprograms' user_profile.id %}" + id + "/remove/",
-                    method: 'post',
-                    data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}',
-                    },
-                    success: function(data) {
-                        if (data.status === "ok") {
-                            window.location.href = data.url;
-                        }
-                        else {
-                            console.error('cannot remove');
-                        }
-                    },
-                    error: function() {
-                        console.error('eeeeerrrrrrooooorrrrrr');
-                    }
-                })
-            });
+{#                $.ajax({#}
+{#                    url: "{% url 'profiles:readingprograms' user_profile.id %}" + id + "/remove/",#}
+{#                    method: 'post',#}
+{#                    data: {#}
+{#                        csrfmiddlewaretoken: '{{ csrf_token }}',#}
+{#                    },#}
+{#                    success: function(data) {#}
+{#                        if (data.status === "ok") {#}
+{#                            window.location.href = data.url;#}
+{#                        }#}
+{#                        else {#}
+{#                            console.error('cannot remove');#}
+{#                        }#}
+{#                    },#}
+{#                    error: function() {#}
+{#                        console.error('eeeeerrrrrrooooorrrrrr');#}
+{#                    }#}
+{#                })#}
+{#            });#}
 
 
             $('#remove-review-button').click(function() {
