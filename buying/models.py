@@ -14,6 +14,6 @@ class Address(models.Model):
 
 class ShoppingbagAddress(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    book = models.ForeignKey(Product, on_delete=models.CASCADE)
-    book_count = models.IntegerField(default=1)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_count = models.IntegerField(default=1)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)

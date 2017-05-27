@@ -6,10 +6,10 @@ from product.models import Product
 
 
 def search(request):
-    try:
-        title, results, query = advanced_search(request)
-    except Exception:
-        raise Http404
+    # try:
+    title, results, query = advanced_search(request)
+    # except Exception:
+    #     raise Http404
 
     if not results:
         return render(request, 'search/advanced-search-404.html', {
@@ -17,7 +17,7 @@ def search(request):
 
     return render(request, 'search/advanced-search.html', {
         'title': title,
-        'product': results,
+        'products': results,
         'form_data': query
     })
 
@@ -49,7 +49,7 @@ def advanced_search(request):
 def build_advance_search_query(request):
     """Returns a modified copy of request.GET that has no empty value"""
     query = request.GET.copy()
-    candidate_queries = {'q', 'isbn', 'author', 'translator', 'publisher', 'category', 'best', 'max_price', 'min_price'}
+    candidate_queries = {'q', 'description', 'category', 'best', 'max_price', 'min_price'}
     # normalize query
     for q in list(query):
         value = query[q]
@@ -66,25 +66,28 @@ def build_advance_search_query(request):
 
 def search_by_best_guess(query):
     best = query['best']
-    try:
-        isbn = int(best)
-        return Product.objects.filter(isbn__exact=isbn)
-    except ValueError:
-        return Product.objects.filter(Q(title__contains=best).__or__(Q(author__contains=best)))
+    # try:
+    #     isbn = int(best)
+    #     return Product.objects.filter(isbn__exact=isbn)
+    # except ValueError:
+    return Product.objects.filter(Q(title__contains=best).__or__(Q(description__contains=best)))
 
 
 def search_by_params(query):
     qdict = {'q': 'title__contains',
-             'isbn': 'isbn__contains',
-             'author': 'author__contains',
-             'translator': 'translator__contains',
-             'publisher': 'publisher__contains',
-             'category': 'category__contains',
+             'description': 'description__contains',
+             'category': 'category__title__contains',
              }
     # Then we can do this all in one step instead of needing to call
     # 'filter' and deal with intermediate data structures.
     q_objs = [Q(**{qdict[k]: query[k]}) for k in qdict.keys() if k in query]
     search_results = Product.objects.select_related().filter(*q_objs)
+
     if 'min_price' in query and 'max_price' in query:
         search_results = search_results.filter(price__range=(query['min_price'], query['max_price']))
+    elif 'min_price' in query:
+        search_results = search_results.filter(price__gte=query['min_price'])
+    elif 'max_price' in query:
+        search_results = search_results.filter(price__lte=query['max_price'])
+
     return search_results

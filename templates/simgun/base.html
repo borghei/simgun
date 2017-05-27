@@ -44,7 +44,7 @@
                     <div class="ui search">
                         <div class="ui simple scrolling fluid search left icon input search-tab">
                             <i class="search icon"></i>
-                            <input id="search-bar" class="prompt" style="text-align: right" type="text" placeholder="نام کتاب">
+                            <input id="search-bar" class="prompt" style="text-align: right" type="text" placeholder="جستوجو">
                         </div>
                         <div class="results"></div>
                     </div>
@@ -67,21 +67,16 @@
                 <i class="shop icon"></i>
                 سبد خرید
             </a>
-            <a class=" red link item">
-                کتاب عمومی
+
+
+
+{% for c in mainCategories %}
+            <a class=" red link item" href="{% url 'search:search' %}?category={{ c }}">
+              {{ c }}
             </a>
-            <a class="purple link item">
-                کتاب فانتزی
-            </a>
-            <a class="blue link item">
-                کتاب آموزشی
-            </a>
-            <a class="pink link item">
-                کتاب تاریخ
-            </a>
-            <a class="teal link item">
-                کتاب هنر
-            </a>
+{% endfor %}
+
+
         </div>
     </div>
 

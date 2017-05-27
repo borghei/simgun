@@ -21,7 +21,7 @@ class Product(models.Model):
     description = models.CharField(max_length=2048)  # max_length is in chars
     price = models.IntegerField(default=0)
     mainPic = models.ImageField(upload_to=_get_image_filename, blank=True, null=True, default='')
-    # boundary will chekck on views
+    # boundary will be chekckeed on views
     itemCount = models.IntegerField(default=0)
     weight = models.IntegerField(default=0)
     orderCount = models.IntegerField(default=0)
@@ -30,17 +30,6 @@ class Product(models.Model):
     def __str__(self):
         return self.title  # + ' - ' + self.publisher
 
-    # def get_avg_rating(self):
-    #     book_rate_avg = 0
-    #     all_bookratings = self.bookrating_set.all()
-    #     all_bookratings_count = all_bookratings.count()
-    #     if all_bookratings_count == 0:
-    #         return 0
-    #     for book_rate in all_bookratings:
-    #         book_rate_avg += book_rate.rate
-    #     book_rate_avg /= all_bookratings.count()
-    #     book_rate_avg = float('{0: .2f}'.format(book_rate_avg))
-    #     return book_rate_avg
 
 
 class ProductImage(models.Model):

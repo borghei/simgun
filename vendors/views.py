@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from accounts.models import Vendor, UserProfile
 from product.models import Product, Category
-from vendors.models import BookVendor, ShoppingbagVendor
+from vendors.models import ProductVendor, ShoppingbagVendor
 
 
 def vendor_profile(request, vendor_id):
@@ -14,29 +14,24 @@ def vendor_profile(request, vendor_id):
     return render(request, 'vendors/vendor-profile.html', {'vendor': vendor, 'orders': orders})
 
 
-def add_book(request, vendor_id):
+def add_product(request, vendor_id):
     if request.method == 'POST':
         vendor = get_object_or_404(Vendor, pk=vendor_id)
-        isbn = request.POST['isbn']
-        book = Product.objects.filter(isbn=isbn)
-        if book.count() == 0:
-            # category = BookCategory.objects.filter(title='عمومی')[0]
-            book = Product(
-                isbn=request.POST['isbn'],
-                title=request.POST['title'],
-                author=request.POST['author'],
-                translator=request.POST.get('translator', ''),
-                description=request.POST['description'],
-                page_count=request.POST['page_count'],
-                publisher=request.POST['publisher'],
-                # category=category,
-                price=request.POST['price'],
-                pic=request.FILES.get('pic'),
-                #TODO add tags to the book
-            )
-            book.save()
-        book_vendor = BookVendor(vendor=vendor, book=book)
-        book_vendor.save()
+        print(request.POST['price'])
+
+        p = Product(
+            title=request.POST['title'],
+            description=request.POST['description'],
+            itemCount=request.POST['itemCount'],
+            category=Category.objects.get(title__contains=request.POST['category']),
+            price=request.POST['price'],
+            mainPic=request.FILES.get('mainPic'),
+            weight=request.POST['weight']
+        )
+
+        p.save()
+        product_vendor = ProductVendor(vendor=vendor, product=p)
+        product_vendor.save()
         return HttpResponseRedirect(reverse('vendors:vendor_profile', args=(vendor_id,)))
 
 

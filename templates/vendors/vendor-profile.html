@@ -1,7 +1,7 @@
-{% extends 'books/../simgun/base.html' %}
+{% extends 'simgun/base.html' %}
 
 {% block title %}
-    <title>کتاب خوار - پروفایل ارائه‌دهنده‌ی کتاب</title>
+    <title>زنبیل - پروفایل ارائه‌دهنده‌ی کتاب</title>
 {% endblock %}
 
 {% block styles %}
@@ -22,8 +22,8 @@
                 <div class="ui divider "></div>
                 <div class="ui animated large relaxed link right aligned list">
                     <a class=" item right aligned" href="setting.html">تنظیمات</a>
-                    <span class=" item" href="setting.html " id="single-book">اضافه کردن کتاب</span>
-                    <span class=" item" href="setting.html " id="multiple-book">اضافه کردن لیست کتب</span>
+                    <span class=" item" href="setting.html " id="single-book">اضافه کردن محصول</span>
+                    <span class=" item" href="setting.html " id="multiple-book">اضافه کردن لیست محصولات</span>
                 </div>
 
             </div>
@@ -32,7 +32,7 @@
                 <div class="ui container">
                     <div class="ui top attached tabular menu">
                         <a class="active item back-grey" data-tab="first">
-                            <span class="tab-title">لیست کتاب ها</span>
+                            <span class="tab-title">لیست محصولات</span>
                         </a>
                         <a class="item" data-tab="second">
                             <span class="tab-title">لیست سفارشات</span>
@@ -51,24 +51,20 @@
                             <thead>
                             <tr>
                                 <th>عنوان</th>
-                                <th>نویسنده</th>
-                                <th>مترجم</th>
+                                <th>موضوع</th>
+                                <th>تعداد</th>
                                 <th>قیمت (تومان)</th>
                                 <th class="left aligned">ویرایش</th>
                             </tr>
                             </thead>
                             <tbody>
 
-                            {% for book_vendor in vendor.bookvendor_set.all %}
+                            {% for pv in vendor.productvendor_set.all %}
                                 <tr>
-                                    <td>{{ book_vendor.book.title }}</td>
-                                    <td>{{ book_vendor.book.author }}</td>
-                                    {% if book_vendor.book.translator != '' %}
-                                        <td>{{ book_vendor.book.translator }}</td>
-                                    {% else %}
-                                        <td>-</td>
-                                    {% endif %}
-                                    <td>{{ book_vendor.book.price }}</td>
+                                    <td>{{ pv.product.title }}</td>
+                                    <td>{{ pv.product.category }}</td>
+                                    <td>{{ pv.product.itemCount }}</td>
+                                    <td>{{ pv.product.price }}</td>
                                     <td class="left aligned"><a class="setting-book link"><i
                                             class="ui inverted orange setting icon"></i> </a></td>
                                 </tr>
@@ -214,31 +210,37 @@
     <div class="ui modal" id="single-modal">
         <i class="close icon"></i>
         <div class="header">
-            اضافه کردن کتاب
+            اضافه کردن محصول
         </div>
         <div class=" content">
             <div class="content-margin">
-                <h5> لطفا مشخصات کتاب مورد نظر خود را وارد کنید</h5>
+                <h5> لطفا مشخصات محصول مورد نظر خود را وارد کنید</h5>
                 <p>** وارد کردن فیلد های ستاره دار اجباری است</p>
             </div>
             <span></span>
             <div class="description">
-                <form class="ui form" id="add-book-form" action="{% url 'vendors:add_book' vendor.id %}" method="post"
+                <form class="ui form" id="add-book-form" action="{% url 'vendors:add_product' vendor.id %}" method="post"
                       enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="three fields">
                         <div class="required field">
-                            <label>عنوان</label>
-                            <input type="text" name="title" placeholder="عنوان کتاب">
+                            <label>عنوان </label>
+                            <input type="text" name="title" placeholder="عنوان محصول">
                         </div>
                         <div class="required field">
-                            <label> نویسنده</label>
-                            <input type="text" name="author" placeholder="نام نویسنده">
+                            <label> موضوع</label>
+                            <div class="ui search field">
+                              <div class="ui icon input">
+                                <input class="prompt" placeholder="موضوعات" type="text" name="category">
+                                <i class="search icon"></i>
+                              </div>
+                              <div class="results"></div>
+                            </div>
                         </div>
-                        <div class="field">
-                            <label> مترجم</label>
-                            <input type="text" name="translator" placeholder="نام مترجم">
-                        </div>
+{#                        <div class="field">#}
+{#                            <label> مترجم</label>#}
+{#                            <input type="text" name="translator" placeholder="نام مترجم">#}
+{#                        </div>#}
                     </div>
                     <div class="three fields">
                         <div class="required field">
@@ -246,31 +248,31 @@
                             <input type="text" name="price" placeholder="قیمت">
                         </div>
                         <div class=" field">
-                            <label>تخفیف</label>
-                            <input type="text" name="discount" placeholder="درصد تخفیف">
+                            <label>وزن</label>
+                            <input type="text" name="weight" placeholder="وزن">
                         </div>
                         <div class=" field">
-                            <label>تعداد صفحه</label>
-                            <input type="text" name="page_count" placeholder="تعداد صفحه">
+                            <label>تعداد </label>
+                            <input type="text" name="itemCount" placeholder="تعداد ">
                         </div>
                     </div>
-                    <div class="three fields">
-                        <div class="required field">
-                            <label>شابک</label>
-                            <input type="text" name="isbn" placeholder="ISPN">
-                        </div>
-                        <div class="field">
-                            <label>ناشر</label>
-                            <input type="text" name="publisher" placeholder="ناشر">
-                        </div>
-                    </div>
+{#                    <div class="three fields">#}
+{#                        <div class="required field">#}
+{#                            <label>شابک</label>#}
+{#                            <input type="text" name="isbn" placeholder="ISPN">#}
+{#                        </div>#}
+{#                        <div class="field">#}
+{#                            <label>ناشر</label>#}
+{#                            <input type="text" name="publisher" placeholder="ناشر">#}
+{#                        </div>#}
+{#                    </div>#}
                     <div class="required field">
                         <label>توضیحات</label>
                         <textarea rows="2" name="description" placeholder="توضیحات"></textarea>
                     </div>
                     <div class="inline field">
-                        <label>جلد کتاب</label>
-                        <input type="file" name="pic">
+                        <label>عکس محصول</label>
+                        <input type="file" name="mainPic">
                     </div>
                 </form>
             </div>
@@ -380,5 +382,23 @@
 {% endblock %}
 
 {% block scripts %}
+    <script>
+
+    var content = [
+        {% for c in mainCategories %}
+            { title: '{{ c }}' },
+        {%  endfor %}
+
+
+  // etc
+];
+
+$('.ui.search')
+  .search({
+    source: content
+  });
+
+
+    </script>
     <script src="{% static 'vendors/js/vendor-profile-script.js' %}"></script>
 {% endblock %}

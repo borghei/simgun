@@ -1,0 +1,215 @@
+{% extends 'simgun/base.html' %}
+
+{% block title %}
+    <title>زنبیل |‌ جستجو برای {{ title }}</title>
+{% endblock %}
+
+{% block styles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'search/css/style-search.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="ui container search-margin">
+
+    {% block noResults %}
+
+{% endblock %}
+
+        <!-- Search Box-->
+        <form id="search_form" class="ui grid container centered aligned" method="get">
+            <div class="twelve wide column right aligned back-grey">
+                <div class="ui grid container">
+                    <div class="ui row">
+                        <h2 class="ui header">جستجو برای عبارت "{{ title }}"</h2>
+                    </div>
+                    <div class="ui divider tab-divider"></div>
+                    <!-- Search Form -->
+                    <div class="ui row">
+                        <!-- Right Column -->
+                        <div class="eight wide column">
+                            <div class="ui form">
+                                <div class="inline fields">
+                                    <div class="five wide field">
+                                        <label for="title">نام محصول</label>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <input id="title" name="q" type="text" value=""/>
+                                    </div>
+                                </div>
+                                <div class="inline fields">
+                                    <div class="five wide field">
+                                        <label for="author">توضیحات</label>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <input name="description" id="description" type="text" value=""/>
+                                    </div>
+                                </div>
+{#                                <div class="inline fields">#}
+{#                                    <div class="five wide field">#}
+{#                                        <label for="translator">مترجم</label>#}
+{#                                    </div>#}
+{#                                    <div class="eleven wide field">#}
+{#                                        <input name="translator" id="translator" type="text" value="">#}
+{#                                    </div>#}
+{#                                </div>#}
+                            </div>
+                        </div>
+                        <!-- Left Column -->
+                        <div class="eight wide column right aligned">
+                            <div class="ui form">
+                                <div class="inline fields">
+                                    <div class="five wide field">
+                                        <label for="category">دسته بندی</label>
+                                    </div>
+                                    <div class="eleven wide field">
+                                        <input name="category" id="category" type="text" value="">
+                                    </div>
+                                </div>
+
+{#                                <div class="inline fields">#}
+{#                                    <div class="five wide field">#}
+{#                                        <label for="isbn">شابک/ISBN</label>#}
+{#                                    </div>#}
+{#                                    <div class="eleven wide field">#}
+{#                                        <input name="isbn" id="isbn" type="text" value="">#}
+{#                                    </div>#}
+{#                                </div>#}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Price Range-->
+                    <div class="ui row">
+                        <div class="full wide column">
+                            <div class="ui form">
+                                <div class="inline fields">
+                                    <div class="two wide field">
+                                        <label for="min_price">محدوده قیمت</label>
+                                    </div>
+                                    <div class="five wide field">
+                                        <input name="min_price" id="min_price" title="text" value="">
+                                    </div>
+                                    <div class="one wide field">
+                                        <h5>تا</h5>
+                                    </div>
+                                    <div class="five wide field">
+                                        <input name="max_price" id="max_price" title="text" value="">
+                                    </div>
+                                    <div class="one wide field">
+                                        <h5>تومان</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Book Type-->
+{#                    <div class="ui row">#}
+{#                        <div class="full wide column">#}
+{#                            <div class="ui form">#}
+{#                                <div class="inline fields">#}
+{#                                    <div class="two wide field">#}
+{#                                        <h5>نوع کتاب</h5>#}
+{#                                    </div>#}
+{#                                    <div class="three wide field">#}
+{#                                        <div class="ui radio checkbox">#}
+{#                                            <input type="radio" tabindex="0" class="hidden" name="book">#}
+{#                                        </div>#}
+{#                                        <span class="checkbox-label">کتاب کاغذی</span>#}
+{#                                    </div>#}
+{#                                    <div class="three wide field">#}
+{#                                        <div class="ui radio checkbox">#}
+{#                                            <input type="radio" tabindex="0" class="hidden" name="book">#}
+{#                                        </div>#}
+{#                                        <span class="checkbox-label">کتاب رقمی</span>#}
+{#                                    </div>#}
+{#                                    <div class="three wide field">#}
+{#                                        <div class="ui radio checkbox">#}
+{#                                            <input type="radio" tabindex="0" class="hidden" name="book">#}
+{#                                        </div>#}
+{#                                        <span class="checkbox-label">کتاب صوتی</span>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+                    <!-- search button -->
+                    <div class="ui row">
+                        <div class="left column left aligned">
+                            <input id="submit_search_form" type="submit" class="ui button" tabindex="0" value="جستجو">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Search Result-->
+            {% block results %}
+
+{% endblock %}
+
+
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+
+        $("#submit_search_form").click(function () {
+
+            var nonEmptyFields = $('#search_form').find(':input').filter(function () {
+                return $(this).val().length == 0
+            }).length;
+
+            if (nonEmptyFields === 7) {
+                $('#search_form').attr('onsubmit', 'return false;');
+                alert("لطفا حداقل یک فیلد را پر کنید");
+
+            } else {
+                $('#search_form').attr('onsubmit', 'return true;');
+                $('#search_form').find(':input').each(function () {
+                    if ($(this).val() == '') {
+                        $(this).remove();
+                    }
+                });
+                $("#search_form").submit(function () {
+                    return true;
+                });
+            }
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('.ui.rating')
+                .rating({
+                    initialRating: 0,
+                    maxRating: 5
+                })
+            ;
+            $('#rate-star')
+                .rating('setting', 'clearable', true)
+            ;
+            $('#rate-star2')
+                .rating({
+                    initialRating: 3,
+                    maxRating: 5
+                })
+                .rating('disable')
+            ;
+            $('.ui.dropdown')
+                .dropdown()
+            ;
+            $('.special.cards .image').dimmer({
+                on: 'hover'
+            });
+        })
+    </script>
+    <script type="text/javascript">
+        $('.ui.radio.checkbox')
+            .checkbox()
+        ;
+
+    </script>
+
+{% endblock %}

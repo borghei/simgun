@@ -15,33 +15,33 @@ def random(query_set):
     return query_set.all()[random_index]
 
 #TODO too large method
-def book_details(request, book_id):
-    book = get_object_or_404(Product, pk=book_id)
-    related_books = book.category.book_set.exclude(pk=book_id)
+def product_details(request, p_id):
+    product = get_object_or_404(Product, pk=p_id)
+    related_products = product.category.product_set.exclude(pk=p_id)
     # related_books = random(related_books)
     #TODO this method is very slow
-    related_books = related_books.order_by('?')[0:4]
-    all_bookratings = book.bookrating_set.all()
+    related_products = related_products.order_by('?')[0:4]
+    # all_bookratings = book.bookrating_set.all()
     user = request.user
     user_profile = None
     if user.is_authenticated:
         user_profile = get_object_or_404(UserProfile, user=user)
-        book_rate = user_profile.bookrating_set.filter(book=book)
-        if book_rate.count() > 0:
-            user_book_rate = book_rate[0].rate
-        else:
-            user_book_rate = 0
-    else:
-        user_book_rate = 0
-    if all_bookratings.count() == 0:
-        book_rate_avg = 0
-    else:
-        book_rate_avg = book.get_avg_rating()
-    return render(request, 'books/book-detail.html', {
-        'book': book,
-        'related_books': related_books,
-        'book_rate': book_rate_avg,
-        'user_book_rate': user_book_rate,
+    #     book_rate = user_profile.bookrating_set.filter(book=book)
+    #     if book_rate.count() > 0:
+    #         user_book_rate = book_rate[0].rate
+    #     else:
+    #         user_book_rate = 0
+    # else:
+    #     user_book_rate = 0
+    # if all_bookratings.count() == 0:
+    #     book_rate_avg = 0
+    # else:
+    #     book_rate_avg = book.get_avg_rating()
+    return render(request, 'products/product-detail.html', {
+        'product': product,
+        'related_products': related_products,
+        'rate': 0, #todo
+        'user_rate': 0,
         'user_profile': user_profile,
     })
 

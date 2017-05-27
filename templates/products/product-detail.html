@@ -1,7 +1,7 @@
 {% extends 'simgun/base.html' %}
 
 {% block title %}
-    <title>کتاب‌خوار - مشخصات کتاب {{ book.title }}</title>
+    <title>زنبیل - مشخصات محصول {{ book.title }}</title>
 {% endblock %}
 
 {% block styles %}
@@ -17,9 +17,9 @@
             <!-- shopping and pic -->
             <div class="four wide column center aligned">
                 <div class="ui small rounded image center aligned">
-                    <img class="book-info-img" src="/{{ book.pic }}">
+                    <img class="book-info-img" src="/{{ product.mainPic }}">
                 </div>
-                <h3 class="ui header">{{ book.price }} تومان</h3>
+                <h3 class="ui header">{{ product.price }} تومان</h3>
                 <button id="add-shoppingbag" class="ui orange inverted button link">افزودن به سبد خرید</button>
 
                 {#            TODO the element must check if the book is already in wishlist or not#}
@@ -38,29 +38,23 @@
             </div>
             <!-- book info -->
             <div class="nine wide column right aligned">
-                <h2 class="header">{{ book.title }}</h2>
-                <p style="font-size: medium"> نوشته شده توسط
-                    <strong>{{ book.author }}</strong>
-                </p>
-                {% if book.translator %}
-                    <p style="font-size: medium"> مترجم
-                        <strong>{{ book.translator }}</strong>
-                    </p>
-                {% endif %}
-                <div class="ui huge star rating" id="rate-star2"></div>{{ book_rate }}
+                <h2 class="header">{{ product.title }}</h2>
+
+
+                <div class="ui huge star rating" id="rate-star2"></div>
                 <div class="shorten">
                     {{ book.description }}
                 </div>
                 <div class="ui divider info-divider"></div>
                 <h3 class="ui header font-bold">اطلاعات بیشتر </h3>
-                <p style="font-size: medium"> ناشر : {{ book.publisher }}</p>
-                <span> شماره شابک : {{ book.isbn }}</span>
+                <p style="font-size: medium"> تعداد : {{ product.itemCount }}</p>
+                <span> وزن : {{ product.weight }}</span>
                 <div class="ui divider info-divider"></div>
                 <!-- recommended cards -->
                 <div>
-                    <h2 class="ui header">کتاب های مرتبط</h2>
+                    <h2 class="ui header">محصولات های مرتبط</h2>
                     <div class="ui grid container">
-                        {% for book in related_books %}
+                        {% for p in related_products %}
                             <div class="four wide column ">
                                 <div class="ui link special cards">
                                     <div class="red card" >
@@ -68,17 +62,17 @@
                                             <div class="ui inverted dimmer">
                                                 <div class="content">
                                                     <div class="center">
-                                                        <a href="{% url 'product:book_details' book.id %}">
+                                                        <a href="{% url 'product:productDetailsUrl' p.id %}">
                                                             <div class="ui inverted button">مشاهده</div>
                                                         </a>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <img src="/{{ book.pic }}">
+                                            <img src="/{{ p.pic }}">
                                         </div>
                                         <div class="content">
-                                            <a class="header" href="{% url 'product:book_details' book.id %}">{{ book.title }}</a>
-                                            <div class="meta"> {{ book.author }} </div>
+                                            <a class="header" href="{% url 'product:productDetailsUrl' p.id %}">{{ p.title }}</a>
+{#                                            <div class="meta"> {{ book.author }} </div>#}
                                         </div>
                                     </div>
                                 </div>
@@ -258,7 +252,7 @@
                 $('#rate-star')
                     .rating('setting', 'onRate', function(value) {
                         $.ajax({
-                            url: "{% url 'product:rate_book' book.id %}",
+{#                            url: "{% url 'product:addProductRateUrl' book.id %}",#}
                             method: 'post',
                             async: false,
                             data: {
@@ -283,7 +277,7 @@
 
                 $('#send-comment-btn').click(function() {
                     $.ajax({
-                        url: "{% url 'product:add_book_review' book.id %}",
+{#                        url: "{% url 'product:addProductReviewUrl' book.id %}",#}
                         method: 'post',
                         async: false,
                         data: {
@@ -375,28 +369,28 @@
                     });
                 });
 
-                $('#add-readingprogram').click(function() {
-                    $.ajax({
-                        url: "{% url 'profiles:create_readingprogram' user_profile.id %}",
-                        method: 'post',
-                        data: {
-                            book_id: {{ book.id }},
-                            csrfmiddlewaretoken: '{{ csrf_token }}',
-
-                        },
-                        success: function(data) {
-                            if (data.status === "ok") {
-                                window.location.href = data.url;
-                            }
-                            else {
-                                console.error('cannot add');
-                            }
-                        },
-                        error: function() {
-                            console.error('eeeeerrrrrrooooorrrrrr');
-                        }
-                    });
-                });
+{#                $('#add-readingprogram').click(function() {#}
+{#                    $.ajax({#}
+{#                        url: "{% url 'profiles:create_readingprogram' user_profile.id %}",#}
+{#                        method: 'post',#}
+{#                        data: {#}
+{#                            book_id: {{ book.id }},#}
+{#                            csrfmiddlewaretoken: '{{ csrf_token }}',#}
+{##}
+{#                        },#}
+{#                        success: function(data) {#}
+{#                            if (data.status === "ok") {#}
+{#                                window.location.href = data.url;#}
+{#                            }#}
+{#                            else {#}
+{#                                console.error('cannot add');#}
+{#                            }#}
+{#                        },#}
+{#                        error: function() {#}
+{#                            console.error('eeeeerrrrrrooooorrrrrr');#}
+{#                        }#}
+{#                    });#}
+{#                });#}
             });
 
         </script>

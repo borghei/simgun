@@ -5,12 +5,12 @@ from product.models import Product
 from buying.models import ShoppingbagAddress
 
 
-class BookVendor(models.Model):
+class ProductVendor(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE)
-    book = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.vendor) + ' - ' + str(self.book)
+        return str(self.vendor) + ' - ' + str(self.product)
 
 
 class ShoppingbagVendor(ShoppingbagAddress):
