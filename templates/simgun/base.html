@@ -119,6 +119,10 @@
                                     <a href="{% url 'vendors:vendor_profile' user.vendor.id %}"
                                        class="item">حساب ارائه‌دهنده</a>
 
+                                {% elif user.supportagent %}
+                                    <a href="{% url 'vendors:vendor_profile' user.supportagent.id %}"
+                                       class="item">صفحه تیکت ها</a>
+
                                 {% endif %}
                             {% else %}
                                 <a class="item" href="{% url 'accounts:user_login' %}">ورود</a>

@@ -236,9 +236,12 @@
 
                             <div class="carousel">
 
-                                <div class="carousel-cell"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/orange-tree.jpg" alt="orange tree" /></div>
-                                <div class="carousel-cell"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/look-out.jpg" alt="look-out" /></div>
-                                <div class="carousel-cell"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/one-world-trade.jpg" alt="One World Trade" /></div><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/submerged.jpg" alt="submerged" />
+                                {% for v in vitrins %}
+                                    <a href="{{ v.link }}" class="carousel-cell"><img src="/{{  v.img}}"/></a>
+
+                                {% endfor %}
+{#                                <div class="carousel-cell"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/look-out.jpg" alt="look-out" /></div>#}
+{#                                <div class="carousel-cell"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/one-world-trade.jpg" alt="One World Trade" /></div><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/submerged.jpg" alt="submerged" />#}
                             </div>
                         </div>
                     </div>

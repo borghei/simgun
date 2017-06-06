@@ -1,7 +1,7 @@
 {% extends 'simgun/base.html' %}
 
 {% block title %}
-    <title>زنبیل - مشخصات محصول {{ book.title }}</title>
+    <title>زنبیل - مشخصات محصول {{ product.title }}</title>
 {% endblock %}
 
 {% block styles %}
@@ -23,12 +23,12 @@
                 <button id="add-shoppingbag" class="ui orange inverted button link">افزودن به سبد خرید</button>
 
                 {#            TODO the element must check if the book is already in wishlist or not#}
-                <button id="add-wishlist" class="ui grey inverted labeled icon button fav-button">
-                    <i class="star icon"></i>افزودن به علاقه مندی ها
-                </button>
-                <button id="add-readingprogram" class="ui grey inverted labeled icon button fav-button">
-                    <i class="book icon"></i> افزودن به برنامه مطالعاتی
-                </button>
+{#                <button id="add-wishlist" class="ui grey inverted labeled icon button fav-button">#}
+{#                    <i class="star icon"></i>افزودن به علاقه مندی ها#}
+{#                </button>#}
+{#                <button id="add-readingprogram" class="ui grey inverted labeled icon button fav-button">#}
+{#                    <i class="book icon"></i> افزودن به برنامه مطالعاتی#}
+{#                </button>#}
 
                 <div class="ui divider"></div>
                 <div>
@@ -43,7 +43,7 @@
 
                 <div class="ui huge star rating" id="rate-star2"></div>
                 <div class="shorten">
-                    {{ book.description }}
+                    {{ product.description }}
                 </div>
                 <div class="ui divider info-divider"></div>
                 <h3 class="ui header font-bold">اطلاعات بیشتر </h3>
@@ -219,19 +219,19 @@
 
     <script>
         $(function(){
-            $('.ui.rating')
-                .rating({
-                    initialRating: {{ user_book_rate }},
-                    maxRating: 5
-                })
-            ;
-            $('#rate-star2')
-                .rating({
-                    initialRating: parseInt({{ book_rate }}),
-                    maxRating: 5
-                })
-                .rating('disable')
-            ;
+{#            $('.ui.rating')#}
+{#                .rating({#}
+{#                    initialRating: {{ user_book_rate }},#}
+{#                    maxRating: 5#}
+{#                })#}
+{#            ;#}
+{#            $('#rate-star2')#}
+{#                .rating({#}
+{#                    initialRating: parseInt({{ book_rate }}),#}
+{#                    maxRating: 5#}
+{#                })#}
+{#                .rating('disable')#}
+{#            ;#}
             $('.ui.dropdown')
                 .dropdown()
             ;
@@ -303,7 +303,7 @@
                         url: "{% url 'profiles:add_wishlist' user_profile.id %}",
                         method: 'post',
                         data: {
-                            book_id: {{ book.id }},
+{#                            book_id: {{ book.id }},#}
                             csrfmiddlewaretoken: '{{ csrf_token }}',
 
                         },
@@ -317,7 +317,7 @@
                                         url: "{% url 'profiles:remove_wishlist_book' user_profile.id %}",
                                         method: 'post',
                                         data: {
-                                            book_id: {{ book.id }},
+                                            book_id: {{ product.id }},
                                             csrfmiddlewaretoken: '{{ csrf_token }}',
 
                                         },
@@ -347,12 +347,13 @@
                 });
 
                 $('#add-shoppingbag').click(function() {
+                    console.log('clidekfd');
                     $.ajax({
                         url: "{% url 'profiles:add_shoppingbag' user_profile.id %}",
                         method: 'post',
                         data: {
-                            book_id: {{ book.id }},
-                            csrfmiddlewaretoken: '{{ csrf_token }}',
+                            book_id: {{ product.id }},
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
 
                         },
                         success: function(data) {

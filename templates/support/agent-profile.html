@@ -32,40 +32,29 @@
                 <div class="ui container">
                     <div class="ui top attached tabular menu">
                         <a class="active item back-grey" data-tab="first">
-                            <span class="tab-title">لیست محصولات</span>
+                            <span class="tab-title">پاسخ داده نشده</span>
                         </a>
                         <a class="item" data-tab="second">
-                            <span class="tab-title">لیست سفارشات</span>
+                            <span class="tab-title">پاسخ داده شده</span>
                         </a>
-                        <a class="item" data-tab="third">
-                            <span class="tab-title">لیست فاکتورها</span>
-                        </a>
-                        <a class="item" data-tab="fourth">
-                            <span class="tab-title">لیست سفارشات ارسال شده</span>
                         </a>
                     </div>
 
                     <!-- first tab -->
                     <div class="ui bottom attached tab segment active back-grey" data-tab="first">
-                        <table class="ui six column red small table">
+                        <table class="ui two column red small table">
                             <thead>
                             <tr>
                                 <th>عنوان</th>
-                                <th>موضوع</th>
-                                <th>تعداد</th>
-                                <th>قیمت (تومان)</th>
-                                <th class="left aligned">ویرایش</th>
+                                <th class="left aligned">پاسخ</th>
                             </tr>
                             </thead>
                             <tbody>
 
-                            {% for pv in vendor.productvendor_set.all %}
+                            {% for u in unanswered %}
                                 <tr>
-                                    <td>{{ pv.product.title }}</td>
-                                    <td>{{ pv.product.category }}</td>
-                                    <td>{{ pv.product.itemCount }}</td>
-                                    <td>{{ pv.product.price }}</td>
-                                    <td class="left aligned"><a class="setting-book link"><i
+                                    <td>{{ u.title }}</td>
+                                    <td class="left aligned"><a class="setting-book link" href=""><i
                                             class="ui inverted orange setting icon"></i> </a></td>
                                 </tr>
                             {% endfor %}
@@ -76,129 +65,73 @@
                         </table>
                     </div>
 
-                    <!-- second tab -->
-                    <div class="ui bottom attached tab segment back-grey" data-tab="second">
-                        <table class="ui teal table">
+
+                    <div class="ui bottom attached tab segment active back-grey" data-tab="second">
+                        <table class="ui two column red small table">
                             <thead>
                             <tr>
-                                <th class="one wide">#</th>
-                                <th class="four wide">شماره سفارش</th>
-                                <th class="four wide">کاربر</th>
-                                <th class="four wide">جمع کل قیمت (تومان)</th>
-                                <th class="left aligned">جزییات</th>
+                                <th>عنوان</th>
+                                <th class="left aligned">ویرایش</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for order in orders %}
+
+                            {% for u in answered %}
                                 <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>KH-{% for order in orders %}
-                                        {{ order.id }}
-                                        {% endfor %}</td>
-                                    <td class="three wide">{{ user_order }}</td>
-                                    <td class="three wide">-</td>
-                                    <td class="left aligned">
-                                        <a class="ui circular icon button" href="#">
-                                            <i class="payment icon"></i>
-                                        </a>
-                                    </td>
+                                    <td>{{ u.title }}</td>
+                                    <td class="left aligned"><a class="setting-book link" href=""><i
+                                            class="ui inverted orange setting icon"></i> </a></td>
                                 </tr>
                             {% endfor %}
-                            <tr>
-                                <td>2</td>
-                                <td>KH-856970</td>
-                                <td class="three wide">عسل عباسی ایرجی</td>
-                                <td class="three wide">89,920</td>
-                                <td class="left aligned">
-                                    <a class="ui circular icon button" href="#">
-                                        <i class="payment icon"></i>
-                                    </a>
-                                </td>
-                            </tr>
                             </tbody>
+                            <tfoot>
+
+                            </tfoot>
                         </table>
                     </div>
 
-                    <!-- third tab -->
-                    <div class="ui bottom attached tab segment back-grey" data-tab="third">
-                        <table class="ui brown table">
-                            <thead>
-                            <tr>
-                                <th class="one wide">#</th>
-                                <th class="four wide">شماره سفارش</th>
-                                <th class="four wide">کاربر</th>
-                                <th class="four wide">جمع کل قیمت (تومان)</th>
-                                <th class="left aligned">تایید</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>KH-826969</td>
-                                <td class="three wide">فریبرز عرب نیا</td>
-                                <td class="three wide">2,800</td>
-                                <td class="left aligned">
-                                    <a class="ui square icon button" href="#">
-                                        <i class="checkmark box icon"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>KH-856470</td>
-                                <td class="three wide">ابولفضل پور عرب</td>
-                                <td class="three wide">4,200</td>
-                                <td class="left aligned">
-                                    <a class="ui square icon button" href="#">
-                                        <i class="checkmark box icon"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>KH-854971</td>
-                                <td class="three wide">فریبرز ابولفضل نیا</td>
-                                <td class="three wide">9,000</td>
-                                <td class="left aligned">
-                                    <a class="ui square icon button" href="#">
-                                        <i class="checkmark box icon"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- fourth tab -->
-                    <div class="ui bottom attached tab segment back-grey" data-tab="fourth">
-                        <table class="ui yellow table">
-                            <thead>
-                            <tr>
-                                <th class="one wide">#</th>
-                                <th class="three wide">شماره سفارش</th>
-                                <th class="three wide">کاربر</th>
-                                <th class="three wide">جمع کل قیمت (تومان)</th>
-                                <th class="three wide">وضعیت</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>KH-696969</td>
-                                <td class="three wide">قاسم جابری پور</td>
-                                <td class="three wide">18,000</td>
-                                <td class="three wide">منتظر تاییدیه ارسال</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>KH-856988</td>
-                                <td class="three wide">جمال الدین جعفر پور</td>
-                                <td class="three wide">24,500</td>
-                                <td class="three wide">ارسال شده</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+{#                    <!-- second tab -->#}
+{#                    <div class="ui bottom attached tab segment back-grey" data-tab="second">#}
+{#                        <table class="ui teal table">#}
+{#                            <thead>#}
+{#                            <tr>#}
+{#                                <th class="one wide">#</th>#}
+{#                                <th class="four wide">شماره سفارش</th>#}
+{#                                <th class="four wide">کاربر</th>#}
+{#                                <th class="four wide">جمع کل قیمت (تومان)</th>#}
+{#                                <th class="left aligned">جزییات</th>#}
+{#                            </tr>#}
+{#                            </thead>#}
+{#                            <tbody>#}
+{#                            {% for order in orders %}#}
+{#                                <tr>#}
+{#                                    <td>{{ forloop.counter }}</td>#}
+{#                                    <td>KH-{% for order in orders %}#}
+{#                                        {{ order.id }}#}
+{#                                        {% endfor %}</td>#}
+{#                                    <td class="three wide">{{ user_order }}</td>#}
+{#                                    <td class="three wide">-</td>#}
+{#                                    <td class="left aligned">#}
+{#                                        <a class="ui circular icon button" href="#">#}
+{#                                            <i class="payment icon"></i>#}
+{#                                        </a>#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+{#                            <tr>#}
+{#                                <td>2</td>#}
+{#                                <td>KH-856970</td>#}
+{#                                <td class="three wide">عسل عباسی ایرجی</td>#}
+{#                                <td class="three wide">89,920</td>#}
+{#                                <td class="left aligned">#}
+{#                                    <a class="ui circular icon button" href="#">#}
+{#                                        <i class="payment icon"></i>#}
+{#                                    </a>#}
+{#                                </td>#}
+{#                            </tr>#}
+{#                            </tbody>#}
+{#                        </table>#}
+{#                    </div>#}
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ from django.urls import reverse
 from accounts.models import Vendor, UserProfile
 from product.models import Product, Category
 from vendors.models import ProductVendor, ShoppingbagVendor
+from .forms import AddProductForm
 
 
 def vendor_profile(request, vendor_id):
@@ -16,23 +17,28 @@ def vendor_profile(request, vendor_id):
 
 def add_product(request, vendor_id):
     if request.method == 'POST':
+
         vendor = get_object_or_404(Vendor, pk=vendor_id)
-        print(request.POST['price'])
+        print(request.POST)
+        try:
+            p = Product(
+                title=request.POST['title'],
+                description=request.POST['description'],
+                itemCount=request.POST['itemCount'],
+                category=Category.objects.get(title__contains=request.POST['category']),
+                price=request.POST['price'],
+                mainPic=request.FILES.get('mainPic'),
+                weight=request.POST['weight']
+            )
 
-        p = Product(
-            title=request.POST['title'],
-            description=request.POST['description'],
-            itemCount=request.POST['itemCount'],
-            category=Category.objects.get(title__contains=request.POST['category']),
-            price=request.POST['price'],
-            mainPic=request.FILES.get('mainPic'),
-            weight=request.POST['weight']
-        )
-
-        p.save()
-        product_vendor = ProductVendor(vendor=vendor, product=p)
-        product_vendor.save()
-        return HttpResponseRedirect(reverse('vendors:vendor_profile', args=(vendor_id,)))
+            p.save()
+            product_vendor = ProductVendor(vendor=vendor, product=p)
+            product_vendor.save()
+            return HttpResponseRedirect(reverse('vendors:vendor_profile', args=(vendor_id,)))
+        except:
+            vendor = get_object_or_404(Vendor, pk=vendor_id)
+            orders = ShoppingbagVendor.objects.values('user_profile').distinct()
+            return render(request, 'vendors/vendor-profile.html', {'vendor': vendor, 'orders': orders})
 
 
 def vendor_orders(request):

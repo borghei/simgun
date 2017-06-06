@@ -63,5 +63,6 @@ urlpatterns = [
     url(r'^vendors/', include('vendors.urls')),
     url(r'^orders/', include('buying.urls')),
     url(r'^api/', include(router.urls)),
-    url(r'^api/v1/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api/v1/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^support/', include('support.urls'))
 ]

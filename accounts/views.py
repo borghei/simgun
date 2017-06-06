@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 
 from accounts.forms import UserRegisterForm, UserLogin
-from accounts.models import UserProfile
+from accounts.models import UserProfile, Vendor
 
 
 def user_register(request):
@@ -24,9 +24,10 @@ def user_register(request):
 
             user.save()
 
-            user_profile = UserProfile(
-                user=user,
-            )
+            if 'type' in request.POST:
+                user_profile = Vendor(user=user)
+            else:
+                user_profile = UserProfile(user=user)
 
             user_profile.save()
 

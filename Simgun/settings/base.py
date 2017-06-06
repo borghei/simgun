@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'product.apps.ProductsConfig',
     'vendors.apps.VendorsConfig',
     'buying.apps.BuyingConfig',
+    'support.apps.SupportConfig',
     'django_extensions',
     'rest_framework',
 ]
@@ -70,7 +71,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'product.context_processors.categories',
-                'product.context_processors.newProducts'
+                'product.context_processors.new_products',
+                'product.context_processors.get_vitrin_links'
             ],
         },
     },

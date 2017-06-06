@@ -7,28 +7,28 @@ from django.urls import reverse
 
 from accounts.models import UserProfile
 from product.models import Product, Review
-from profiles.models import WishlistBook, ShoppingbagBook#, ReadingProgram
+from profiles.models import ShoppingbagBook#, ReadingProgram
 
 
-def add_to_wishlist(request, profile_id):
-    if request.method == 'POST':
-        book_id = request.POST.get('book_id')
-        book = get_object_or_404(Product, pk=book_id)
-        user_profile = get_object_or_404(UserProfile, pk=profile_id)
-        if WishlistBook.objects.filter(user_profile=user_profile, book=book).count() == 0:
-            wishlist_book = WishlistBook(user_profile=user_profile, book=book)
-            wishlist_book.save()
-            return JsonResponse({'status': 'ok'})
-        else:
-            return JsonResponse({'status': 'failure'})
+# def add_to_wishlist(request, profile_id):
+#     if request.method == 'POST':
+#         book_id = request.POST.get('book_id')
+#         book = get_object_or_404(Product, pk=book_id)
+#         user_profile = get_object_or_404(UserProfile, pk=profile_id)
+#         if WishlistBook.objects.filter(user_profile=user_profile, book=book).count() == 0:
+#             wishlist_book = WishlistBook(user_profile=user_profile, book=book)
+#             wishlist_book.save()
+#             return JsonResponse({'status': 'ok'})
+#         else:
+#             return JsonResponse({'status': 'failure'})
 
 
-def remove_from_wishlist(request, profile_id, wishlist_id):
-    if request.method == 'POST':
-        user_profile = get_object_or_404(UserProfile, pk=profile_id)
-        wishlist_book = get_object_or_404(WishlistBook, pk=wishlist_id)
-        wishlist_book.delete()
-        return JsonResponse({'status': 'ok', 'url': reverse('profiles:wishlist', args=(profile_id,))})
+# def remove_from_wishlist(request, profile_id, wishlist_id):
+#     if request.method == 'POST':
+#         user_profile = get_object_or_404(UserProfile, pk=profile_id)
+#         wishlist_book = get_object_or_404(WishlistBook, pk=wishlist_id)
+#         wishlist_book.delete()
+#         return JsonResponse({'status': 'ok', 'url': reverse('profiles:wishlist', args=(profile_id,))})
 
 
 # TODO if the book is not available ...
@@ -159,16 +159,16 @@ def remove_review(request, profile_id, review_id):
     return JsonResponse({'status': 'ok', 'url': reverse('profiles:reviews', args=(profile_id,))})
 
 
-def remove_wishlist_book(request, profile_id):
-    if request.method == 'POST':
-        user_profile = get_object_or_404(UserProfile, pk=profile_id)
-        book_id = request.POST.get('book_id', -1)
-        if book_id == -1:
-            return JsonResponse({'status': 'failure'})
-        book = get_object_or_404(Product, pk=book_id)
-        wishlist = get_object_or_404(WishlistBook, user_profile=user_profile, book=book)
-        wishlist.delete()
-        return JsonResponse({'status': 'ok', 'url': reverse('profiles:wishlist', args=(profile_id,))})
+# def remove_wishlist_book(request, profile_id):
+#     if request.method == 'POST':
+#         user_profile = get_object_or_404(UserProfile, pk=profile_id)
+#         book_id = request.POST.get('book_id', -1)
+#         if book_id == -1:
+#             return JsonResponse({'status': 'failure'})
+#         book = get_object_or_404(Product, pk=book_id)
+#         wishlist = get_object_or_404(WishlistBook, user_profile=user_profile, book=book)
+#         wishlist.delete()
+#         return JsonResponse({'status': 'ok', 'url': reverse('profiles:wishlist', args=(profile_id,))})
 
 
 def settings(request, profile_id):

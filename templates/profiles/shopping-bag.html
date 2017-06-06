@@ -1,7 +1,7 @@
-{% extends 'books/../simgun/base.html' %}
+{% extends 'simgun/base.html' %}
 
 {% block styles %}
-
+    {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'profiles/css/style-shopping-cart.css' %}"/>
 {% endblock %}
 
@@ -113,7 +113,7 @@
             });
 
             $('#continue-btn').click(function() {
-                window.location.href = "{% url 'buying:order_info' %}"
+                window.location.href = "{% url 'buying:order_info' user.id %}"
             })
         });
     </script>
