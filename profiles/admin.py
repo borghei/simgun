@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from profiles.models import Bag, ShoppingbagBook#, ReadingProgram
+from profiles.models import Bag, ShoppingbagProduct#, ReadingProgram
 
 admin.site.register(Bag)
-admin.site.register(ShoppingbagBook)
+admin.site.register(ShoppingbagProduct)
 # admin.site.register(ReadingProgram)#

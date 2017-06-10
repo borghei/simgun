@@ -23,9 +23,13 @@ class Product(models.Model):
     mainPic = models.ImageField(upload_to=_get_image_filename, blank=True, null=True, default='')
     # boundary will be chekckeed on views
     itemCount = models.IntegerField(default=0)
+    off = models.IntegerField(default=0)
     weight = models.IntegerField(default=0)
     orderCount = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+
+    def get_cost(self):
+        return self.price * ((100 - self.off)/100)
 
     def __str__(self):
         return self.title  # + ' - ' + self.publisher

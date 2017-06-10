@@ -298,53 +298,53 @@
                         }
                     });
                 });
-                $('#add-wishlist').click(function() {
-                    $.ajax({
-                        url: "{% url 'profiles:add_wishlist' user_profile.id %}",
-                        method: 'post',
-                        data: {
+{#                $('#add-wishlist').click(function() {#}
+{#                    $.ajax({#}
+{#                        url: "{% url 'profiles:add_wishlist' user_profile.id %}",#}
+{#                        method: 'post',#}
+{#                        data: {#}
 {#                            book_id: {{ book.id }},#}
-                            csrfmiddlewaretoken: '{{ csrf_token }}',
-
-                        },
-                        success: function(data) {
-                            if (data.status === "ok") {
-                                $('#add-wishlist').removeClass('grey inverted').addClass('red');
-                                $('#add-wishlist').attr('id', 'remove-wishlist');
-
-                                $('#remove-wishlist').click(function() {
-                                    $.ajax({
-                                        url: "{% url 'profiles:remove_wishlist_book' user_profile.id %}",
-                                        method: 'post',
-                                        data: {
-                                            book_id: {{ product.id }},
-                                            csrfmiddlewaretoken: '{{ csrf_token }}',
-
-                                        },
-                                        success: function(data) {
-                                            if (data.status === "ok") {
-                                                $('#remove-wishlist').removeClass('red').addClass('grey inverted');
-                                                $('#remove-wishlist').attr('id', 'add-wishlist');
-                                            }
-                                            else {
-                                                console.error('cannot unfav :|');
-                                            }
-                                        },
-                                        error: function() {
-                                            console.error('eeeeerrrrrrooooorrrrrr');
-                                        }
-                                    });
-                                });
-                            }
-                            else {
-                                console.error('cannot fav');
-                            }
-                        },
-                        error: function() {
-                            console.error('eeeeerrrrrrooooorrrrrr');
-                        }
-                    });
-                });
+{#                            csrfmiddlewaretoken: '{{ csrf_token }}',#}
+{##}
+{#                        },#}
+{#                        success: function(data) {#}
+{#                            if (data.status === "ok") {#}
+{#                                $('#add-wishlist').removeClass('grey inverted').addClass('red');#}
+{#                                $('#add-wishlist').attr('id', 'remove-wishlist');#}
+{##}
+{#                                $('#remove-wishlist').click(function() {#}
+{#                                    $.ajax({#}
+{#                                        url: "{% url 'profiles:remove_wishlist_book' user_profile.id %}",#}
+{#                                        method: 'post',#}
+{#                                        data: {#}
+{#                                            book_id: {{ product.id }},#}
+{#                                            csrfmiddlewaretoken: '{{ csrf_token }}',#}
+{##}
+{#                                        },#}
+{#                                        success: function(data) {#}
+{#                                            if (data.status === "ok") {#}
+{#                                                $('#remove-wishlist').removeClass('red').addClass('grey inverted');#}
+{#                                                $('#remove-wishlist').attr('id', 'add-wishlist');#}
+{#                                            }#}
+{#                                            else {#}
+{#                                                console.error('cannot unfav :|');#}
+{#                                            }#}
+{#                                        },#}
+{#                                        error: function() {#}
+{#                                            console.error('eeeeerrrrrrooooorrrrrr');#}
+{#                                        }#}
+{#                                    });#}
+{#                                });#}
+{#                            }#}
+{#                            else {#}
+{#                                console.error('cannot fav');#}
+{#                            }#}
+{#                        },#}
+{#                        error: function() {#}
+{#                            console.error('eeeeerrrrrrooooorrrrrr');#}
+{#                        }#}
+{#                    });#}
+{#                });#}
 
                 $('#add-shoppingbag').click(function() {
                     console.log('clidekfd');

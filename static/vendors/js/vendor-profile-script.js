@@ -25,3 +25,8 @@ $('#setting-modal')
     .modal('attach events', '.setting-book', 'show')
     .modal('attach events', '#setting-cancel', 'cancel')
 ;
+
+$('#setting-city-modal')
+    .modal('attach events', '#setting-city', 'show');
+    // .modal('attach events', '#setting-city-cancel', 'cancel')
+// ;

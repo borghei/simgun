@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block title %}
-    <title>کتاب‌خوار - اطلاعات سفارش</title>
+    <title>زنبیل - اطلاعات سفارش</title>
 {% endblock %}
 
 
@@ -28,7 +28,7 @@
                     <h3>نام و نام خانوادگی: </h3>
                 </div>
                 <div class="column">
-                    <p> Dexter Morgan </p>
+                    <p> {{ up }} </p>
                 </div>
             </div>
             <div class="ui two column grid">
@@ -36,7 +36,7 @@
                     <h3>ایمیل: </h3>
                 </div>
                 <div class="wide column">
-                    <p>dextermorgan@gmail.com</p>
+                    <p>{{ up.user.email }}</p>
                 </div>
             </div>
             <div class="ui two column grid">
@@ -44,7 +44,7 @@
                     <h3>تلفن همراه: </h3>
                 </div>
                 <div class="column">
-                    <p>Dial M for Murder </p>
+                    <p>khoodfdkfjl</p>
                 </div>
                 <div class="ui hidden divider"></div>
             </div>
@@ -53,61 +53,108 @@
                 <h2>انتخاب آدرس:</h2>
                 <div class="ui hidden divider"></div>
             </div>
-            <div class="column">
+
+                <div id="oldAddresses" class="column"
+                                     {% if adrs %}
+                     style="display: block;"
+                     {% else %}
+                      style="display: none;"
+                     {% endif %}
+                >
+
                 <div class="ui two column grid">
                     <div class="three wide column">
                         <h3>آدرس انتخاب شده: </h3>
                     </div>
                     <div class="thirteen wide column">
                         <div class="ui fluid dropdown selection">
-                            <input type="hidden" name="address">
+                            <input type="hidden" name="selected_address">
                             <i class="dropdown icon"></i>
-                            <div class="default text">آدرس</div>
-                            <div class="menu">
-                                <div class="item" data-value="1"> تهران - شهرک غرب - ایران زمین - مجتمع گلستان</div>
-                                <div class="item" data-value="2"> تهران - گیشا - خیابان چهاردهم - مجتمع هژیر</div>
-                                <div class="item" data-value="0"> تهران - بلوار اکبری - دانشگاه صنعتی شریف - اسکاتلند</div>
+                            <div class="default text" id="addressPlaceHolder">آدرس</div>
+                            <div class="menu" id="addressMenu">
+                                {% for a in adrs %}
+                                <div class="item" data-value="{{ a.id }}" style="direction: rtl"> {{ a.province }} - {{ a.city }} - {{ a.address }}</div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="column">
+
+
+<div class="ui hidden divider"></div>
                 <button class="ui left floated orange button" name="addNewAddress" value="Show Div" onclick="showDiv()">افزودن آدرس جدید</button>
-            </div>
+
+        </div>
             <div class="column">
-                <div class="ui one column grid">
-                    <div id="newaddressDiv" style="display: none;" class="column">
-                        <form class="ui form" action="">
+
+                <div class="ui one column grid" id="newaddressDiv"
+                     {% if adrs %}
+                     style="display: none;"
+                     {% else %}
+                      style="display: block;"
+                     {% endif %}
+                >
+                    <div class="column">
+                        <form class="ui form" action="" id="newAddressForm">
                             <h3><label>آدرس جدید</label></h3>
                             <div class="fields">
+                                {% csrf_token %}
                                 <div class="four wide field">
-                                    <input type="text" placeholder="استان">
+                                    <input type="text" name="province" placeholder="استان">
                                 </div>
                                 <div class="four wide field">
-                                    <input type="text" placeholder="شهر">
+                                    <input type="text" name="city" placeholder="شهر">
                                 </div>
                                 <div class="four wide field">
-                                    <input type="text" placeholder="تلفن">
+                                    <input type="number" name="phone_number" placeholder="تلفن" onkeypress='validate_num(event)'>
                                 </div>
                                 <div class="four wide field">
-                                    <input type="text" placeholder="کد پستی">
+                                    <input type="number" name="zipcode" placeholder="کد پستی" onkeypress='validate_num(event)'>
                                 </div>
                             </div>
                             <div class="field">
-                                <input type="text" placeholder="آدرس">
+                                <input type="text" name="address" placeholder="آدرس">
                             </div>
                         </form>
                     </div>
                     <div class="column">
-                        <button class="ui left floated button">ثبت آدرس</button>
+                        <button class="ui left floated button" id="sendNewAddress">ثبت آدرس</button>
                     </div>
                 </div>
             </div>
             <div class="ui hidden divider"></div>
+        <div class="column">
+                        <div class="ui two column grid">
+                    <div class="three wide column">
+                        <h3>روش پرداخت: </h3>
+                    </div>
+                    <div class="thirteen wide column">
+
+                                                <div class="ui two column grid">
+                    <div class="four wide column">
+                              <div class="ui radio checkbox">
+
+        <input name="frequency" type="radio" disabled>
+ <label>پرداخت اینترنتی</label>
+      </div>
+                    </div>
+                    <div class="four wide column">
+                              <div class="ui radio checkbox">
+
+        <input name="frequency" type="radio" checked>
+<label>پرداخت نقدی</label>
+      </div>
+                    </div>
+                </div>
+
+
+                    </div>
+                </div>
+        </div>
+        <div class="ui hidden divider"></div>
             <div class="column">
                 <button class="ui right floated button">بازگشت به صفحه اصلی</button>
-                <button class="ui left floated green button" type="submit">ثبت سفارش</button>
+                <button class="ui left floated green button" type="submit" disabled id="continue">ادامه</button>
             </div>
         </div>
     </div>
@@ -117,4 +164,69 @@
 
 {% block scripts %}
     <script src="{% static 'buying/js/order-info.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.ui.dropdown').dropdown();
+
+            $("#sendNewAddress").click(function(){
+            $.post("{% url "buying:add_address" up.id %}", $("#newAddressForm").serialize(), function(data) {
+                if (data.stat === 1) {
+                    f = $("#newAddressForm");
+                    p = f.find("input[name=\"province\"]").val();
+                    c = f.find("input[name=\"city\"]").val();
+                    a = f.find("input[name=\"address\"]").val();
+
+                    $('<div class="item" data-value="{{ data.add_id }}" style="direction: rtl">'+ p + ' - ' + c + ' - ' + a + '</div>').appendTo($('#addressMenu'));
+
+                    document.getElementById('newAddressForm').reset();
+                    document.getElementById('newaddressDiv').style.display = "none";
+                    document.getElementById('oldAddresses').style.display = "block";
+                }
+            });
+        });
+
+
+
+            $('#addressPlaceHolder').on('DOMSubtreeModified', function() {
+                document.getElementById("continue").disabled = false;
+            });
+
+            $('#continue').click(function () {
+               se = $("input[name=\"selected_address\"]").val();
+
+                $.ajax({
+                    url: "{% url 'profiles:set_address' up.id %}",
+                    method: 'post',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        selected_address: se
+                    },
+                    success: function(data) {
+                         window.location.href = data.url;
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                })
+            });
+
+        });
+
+        function validate_num(evt) {
+
+  var theEvent = evt || window.event;
+  var key = theEvent.keyCode || theEvent.which;
+  key = String.fromCharCode( key );
+  var regex = /[0-9]|[۰-۹]|\.|\t/;
+  if( !regex.test(key) && theEvent.keyCode !== 8 && theEvent.keyCode !== 46) {
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }
+}
+
+function showDiv() {
+    document.getElementById('newaddressDiv').style.display = "block";
+}
+
+</script>
 {% endblock %}

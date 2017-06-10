@@ -5,14 +5,23 @@ from django.urls import reverse
 
 from accounts.models import Vendor, UserProfile
 from product.models import Product, Category
-from vendors.models import ProductVendor, ShoppingbagVendor
+from vendors.models import ProductVendor
+from profiles.models import ShoppingbagProduct
 from .forms import AddProductForm
 
 
 def vendor_profile(request, vendor_id):
     vendor = get_object_or_404(Vendor, pk=vendor_id)
-    orders = ShoppingbagVendor.objects.values('user_profile').distinct()
-    return render(request, 'vendors/vendor-profile.html', {'vendor': vendor, 'orders': orders})
+    all_sb = ShoppingbagProduct.objects.filter(product__productvendor__vendor=vendor).all()
+
+    orders = list(s for s in all_sb if s.bag.address and s.status != -1)
+
+    delivered = [o for o in orders if o.status == 3]
+    undelivered = [o for o in orders if o.status == -2]
+    orders = [o for o in orders if o.status not in [-2, 3]]
+
+    return render(request, 'vendors/vendor-profile.html',
+                  {'vendor': vendor, 'orders': orders, 'delivered': delivered, 'undelivered': undelivered})
 
 
 def add_product(request, vendor_id):
@@ -37,7 +46,7 @@ def add_product(request, vendor_id):
             return HttpResponseRedirect(reverse('vendors:vendor_profile', args=(vendor_id,)))
         except:
             vendor = get_object_or_404(Vendor, pk=vendor_id)
-            orders = ShoppingbagVendor.objects.values('user_profile').distinct()
+            orders = None #ShoppingbagVendor.objects.values('user_profile').distinct()
             return render(request, 'vendors/vendor-profile.html', {'vendor': vendor, 'orders': orders})
 
 

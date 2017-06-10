@@ -7,7 +7,7 @@
 
 
 {% block title %}
-    <title>کتاب‌خوار - سبد خرید </title>
+    <title>زنبیل - سبد خرید </title>
 {% endblock %}
 
 {% block content %}
@@ -25,39 +25,53 @@
                         <table class="ui celled structured table">
                             <thead class="back-grey-dark">
                             <tr>
-                                <th>عنوان کتاب</th>
-                                <th>نویسنده</th>
+                                <th>عنوان</th>
                                 <th>قیمت واحد(تومان)</th>
-                                <th>تخفیف</th>
                                 <th>تعداد</th>
-                                <th>قیمت نهایی</th>
-                                <th></th>
+                                <th>قیمت اجناس</th>
+                                <th>هزینه ارسال</th>
+                                <th>هزینه نهایی</th>
+                                <th>اضافه</th>
+                                <th>حذف</th>
+                                <th>وضعیت</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for shoppingbag in shoppingbags %}
-                                <tr class="bottom-line">
-                                    <td>{{ shoppingbag.book.title }}</td>
-                                    <td>{{ shoppingbag.book.author }}</td>
-                                    <td>{{ shoppingbag.book.price }}</td>
-                                    <td>-</td>
+                            {% for sb in bag.shoppingbagproduct_set.all %}
+                                <tr class="bottom-line sb">
+                                    <td class="b-title">{{ sb.product }}</td>
+                                    <td class="b-price">{{ sb.price }}</td>
+                                    <td class="b-count">{{ sb.product_count }}</td>
+                                    <td class="b-cost">{{ sb.get_sum }}</td>
+                                    <td class="b-send-type">
+                                        <select class="ui dropdown stype">
+                                            {% for t in sb.product.productvendor_set.first.vendor.postprice_set.all %}
+                                                <option value="{{ t.type }}:{{ t.price }}" data-value="{{ t.price }}">{{ t.get_type_str }} : {{ t.price }}</option>
+                                            {% endfor %}
+  <option value="1:13123" >Male:434</option>
+  <option value="0:42343" >Femdfdale:43234</option>
+                                        </select>
+
+
+
+
+
+
+                                    </td>
+                                    <td class="b-sum">2</td>
+{#                                    {{  sb.get_sum|add:sb.product.productvendor_set.first.vendor.postprice_set.first.price }}</td>#}
                                     <td>
-                                        <select id="book-count{{ forloop.counter }}" class="ui dropdown">
-                                            <option value="1">‍۱</option>
-                                            <option value="2">۲</option>
-                                            <option value="3">۳</option>
-                                            <option value="4">۴</option>
-                                            <option value="5">۵</option>
-                                            <option value="6">۶</option>
-                                            <option value="7">۷</option>
-                                            <option value="8">۸</option>
-                                            <option value="9">۹</option>
-                                            <option value="10">۱۰</option>
+                                                                                <select class="ui dropdown stype">
+                                            {% for t in sb.product.productvendor_set.first.vendor.postprice_set.all %}
+                                                <option value="{{ t.type }}:{{ t.price }}" data-value="{{ t.price }}">{{ t.get_type_str }} : {{ t.price }}</option>
+                                            {% endfor %}
+  <option value="1111:13123" >Male:434</option>
+  <option value="0:42343" >Femdfdale:43234</option>
                                         </select>
 
                                     </td>
-                                    <td id="book-price-mul-count{{ forloop.counter }}">{{ shoppingbag.book.price }}</td>
-                                    <td><img src="{% static 'site-media/photos/general/ic_remove_shopping_cart.svg' %}"></td>
+                                    <td>-</td>
+                                <td class="b-stat">{{  sb.get_stat}}</td>
                                 </tr>
                             {% endfor %}
                             <tr class="empty-col">
@@ -65,25 +79,59 @@
                                 <td class="empty-col"></td>
                                 <td class="empty-col"></td>
                                 <td class="empty-col"></td>
-                                <td colspan="3" class="right aligned white-bg">جمع کل خرید شما:</td>
+                                <td class="empty-col"></td>
+                                <td class="empty-col"></td>
+
+                                <td colspan="3" class="right aligned white-bg">جمع کل خرید شما: {{ bag.get_sum_price }}</td>
                             </tr>
                             <tr class="empty-col">
                                 <td class="empty-col"></td>
                                 <td class="empty-col"></td>
                                 <td class="empty-col"></td>
                                 <td class="empty-col"></td>
-                                <td colspan="3" class="right aligned pay-box-bg pay-box-border">مبلغ قابل پرداخت:</td>
+                                <td class="empty-col"></td>
+                                <td class="empty-col"></td>
+
+                                <td colspan="3" class="right aligned pay-box-bg pay-box-border">مبلغ قابل پرداخت: {{ bag.get_sum_price }}</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="ui row">
+                            <div class="ui grid container">
+
+                                <div class="ui two column grid" style="display: inline">
+                                    <div class="four wide column" style="display: inline-block">
+                                        <h3>آدرس انتخاب شده: </h3>
+                                    </div>
+                                    <div class="twelve wide column" style="display: inline-block">
+                                        {% if bag.address %}
+                                        <p> {{ bag.address.get_full_address }}</p>
+                                        {% else %}
+                                        <p> آدرسی انتخاب نشده است. لطفا درر قسمت ویرایش اطلاعات آدرسی را انتخاب کنید</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                            </div>
+                    </div>
+                        <div class="ui row">
                         <div class="ui grid container">
                             <div class="eight wide column right aligned">
                                 <button  id="return-btn" class="ui button">بازگشت به صفحه اصلی</button>
                             </div>
-                            <div class="eight wide column left aligned">
-                                <button id="continue-btn" class="ui primary button">وارد کردن مشخصات</button>
+
+                            <div class="four wide column left aligned">
+                                <button id="continue-btn" class="ui primary button">ویرایش اطلاعات</button>
+                            </div>
+                            <div class="four wide column left aligned">
+                                <button id="buy-btn" class="ui secondary button"
+                                        {% if not bag.address %}
+
+                                            disabled
+                                        {% endif %}
+
+                                >خرید</button>
                             </div>
                         </div>
                     </div>
@@ -97,11 +145,37 @@
 
 {% block scripts %}
     <script>
+
+    $(document).ready(function () {
+         $('.ui.dropdown').dropdown();
+
+
+                     $('#buy-btn').click(function () {
+
+                    var typeArray = $(".stype").map(function() {return $(this).val()}).get();
+                    console.log(typeArray);
+                $.ajax({
+                    url: "{% url 'profiles:comp_shopping' user.id %}",
+                    method: 'post',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+{#                        selected_address: se#}
+                    },
+                    success: function(data) {
+                         window.location.href = '/';
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                })
+            });
+
+    });
         $(function(){
             $('[id^=book-count]').each(function(i) {
-                {#            console.log({{ shoppingbags }});#}
-                var data = {{ shoppingbags }}
-                    console.log(data)
+                            console.log({{ shoppingbags }});
+{#                var data = {{ shoppingbags }}#}
+{#                    console.log(data)#}
             });
             $('[id^=book-price-mul-count]').each(function(i){
                 var count = parseInt($('#book-count' + i).find(':selected').text());
@@ -116,5 +190,22 @@
                 window.location.href = "{% url 'buying:order_info' user.id %}"
             })
         });
+
+
+        function new_sum() {
+
+
+        }
+
+        $('.stype').on('change', function() {
+            ele = $(this).closest("td[class='b-send-type']");
+            send_price = $(this).val().split(":")[1];
+            cost = ele.prev().html();
+            ele.next().html(parseInt(send_price) + parseInt(cost));
+            new_sum();
+        });
+
+
+
     </script>
 {% endblock %}

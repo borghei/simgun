@@ -1,7 +1,7 @@
 {% extends 'simgun/base.html' %}
 
 {% block title %}
-    <title>زنبیل - پروفایل ارائه‌دهنده‌ی کتاب</title>
+    <title>زنبیل - پروفایل ارائه‌دهنده‌</title>
 {% endblock %}
 
 {% block styles %}
@@ -21,9 +21,9 @@
                 </div>
                 <div class="ui divider "></div>
                 <div class="ui animated large relaxed link right aligned list">
-                    <a class=" item right aligned" href="setting.html">تنظیمات</a>
+                    <span class=" item" href="setting.html " id="setting-city">تنظیمات</span>
                     <span class=" item" href="setting.html " id="single-book">اضافه کردن محصول</span>
-                    <span class=" item" href="setting.html " id="multiple-book">اضافه کردن لیست محصولات</span>
+                    <span class=" item" href="setting.html " id="multiple-book">اضافه کردن پشتیبانی شهر</span>
                 </div>
 
             </div>
@@ -35,13 +35,13 @@
                             <span class="tab-title">لیست محصولات</span>
                         </a>
                         <a class="item" data-tab="second">
-                            <span class="tab-title">لیست سفارشات</span>
+                            <span class="tab-title">لیست سفارشات در حال پردازش</span>
                         </a>
                         <a class="item" data-tab="third">
-                            <span class="tab-title">لیست فاکتورها</span>
+                            <span class="tab-title">لیست سفارسات رسیده</span>
                         </a>
                         <a class="item" data-tab="fourth">
-                            <span class="tab-title">لیست سفارشات ارسال شده</span>
+                            <span class="tab-title">لیست سفارشات رسیده نشده</span>
                         </a>
                     </div>
 
@@ -82,39 +82,47 @@
                             <thead>
                             <tr>
                                 <th class="one wide">#</th>
-                                <th class="four wide">شماره سفارش</th>
+                                <th class="four wide">شناسه</th>
                                 <th class="four wide">کاربر</th>
                                 <th class="four wide">جمع کل قیمت (تومان)</th>
-                                <th class="left aligned">جزییات</th>
+                                <th class="left aligned">وضعیت</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for order in orders %}
+                            {% for o in orders %}
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
-                                    <td>KH-{% for order in orders %}
-                                        {{ order.id }}
-                                        {% endfor %}</td>
-                                    <td class="three wide">{{ user_order }}</td>
-                                    <td class="three wide">-</td>
+                                    <td>{{ o.id }}</td>
+                                    <td class="three wide">{{ o.bag.user_profile }}</td>
+                                    <td class="three wide">{{ o.get_sum }}</td>
                                     <td class="left aligned">
-                                        <a class="ui circular icon button" href="#">
-                                            <i class="payment icon"></i>
-                                        </a>
+
+                                        <select class="ui dropdown sb-stat">
+                                          <option value="{{ o.status }}" >{{ o.get_stat }}</option>
+                                            {% for t in o.sb_choices %}
+                                                {% ifnotequal o.status t.1 %}
+                                                <option value="{{  t.1 }}" >{{ t.2 }}</option>
+                                                {% endifnotequal %}
+                                            {% endfor %}
+
+                                        </select>
+{#                                        <a class="ui circular icon button" href="#">#}
+{#                                            <i class="payment icon"></i>#}
+{#                                        </a>#}
                                     </td>
                                 </tr>
                             {% endfor %}
-                            <tr>
-                                <td>2</td>
-                                <td>KH-856970</td>
-                                <td class="three wide">عسل عباسی ایرجی</td>
-                                <td class="three wide">89,920</td>
-                                <td class="left aligned">
-                                    <a class="ui circular icon button" href="#">
-                                        <i class="payment icon"></i>
-                                    </a>
-                                </td>
-                            </tr>
+{#                            <tr>#}
+{#                                <td>2</td>#}
+{#                                <td>KH-856970</td>#}
+{#                                <td class="three wide">عسل عباسی ایرجی</td>#}
+{#                                <td class="three wide">89,920</td>#}
+{#                                <td class="left aligned">#}
+{#                                    <a class="ui circular icon button" href="#">#}
+{#                                        <i class="payment icon"></i>#}
+{#                                    </a>#}
+{#                                </td>#}
+{#                            </tr>#}
                             </tbody>
                         </table>
                     </div>
@@ -125,46 +133,30 @@
                             <thead>
                             <tr>
                                 <th class="one wide">#</th>
-                                <th class="four wide">شماره سفارش</th>
+                                <th class="four wide">شناسه</th>
                                 <th class="four wide">کاربر</th>
-                                <th class="four wide">جمع کل قیمت (تومان)</th>
-                                <th class="left aligned">تایید</th>
+                                <th class="left aligned">جمع کل قیمت (تومان)</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>KH-826969</td>
-                                <td class="three wide">فریبرز عرب نیا</td>
-                                <td class="three wide">2,800</td>
-                                <td class="left aligned">
-                                    <a class="ui square icon button" href="#">
-                                        <i class="checkmark box icon"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>KH-856470</td>
-                                <td class="three wide">ابولفضل پور عرب</td>
-                                <td class="three wide">4,200</td>
-                                <td class="left aligned">
-                                    <a class="ui square icon button" href="#">
-                                        <i class="checkmark box icon"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>KH-854971</td>
-                                <td class="three wide">فریبرز ابولفضل نیا</td>
-                                <td class="three wide">9,000</td>
-                                <td class="left aligned">
-                                    <a class="ui square icon button" href="#">
-                                        <i class="checkmark box icon"></i>
-                                    </a>
-                                </td>
-                            </tr>
+
+                            {% for o in delivered %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ o.id }}</td>
+                                    <td class="three wide">{{ o.bag.user_profile }}</td>
+                                    <td class="three wide left aligned">{{ o.get_sum }}</td>
+                                </tr>
+                            {% endfor %}
+
+
+{#                            <tr>#}
+{#                                <td>3</td>#}
+{#                                <td>KH-854971</td>#}
+{#                                <td class="three wide">فریبرز ابولفضل نیا</td>#}
+{#                                <td class="three wide left aligned">9,000</td>#}
+{##}
+{#                            </tr>#}
                             </tbody>
                         </table>
                     </div>
@@ -177,25 +169,26 @@
                                 <th class="one wide">#</th>
                                 <th class="three wide">شماره سفارش</th>
                                 <th class="three wide">کاربر</th>
-                                <th class="three wide">جمع کل قیمت (تومان)</th>
-                                <th class="three wide">وضعیت</th>
+                                <th class="three wide left aligned">جمع کل قیمت (تومان)</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>KH-696969</td>
-                                <td class="three wide">قاسم جابری پور</td>
-                                <td class="three wide">18,000</td>
-                                <td class="three wide">منتظر تاییدیه ارسال</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>KH-856988</td>
-                                <td class="three wide">جمال الدین جعفر پور</td>
-                                <td class="three wide">24,500</td>
-                                <td class="three wide">ارسال شده</td>
-                            </tr>
+
+                            {% for o in undelivered %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ o.id }}</td>
+                                    <td class="three wide">{{ o.bag.user_profile }}</td>
+                                    <td class="three wide left aligned">{{ o.get_sum }}</td>
+                                </tr>
+                            {% endfor %}
+
+{#                            <tr>#}
+{#                                <td>2</td>#}
+{#                                <td>KH-856988</td>#}
+{#                                <td class="three wide">جمال الدین جعفر پور</td>#}
+{#                                <td class="three wide left aligned">24,500</td>#}
+{#                            </tr>#}
                             </tbody>
                         </table>
                     </div>
@@ -280,33 +273,42 @@
     <div class="ui modal" id="multiple-modal">
         <i class="close icon"></i>
         <div class="header">
-            اضافه کردن لیست کتاب ها
+            اضافه کردن و ویرایش پشتیبانی شهر
         </div>
         <div class=" content">
-            <div class="content-margin">لطفا لیست کتاب خود را وارد کنید</div>
+
             <div class="description">
                 <form class="ui form">
                     <div class="inline fields">
-                        <div class="fourteen wide field">
-                            <label>آدرس</label>
-                            <input type="file" placeholder="ادرس">
-                        </div>
-                        <div class="ui button">بارگذاری</div>
+{#                        <div class="fourteen wide field">#}
+{#                            <label>آدرس</label>#}
+{#                            <input type="file" placeholder="ادرس">#}
+{#                        </div>#}
+{#                        <div class="ui button">بارگذاری</div>#}
+
+
+                        <select class="ui dropdown stype">
+                                            {% for t in sb.product.productvendor_set.first.vendor.postprice_set.all %}
+                                                <option value="{{ t.type }}:{{ t.price }}" data-value="{{ t.price }}">{{ t.get_type_str }} : {{ t.price }}</option>
+                                            {% endfor %}
+  <option value="1:13123" >Male:434</option>
+  <option value="0:42343" >Femdfdale:43234</option>
+                                        </select>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="actions">
-            <div class="ui orange button">ذخیره</div>
-            <div class="ui inverted grey button " id="multiple-cancel">بازگشت</div>
-        </div>
+{#        <div class="actions">#}
+{#            <div class="ui orange button">ذخیره</div>#}
+{#            <div class="ui inverted grey button " id="multiple-cancel">بازگشت</div>#}
+{#        </div>#}
     </div>
 
     <!-- setting modal -->
     <div class="ui modal" id="setting-modal">
         <i class="close icon"></i>
         <div class="header">
-            تنظیمات کتاب
+            تنظیمات محصول
         </div>
         <div class=" content">
             <div class="content-margin">
@@ -359,7 +361,7 @@
                         <textarea rows="2" placeholder="توضیحات"></textarea>
                     </div>
                     <div class="inline field">
-                        <label>جلد کتاب</label>
+                        <label>عکس اصلی</label>
                         <input type="file">
                     </div>
                 </form>
@@ -368,6 +370,79 @@
         <div class="actions">
             <div class="ui orange button">ذخیره</div>
             <div class="ui inverted grey button " id="setting-cancel">بازگشت</div>
+        </div>
+    </div>
+    <!-- end modals -->
+
+
+
+        <!-- city modal -->
+    <div class="ui modal" id="setting-city-modal">
+        <i class="close icon"></i>
+        <div class="header">
+            اضافه کردن محصول
+        </div>
+        <div class=" content">
+            <div class="content-margin">
+                <h5> لطفا مشخصات محصول مورد نظر خود را وارد کنید</h5>
+                <p>** وارد کردن فیلد های ستاره دار اجباری است</p>
+            </div>
+            <span></span>
+            <div class="description">
+                <form class="ui form" id="add-book-form" action="{% url 'vendors:add_product' vendor.id %}" method="post"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+{#        {{ form.as_p }}#}
+{#        {{ form.media }}#}
+                    <div class="three fields">
+                        <div class="required field">
+                            <label>عنوان </label>
+                            <input type="text" name="title" placeholder="عنوان محصول">
+                        </div>
+                        <div class="required field">
+                            <label> موضوع</label>
+                            <div class="ui search field">
+                              <div class="ui icon input">
+                                <input class="prompt" placeholder="موضوعات" type="text" name="category">
+                                <i class="search icon"></i>
+                              </div>
+                              <div class="results"></div>
+                            </div>
+                        </div>
+{#                        <div class="field">#}
+{#                            <label> مترجم</label>#}
+{#                            <input type="text" name="translator" placeholder="نام مترجم">#}
+{#                        </div>#}
+                    </div>
+                    <div class="three fields">
+                        <div class="required field">
+                            <label>قیمت</label>
+                            <input type="number" name="price" placeholder="قیمت">
+                        </div>
+                        <div class=" field">
+                            <label>وزن</label>
+                            <input type="number" name="weight" placeholder="وزن">
+                        </div>
+                        <div class=" field">
+                            <label>تعداد </label>
+                            <input type="number" name="itemCount" placeholder="تعداد ">
+                        </div>
+                    </div>
+
+                    <div class="required field">
+                        <label>توضیحات</label>
+                        <textarea rows="2" name="description" placeholder="توضیحات"></textarea>
+                    </div>
+                    <div class="inline field">
+                        <label>عکس محصول</label>
+                        <input type="file" name="mainPic">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="actions">
+            <div id="add-book-submit" class="ui orange button">ذخیره</div>
+            <div class="ui inverted grey button " id="single-cancel">بازگشت</div>
         </div>
     </div>
     <!-- end modals -->
@@ -386,10 +461,23 @@
   // etc
 ];
 
+    var cities = {{ vendor.postprice_set.first.cities }};
+
+
 $('.ui.search')
   .search({
     source: content
   });
+
+        $(document).ready(function () {
+                    $('.sb-stat').on('change', function() {
+            ele = $(this).closest("td[class='b-send-type']");
+            send_price = $(this).val().split(":")[1];
+            cost = ele.prev().html();
+            ele.next().html(parseInt(send_price) + parseInt(cost));
+            new_sum();
+        });
+        });
 
 
     </script>

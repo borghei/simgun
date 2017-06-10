@@ -7,8 +7,8 @@ from django.urls import reverse
 
 from accounts.models import UserProfile
 from product.models import Product, Review
-from profiles.models import ShoppingbagBook#, ReadingProgram
-
+from profiles.models import ShoppingbagProduct, Bag
+from buying.models import Address
 
 # def add_to_wishlist(request, profile_id):
 #     if request.method == 'POST':
@@ -34,19 +34,27 @@ from profiles.models import ShoppingbagBook#, ReadingProgram
 # TODO if the book is not available ...
 def add_to_shoppingbag(request, profile_id):
     if request.method == 'POST':
-        book = get_object_or_404(Product, pk=request.POST.get('book_id'))
+        product = get_object_or_404(Product, pk=request.POST.get('book_id'))
         user_profile = get_object_or_404(UserProfile, user=request.user)
-        temp_shoppingbag_book = ShoppingbagBook.objects.filter(user_profile=user_profile, book=book)
-        if temp_shoppingbag_book.count() == 0:
-            shoppingbag_book = ShoppingbagBook(user_profile=user_profile, book=book)
-            shoppingbag_book.save()
+        try:
+            last_bag = user_profile.bag_set.order_by('-date')[0]
+            if last_bag.status == 1:
+                last_bag = Bag(user_profile=user_profile)
+        except:
+            last_bag = Bag(user_profile=user_profile)
+        last_bag.save()
+
+
+        if not last_bag.shoppingbagproduct_set.filter(product=product):
+            shoppingbag_product = ShoppingbagProduct(bag=last_bag, product=product, product_count=1, price=product.get_cost())
+            shoppingbag_product.save()
             return JsonResponse({'status': 'ok',
                                  'url': reverse('profiles:shoppingbag', args=(profile_id,))
                                  })
         else:
-            selected_shoppingbag_book = temp_shoppingbag_book.get(user_profile=user_profile, book=book)
-            selected_shoppingbag_book.book_count += 1
-            selected_shoppingbag_book.save()
+            selected_shoppingbag_product = last_bag.shoppingbagproduct_set.get(product=product)
+            selected_shoppingbag_product.product_count += 1
+            selected_shoppingbag_product.save()
             return JsonResponse({'status': 'ok',
                                  'url': reverse('profiles:shoppingbag', args=(profile_id,))
                                  })
@@ -55,12 +63,26 @@ def add_to_shoppingbag(request, profile_id):
 def shoppingbag(request, profile_id):
     if request.method == 'GET':
         user_profile = get_object_or_404(UserProfile, user=request.user)
-        shoppingbags = user_profile.shoppingbagbook_set.all()
-        return render(request, 'profiles/shopping-bag.html', {
-            'shoppingbags': shoppingbags,
+        try:
+            bags = user_profile.bag_set.all()
+        except:
+            bags = None
+        return render(request, 'profiles/bags.html', {
+            'bags': bags,
         })
 
 
+def shoppingbag_spec(request, profile_id, bag_id):
+    if request.method == 'GET':
+        user_profile = get_object_or_404(UserProfile, user=request.user)
+        try:
+            shoppingbags = user_profile.bag_set.get(pk=bag_id)
+        except:
+            shoppingbags = None
+
+        return render(request, 'profiles/shopping-bag.html', {
+            'bag': shoppingbags
+        })
 # def create_readingprogram(request, profile_id):
 #     if request.method == 'POST':
 #         book_id = request.POST.get('book_id', -1)
@@ -100,11 +122,11 @@ def shoppingbag(request, profile_id):
 def profile(request, profile_id, tab=1):
     user_profile = get_object_or_404(UserProfile, pk=profile_id)
     # reading_programs = user_profile.readingprogram_set.all()
-    favs = user_profile.wishlistbook_set.all()
+    # favs = user_profile.wishlistbook_set.all()
     # reviews = user_profile.bookreview_set.all()
     return render(request, 'profiles/profile.html', {
         # 'reading_programs': reading_programs,
-        'favs': favs,
+        # 'favs': favs,
         # 'reviews': reviews,
         'user_profile': user_profile,
         'active_tab': tab,
@@ -134,6 +156,51 @@ def profile(request, profile_id, tab=1):
 #     reading_program = get_object_or_404(ReadingProgram, pk=program_id)
 #     reading_program.delete()
 #     return JsonResponse({'status': 'ok', 'url': reverse('profiles:readingprograms', args=(profile_id,))})
+
+
+def set_address(request, profile_id):
+    if request.method == 'POST':
+        address = get_object_or_404(Address, pk=request.POST.get('selected_address'))
+        user_profile = get_object_or_404(UserProfile, user=request.user)
+
+        try:
+            last_bag = user_profile.bag_set.order_by('-date')[0]
+            if last_bag.status == 0:
+                last_bag.address = address
+                last_bag.save()
+                for sb in last_bag.shoppingbagproduct_set.all():
+                    if sb.product.productvendor_set.first().vendor.postprice_set.filter(province=address.province, city=address.city).count() == 0:
+                        sb.status = -1
+                        sb.save()
+            return JsonResponse({'success': 1, 'url': reverse('profiles:shoppingbag_spec', args=(profile_id, last_bag.id))})
+
+
+        except:
+            return JsonResponse({'success': 1, 'url': reverse('profiles:shoppingbag', args=(profile_id, ))})
+
+
+
+
+def comp_shopp(request, profile_id):
+    if request.method == 'POST':
+        user_profile = get_object_or_404(UserProfile, user=request.user)
+
+        try:
+            last_bag = user_profile.bag_set.order_by('-date')[0]
+            if last_bag.status == 0:
+                last_bag.status = 1
+                last_bag.save()
+                # for sb in last_bag.shoppingbagproduct_set.all():
+                #     if sb.product.productvendor_set.first().vendor.postprice_set.filter(province=address.province, city=address.city).count() == 0:
+                #         sb.status = -1
+                #         sb.save()
+            return JsonResponse({'success': 1})
+
+
+        except:
+            return JsonResponse({'success': 1})
+
+
 
 
 def wishlist(request, profile_id):
