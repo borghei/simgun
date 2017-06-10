@@ -63,7 +63,11 @@
     </div>
     <div class="ui menu  no-borders " id="menu2">
         <div class="ui container">
-            <a class="green header link item">
+            <a class="green header link item"
+             {% if user.userprofile %}
+                href="{% url 'profiles:shoppingbag' user.id %}"
+            {% endif %}
+            >
                 <i class="shop icon"></i>
                 سبد خرید
             </a>

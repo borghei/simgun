@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
-from accounts.models import UserProfile
+from accounts.models import UserProfile, Vendor
 
 from buying.models import Address
 
@@ -12,17 +12,35 @@ def order_info(request, user_id):
     adrs = user_profile.address_set.filter(validity=1).all()
     return render(request, 'buying/order-info.html', {"up": user_profile, 'adrs': adrs})
 
-#
-# def get_post_price(request, user_id):
-#     user_profile = get_object_or_404(, user=request.user)
-#     try:
-#         d = request.POST
-#         address = PostPrice()
-#
-#         address.save()
-#         return JsonResponse({'stat': 1, 'add_id': address.id})
-#     except:
-#         return JsonResponse({'stat': 0})
+
+def get_post_price(request, user_id):
+    vendor = get_object_or_404(Vendor, user=request.user)
+    try:
+        d = request.POST
+        pp = PostPrice(province=d['province'],
+                            city=d['city'],
+                            vendor=vendor,
+                            type=d['type'])
+
+        pp.save()
+        return JsonResponse({'stat': 1, 'price': pp.price})
+    except:
+        return JsonResponse({'stat': 0, 'price': 'این شهر قبلا ثبت نشده است.'})
+
+def set_post_price(request, user_id):
+    vendor = get_object_or_404(Vendor, user=request.user)
+    try:
+        d = request.POST
+        pp = PostPrice(province=d['province'],
+                       city=d['city'],
+                       vendor=vendor,
+                       price=d['price'],
+                       type=d['type'])
+
+        pp.save()
+        return JsonResponse({'stat': 1})
+    except:
+        return JsonResponse({'stat': 0})
 
 
 def add_address(request, user_id):

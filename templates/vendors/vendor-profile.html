@@ -342,7 +342,7 @@
 
 </div>
 
-<div id="add-book-submit" class="ui primary button align-left">اضافه/به روز رسانی</div>
+<div id="add-postprice-submit" class="ui primary button align-left">اضافه/به روز رسانی</div>
 
                     </div>
 
@@ -428,75 +428,75 @@
 
 
 
-        <!-- city modal -->
-    <div class="ui modal" id="setting-city-modal">
-        <i class="close icon"></i>
-        <div class="header">
-            اضافه کردن محصول
-        </div>
-        <div class=" content">
-            <div class="content-margin">
-                <h5> لطفا مشخصات محصول مورد نظر خود را وارد کنید</h5>
-                <p>** وارد کردن فیلد های ستاره دار اجباری است</p>
-            </div>
-            <span></span>
-            <div class="description">
-                <form class="ui form" id="add-book-form" action="{% url 'vendors:add_product' vendor.id %}" method="post"
-                      enctype="multipart/form-data">
-                    {% csrf_token %}
+{#        <!-- city modal -->#}
+{#    <div class="ui modal" id="setting-city-modal">#}
+{#        <i class="close icon"></i>#}
+{#        <div class="header">#}
+{#            اضافه کردن محصول#}
+{#        </div>#}
+{#        <div class=" content">#}
+{#            <div class="content-margin">#}
+{#                <h5> لطفا مشخصات محصول مورد نظر خود را وارد کنید</h5>#}
+{#                <p>** وارد کردن فیلد های ستاره دار اجباری است</p>#}
+{#            </div>#}
+{#            <span></span>#}
+{#            <div class="description">#}
+{#                <form class="ui form" id="add-book-form" action="{% url 'vendors:add_product' vendor.id %}" method="post"#}
+{#                      enctype="multipart/form-data">#}
+{#                    {% csrf_token %}#}
 {#        {{ form.as_p }}#}
 {#        {{ form.media }}#}
-                    <div class="three fields">
-                        <div class="required field">
-                            <label>عنوان </label>
-                            <input type="text" name="title" placeholder="عنوان محصول">
-                        </div>
-                        <div class="required field">
-                            <label> موضوع</label>
-                            <div class="ui search field">
-                              <div class="ui icon input">
-                                <input class="prompt" placeholder="موضوعات" type="text" name="category">
-                                <i class="search icon"></i>
-                              </div>
-                              <div class="results"></div>
-                            </div>
-                        </div>
+{#                    <div class="three fields">#}
+{#                        <div class="required field">#}
+{#                            <label>عنوان </label>#}
+{#                            <input type="text" name="title" placeholder="عنوان محصول">#}
+{#                        </div>#}
+{#                        <div class="required field">#}
+{#                            <label> موضوع</label>#}
+{#                            <div class="ui search field">#}
+{#                              <div class="ui icon input">#}
+{#                                <input class="prompt" placeholder="موضوعات" type="text" name="category">#}
+{#                                <i class="search icon"></i>#}
+{#                              </div>#}
+{#                              <div class="results"></div>#}
+{#                            </div>#}
+{#                        </div>#}
 {#                        <div class="field">#}
 {#                            <label> مترجم</label>#}
 {#                            <input type="text" name="translator" placeholder="نام مترجم">#}
 {#                        </div>#}
-                    </div>
-                    <div class="three fields">
-                        <div class="required field">
-                            <label>قیمت</label>
-                            <input type="number" name="price" placeholder="قیمت">
-                        </div>
-                        <div class=" field">
-                            <label>وزن</label>
-                            <input type="number" name="weight" placeholder="وزن">
-                        </div>
-                        <div class=" field">
-                            <label>تعداد </label>
-                            <input type="number" name="itemCount" placeholder="تعداد ">
-                        </div>
-                    </div>
-
-                    <div class="required field">
-                        <label>توضیحات</label>
-                        <textarea rows="2" name="description" placeholder="توضیحات"></textarea>
-                    </div>
-                    <div class="inline field">
-                        <label>عکس محصول</label>
-                        <input type="file" name="mainPic">
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="actions">
-            <div id="add-book-submit" class="ui orange button">ذخیره</div>
-            <div class="ui inverted grey button " id="single-cancel">بازگشت</div>
-        </div>
-    </div>
+{#                    </div>#}
+{#                    <div class="three fields">#}
+{#                        <div class="required field">#}
+{#                            <label>قیمت</label>#}
+{#                            <input type="number" name="price" placeholder="قیمت">#}
+{#                        </div>#}
+{#                        <div class=" field">#}
+{#                            <label>وزن</label>#}
+{#                            <input type="number" name="weight" placeholder="وزن">#}
+{#                        </div>#}
+{#                        <div class=" field">#}
+{#                            <label>تعداد </label>#}
+{#                            <input type="number" name="itemCount" placeholder="تعداد ">#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{#                    <div class="required field">#}
+{#                        <label>توضیحات</label>#}
+{#                        <textarea rows="2" name="description" placeholder="توضیحات"></textarea>#}
+{#                    </div>#}
+{#                    <div class="inline field">#}
+{#                        <label>عکس محصول</label>#}
+{#                        <input type="file" name="mainPic">#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="actions">#}
+{#            <div id="add-book-submit" class="ui orange button">ذخیره</div>#}
+{#            <div class="ui inverted grey button " id="single-cancel">بازگشت</div>#}
+{#        </div>#}
+{#    </div>#}
     <!-- end modals -->
 
 {% endblock %}
