@@ -7,6 +7,7 @@ from accounts.models import Vendor, UserProfile
 from product.models import Product, Category
 from vendors.models import ProductVendor
 from profiles.models import ShoppingbagProduct
+from buying.models import PostPrice
 from .forms import AddProductForm
 
 
@@ -21,7 +22,8 @@ def vendor_profile(request, vendor_id):
     orders = [o for o in orders if o.status not in [-2, 3]]
 
     return render(request, 'vendors/vendor-profile.html',
-                  {'vendor': vendor, 'orders': orders, 'delivered': delivered, 'undelivered': undelivered})
+                  {'vendor': vendor, 'orders': orders, 'delivered': delivered, 'undelivered': undelivered,
+                   'cities': PostPrice.cities})
 
 
 def add_product(request, vendor_id):

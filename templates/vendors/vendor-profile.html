@@ -224,7 +224,7 @@
                         </div>
                         <div class="required field">
                             <label> موضوع</label>
-                            <div class="ui search field">
+                            <div class="ui search field" id="pu-cats">
                               <div class="ui icon input">
                                 <input class="prompt" placeholder="موضوعات" type="text" name="category">
                                 <i class="search icon"></i>
@@ -278,23 +278,75 @@
         <div class=" content">
 
             <div class="description">
-                <form class="ui form">
-                    <div class="inline fields">
+                <form class="ui form" id="new-city">
+
+                    <div class=" two fields">
 {#                        <div class="fourteen wide field">#}
 {#                            <label>آدرس</label>#}
 {#                            <input type="file" placeholder="ادرس">#}
 {#                        </div>#}
 {#                        <div class="ui button">بارگذاری</div>#}
+<div class="field ">
+{#<a class="ui blue basic label">استان</a>#}
+
+                            <div id="province-search" class="ui search field" >
+                              <div class="ui icon input">
+                                <input class="prompt" placeholder="انتخاب استان" type="text" name="province">
+                                <i class="search icon"></i>
+                              </div>
+                              <div class="results"></div>
+                            </div>
+
+</div>
+
+                        <div class="field floating right">
+{#<a class="ui red basic label">شهر</a>#}
+
+                                                        <div class="ui search field" id="city-search">
+                              <div class="ui icon input">
+                                <input class="prompt" placeholder="انتخاب شهر" type="text" name="city">
+                                <i class="search icon"></i>
+                              </div>
+                              <div class="results"></div>
+                            </div>
 
 
-                        <select class="ui dropdown stype">
-                                            {% for t in sb.product.productvendor_set.first.vendor.postprice_set.all %}
-                                                <option value="{{ t.type }}:{{ t.price }}" data-value="{{ t.price }}">{{ t.get_type_str }} : {{ t.price }}</option>
-                                            {% endfor %}
-  <option value="1:13123" >Male:434</option>
-  <option value="0:42343" >Femdfdale:43234</option>
-                                        </select>
+
+</div>
+
+
+
                     </div>
+
+
+                                        <div class=" three fields">
+
+<div class="field ">
+
+<select class="ui dropdown">
+  <option value="">روش ارسال</option>
+      <option value="0">پست</option>
+  <option value="1">پیک</option>
+</select>
+
+</div>
+
+                        <div class="field floating right">
+{#<a class="ui red basic label">شهر</a>#}
+
+                                <input class="prompt" placeholder="قیمت ارسال" type="number" name="city">
+
+
+
+
+
+</div>
+
+<div id="add-book-submit" class="ui primary button align-left">اضافه/به روز رسانی</div>
+
+                    </div>
+
+
                 </form>
             </div>
         </div>
@@ -452,7 +504,11 @@
 {% block scripts %}
     <script>
 
-    var content = [
+
+        $(document).ready(function () {
+
+
+    var cats_search_info = [
         {% for c in mainCategories %}
             { title: '{{ c }}' },
         {%  endfor %}
@@ -461,15 +517,54 @@
   // etc
 ];
 
-    var cities = {{ vendor.postprice_set.first.cities }};
+    var proves = [
+  {% for c in cities %}
+           { title: '{{ c.0 }}' },
+
+        {%  endfor %}
+    ];
 
 
-$('.ui.search')
+    var cities = {
+        {% for c in cities %}
+            '{{ c.0 }}':
+            [
+                {% for s in c.1 %}
+{ title: '{{ s }}' },
+{#                    '{{ s }}',#}
+                {% endfor %}
+            ]
+            ,
+        {%  endfor %}
+
+
+    // etc
+    };
+
+$('#pu-cats')
   .search({
-    source: content
+    source: cats_search_info
   });
 
-        $(document).ready(function () {
+$('#province-search')
+  .search({
+    source: proves
+  });
+
+
+$('.ui.dropdown').dropdown();
+
+            function new_cities() {
+                 new_p = $('#province-search').search('get value');
+                console.log(new_p);
+        }
+
+                    $('input[name="province"]').on('change', function() {
+                        new_cities()
+
+        });
+
+
                     $('.sb-stat').on('change', function() {
             ele = $(this).closest("td[class='b-send-type']");
             send_price = $(this).val().split(":")[1];
