@@ -323,7 +323,7 @@
 
 <div class="field ">
 
-<select class="ui dropdown">
+<select class="ui dropdown" name="type">
   <option value="">روش ارسال</option>
       <option value="0">پست</option>
   <option value="1">پیک</option>
@@ -562,11 +562,24 @@ $('.ui.dropdown').dropdown();
   });
         }
 
-                    $('input[name="province"]').on('change', function() {
+                    function set_price() {
+
+        }
+
+            $('input[name="province"]').on('change', function() {
                         new_cities()
 
         });
 
+
+            $('input[name="city"]').on('change', function() {
+                        set_price()
+
+        });
+
+            $('input[name="city"]').on('change', function() {
+                       set_price()
+        });
 
                     $('.sb-stat').on('change', function() {
             ele = $(this).closest("td[class='b-send-type']");
