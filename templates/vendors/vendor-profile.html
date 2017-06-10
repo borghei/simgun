@@ -556,7 +556,10 @@ $('.ui.dropdown').dropdown();
 
             function new_cities() {
                  new_p = $('#province-search').search('get value');
-                console.log(new_p);
+                $('#city-search')
+  .search({
+    source: cities[new_p]
+  });
         }
 
                     $('input[name="province"]').on('change', function() {

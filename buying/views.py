@@ -10,6 +10,12 @@ def order_info(request, user_id):
     return render(request, 'buying/order-info.html', {"up": user_profile, 'adrs': adrs})
 
 
+def get_post_price(request, user_id):
+    user_profile = get_object_or_404(UserProfile, user=request.user)
+    adrs = user_profile.address_set.filter(validity=1).all()
+    return JsonResponse({'stat': 1, 'price': 1000})
+
+
 def add_address(request, user_id):
     # print(type(request.POST['city']))
     user_profile = get_object_or_404(UserProfile, user=request.user)
