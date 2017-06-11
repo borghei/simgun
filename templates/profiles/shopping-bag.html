@@ -31,8 +31,8 @@
                                 <th>قیمت اجناس</th>
                                 <th>هزینه ارسال</th>
                                 <th>هزینه نهایی</th>
-                                <th>اضافه</th>
-                                <th>حذف</th>
+{#                                <th>اضافه</th>#}
+{#                                <th>حذف</th>#}
                                 <th>وضعیت</th>
                             </tr>
                             </thead>
@@ -48,8 +48,7 @@
                                             {% for t in sb.product.productvendor_set.first.vendor.postprice_set.all %}
                                                 <option value="{{ t.type }}:{{ t.price }}" data-value="{{ t.price }}">{{ t.get_type_str }} : {{ t.price }}</option>
                                             {% endfor %}
-  <option value="1:13123" >Male:434</option>
-  <option value="0:42343" >Femdfdale:43234</option>
+
                                         </select>
 
 
@@ -58,35 +57,33 @@
 
 
                                     </td>
-                                    <td class="b-sum">2</td>
-{#                                    {{  sb.get_sum|add:sb.product.productvendor_set.first.vendor.postprice_set.first.price }}</td>#}
-                                    <td>
-{#                                                                                <select class="ui dropdown stype">#}
-{#                                            {% for t in sb.product.productvendor_set.first.vendor.postprice_set.all %}#}
-{#                                                <option value="{{ t.type }}:{{ t.price }}" data-value="{{ t.price }}">{{ t.get_type_str }} : {{ t.price }}</option>#}
-{#                                            {% endfor %}#}
-{#  <option value="1111:13123" >Male:434</option>#}
-{#  <option value="0:42343" >Femdfdale:43234</option>#}
-{#                                        </select>#}
-
+                                    <td class="b-sum">
+                                        {% ifequal sb.stat -1 %}
+                                        0
+                                            {% else %}
+                                            {{ sb.get_sum|add:sb.product.productvendor_set.first.vendor.postprice_set.first.price }}
+                                        {% endifequal %}
                                     </td>
-                                    <td>-</td>
+{#                                     </td>#}
+{#                                    <td>#}
+{##}
+{##}
+{#                                    </td>#}
+{#                                    <td>-</td>#}
                                 <td class="b-stat">{{  sb.get_stat}}</td>
                                 </tr>
                             {% endfor %}
+{#                            <tr class="empty-col">#}
+{#                                <td class="empty-col"></td>#}
+{#                                <td class="empty-col"></td>#}
+{#                                <td class="empty-col"></td>#}
+{#                                <td class="empty-col"></td>#}
+{#                                <td class="empty-col"></td>#}
+{#                                <td class="empty-col"></td>#}
+{##}
+{#                                <td colspan="3" class="right aligned white-bg">جمع کل خرید شما: {{ bag.get_sum_price }}</td>#}
+{#                            </tr>#}
                             <tr class="empty-col">
-                                <td class="empty-col"></td>
-                                <td class="empty-col"></td>
-                                <td class="empty-col"></td>
-                                <td class="empty-col"></td>
-                                <td class="empty-col"></td>
-                                <td class="empty-col"></td>
-
-                                <td colspan="3" class="right aligned white-bg">جمع کل خرید شما: {{ bag.get_sum_price }}</td>
-                            </tr>
-                            <tr class="empty-col">
-                                <td class="empty-col"></td>
-                                <td class="empty-col"></td>
                                 <td class="empty-col"></td>
                                 <td class="empty-col"></td>
                                 <td class="empty-col"></td>
@@ -118,13 +115,14 @@
                         <div class="ui row">
                         <div class="ui grid container">
                             <div class="eight wide column right aligned">
-                                <button  id="return-btn" class="ui button">بازگشت به صفحه اصلی</button>
+                                <button  id="return-btn" class="ui button" href="{% url 'profiles:shoppingbag' user.id %}">بازگشت به صفحه اصلی</button>
                             </div>
 
                             <div class="four wide column left aligned">
                                 <button id="continue-btn" class="ui primary button">ویرایش اطلاعات</button>
                             </div>
                             <div class="four wide column left aligned">
+                            {% if bag.status == 0 %}
                                 <button id="buy-btn" class="ui secondary button"
                                         {% if not bag.address %}
 
@@ -132,6 +130,11 @@
                                         {% endif %}
 
                                 >خرید</button>
+                            {% else %}
+                                <button id="buy-btn" class="ui secondary button"
+                                            disabled
+                                >خرید انجام شده است</button>
+                            {% endif %}
                             </div>
                         </div>
                     </div>

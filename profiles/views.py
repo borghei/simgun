@@ -83,6 +83,15 @@ def shoppingbag_spec(request, profile_id, bag_id):
         return render(request, 'profiles/shopping-bag.html', {
             'bag': shoppingbags
         })
+
+def shoppingbag_change_state(request, profile_id):
+    if request.method == 'POST':
+        print(request.POST)
+        sb = ShoppingbagProduct.objects.filter(id=request.POST["bagId"]).first()
+        sb.status = request.POST['newstat']
+        sb.save()
+        return JsonResponse({'success': 1})
+
 # def create_readingprogram(request, profile_id):
 #     if request.method == 'POST':
 #         book_id = request.POST.get('book_id', -1)

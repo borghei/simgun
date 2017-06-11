@@ -95,13 +95,15 @@
                                     <td>{{ o.id }}</td>
                                     <td class="three wide">{{ o.bag.user_profile }}</td>
                                     <td class="three wide">{{ o.get_sum }}</td>
-                                    <td class="left aligned">
+                                    <td class="left aligned" id="{{ o.id }}">
 
                                         <select class="ui dropdown sb-stat">
                                           <option value="{{ o.status }}" >{{ o.get_stat }}</option>
                                             {% for t in o.sb_choices %}
-                                                {% ifnotequal o.status t.1 %}
-                                                <option value="{{  t.1 }}" >{{ t.2 }}</option>
+                                                {% ifnotequal o.status t.0 %}
+                                                    {% ifnotequal -1 t.0 %}
+                                                <option value="{{  t.0 }}" >{{ t.1 }}</option>
+                                                        {% endifnotequal %}
                                                 {% endifnotequal %}
                                             {% endfor %}
 
@@ -150,13 +152,7 @@
                             {% endfor %}
 
 
-{#                            <tr>#}
-{#                                <td>3</td>#}
-{#                                <td>KH-854971</td>#}
-{#                                <td class="three wide">فریبرز ابولفضل نیا</td>#}
-{#                                <td class="three wide left aligned">9,000</td>#}
-{##}
-{#                            </tr>#}
+
                             </tbody>
                         </table>
                     </div>
@@ -281,13 +277,8 @@
                 <form class="ui form" id="new-city">
 
                     <div class=" two fields">
-{#                        <div class="fourteen wide field">#}
-{#                            <label>آدرس</label>#}
-{#                            <input type="file" placeholder="ادرس">#}
-{#                        </div>#}
-{#                        <div class="ui button">بارگذاری</div>#}
+{% csrf_token %}
 <div class="field ">
-{#<a class="ui blue basic label">استان</a>#}
 
                             <div id="province-search" class="ui search field" >
                               <div class="ui icon input">
@@ -323,7 +314,7 @@
 
 <div class="field ">
 
-<select class="ui dropdown" name="type">
+<select class="ui dropdown" name="stype">
   <option value="">روش ارسال</option>
       <option value="0">پست</option>
   <option value="1">پیک</option>
@@ -332,9 +323,8 @@
 </div>
 
                         <div class="field floating right">
-{#<a class="ui red basic label">شهر</a>#}
 
-                                <input class="prompt" placeholder="قیمت ارسال" type="number" name="city">
+                                <input class="prompt" placeholder="قیمت ارسال" type="number" name="price">
 
 
 
@@ -342,7 +332,8 @@
 
 </div>
 
-<div id="add-postprice-submit" class="ui primary button align-left">اضافه/به روز رسانی</div>
+<div id="get-postprice-submit" class="ui primary button align-left">دریافت قیمت فعلی</div>
+<div id="add-postprice-submit" class="ui secondary button align-left">اضافه/به روز رسانی</div>
 
                     </div>
 
@@ -350,10 +341,7 @@
                 </form>
             </div>
         </div>
-{#        <div class="actions">#}
-{#            <div class="ui orange button">ذخیره</div>#}
-{#            <div class="ui inverted grey button " id="multiple-cancel">بازگشت</div>#}
-{#        </div>#}
+
     </div>
 
     <!-- setting modal -->
@@ -541,52 +529,106 @@
     // etc
     };
 
+
 $('#pu-cats')
   .search({
     source: cats_search_info
   });
 
+
+
+
+
 $('#province-search')
   .search({
-    source: proves
+    source: proves,
+
+        onSelect: function (result, response) {
+
+                $('#city-search').search({
+    source: cities[result['title']],
+  });
+            return true;
+        }
+
   });
 
 
 $('.ui.dropdown').dropdown();
 
-            function new_cities() {
-                 new_p = $('#province-search').search('get value');
-                $('#city-search')
-  .search({
-    source: cities[new_p]
-  });
-        }
+
 
                     function set_price() {
+                console.log($("#new-city").serialize());
+                $.ajax({
+                    url: "{% url 'buying:get_post_price' vendor.id %}",
+                    method: 'post',
+                    data: $("#new-city").serialize(),
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                });
+
 
         }
 
-            $('input[name="province"]').on('change', function() {
-                        new_cities()
 
-        });
+{##}
+{#            $('input[name="city"]').on('change', function() {#}
+{#                        set_price()#}
+{##}
+{#        });#}
+{##}
+{#            $('input[name="stype"]').on('change', function() {#}
+{#                       set_price()#}
+{#        });#}
+
+            $("#get-postprice-submit").click(set_price);
 
 
-            $('input[name="city"]').on('change', function() {
-                        set_price()
 
-        });
+            $('#add-postprice-submit').click(function () {
+                                $.ajax({
+                    url: "{% url 'buying:set_post_price' vendor.id %}",
+                    method: 'post',
+                    data: $("#new-city").serialize(),
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                })
+            });
 
-            $('input[name="city"]').on('change', function() {
-                       set_price()
-        });
 
                     $('.sb-stat').on('change', function() {
+                        new_stat = $(this);
+                        console.log(new_stat.val());
+                        bagsb = $(this).parent().attr('id');
+
+
+                                                        $.ajax({
+                    url: "{% url 'profiles:shoppingbag_change_state_url' vendor.id  %}",
+
+                    method: 'post',
+                    data:{'bagId':bagsb, 'newstat':new_stat, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                    success: function(data) {
+                        console.log(data);
+                    },
+                    error: function() {
+                        console.error('eeeeerrrrrrooooorrrrrr');
+                    }
+                })
+
             ele = $(this).closest("td[class='b-send-type']");
             send_price = $(this).val().split(":")[1];
             cost = ele.prev().html();
             ele.next().html(parseInt(send_price) + parseInt(cost));
-            new_sum();
+{#            new_sum();#}
         });
         });
 

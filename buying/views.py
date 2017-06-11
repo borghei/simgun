@@ -17,25 +17,35 @@ def get_post_price(request, user_id):
     vendor = get_object_or_404(Vendor, user=request.user)
     try:
         d = request.POST
-        pp = PostPrice(province=d['province'],
-                            city=d['city'],
-                            vendor=vendor,
-                            type=d['type'])
 
-        pp.save()
+        pp = vendor.postprice_set.filter(province=d['province'],
+                            city=d['city'],
+                            type=d['stype']).first()
+
         return JsonResponse({'stat': 1, 'price': pp.price})
     except:
         return JsonResponse({'stat': 0, 'price': 'این شهر قبلا ثبت نشده است.'})
+
 
 def set_post_price(request, user_id):
     vendor = get_object_or_404(Vendor, user=request.user)
     try:
         d = request.POST
-        pp = PostPrice(province=d['province'],
-                       city=d['city'],
-                       vendor=vendor,
-                       price=d['price'],
-                       type=d['type'])
+
+        pp = vendor.postprice_set.filter(province=d['province'],
+                                         city=d['city'],
+                                         type=d['stype'])
+
+        if pp and pp.first():
+            pp = pp.first()
+            pp.price = d['price']
+        else:
+            pp = PostPrice(province=d['province'],
+                           city=d['city'],
+                           type=d['stype'],
+                           vendor=vendor,
+                           price=d['price']
+                           )
 
         pp.save()
         return JsonResponse({'stat': 1})
