@@ -101,9 +101,9 @@
                                           <option value="{{ o.status }}" >{{ o.get_stat }}</option>
                                             {% for t in o.sb_choices %}
                                                 {% ifnotequal o.status t.0 %}
-                                                    {% ifnotequal -1 t.0 %}
+                                                    {% if t.0 >= 0 and t.0 < 3 %}
                                                 <option value="{{  t.0 }}" >{{ t.1 }}</option>
-                                                        {% endifnotequal %}
+                                                        {% endif %}
                                                 {% endifnotequal %}
                                             {% endfor %}
 
@@ -546,7 +546,7 @@ $('#province-search')
         onSelect: function (result, response) {
 
                 $('#city-search').search({
-    source: cities[result['title']],
+    source: cities[result['title']]
   });
             return true;
         }
@@ -559,7 +559,7 @@ $('.ui.dropdown').dropdown();
 
 
                     function set_price() {
-                console.log($("#new-city").serialize());
+
                 $.ajax({
                     url: "{% url 'buying:get_post_price' vendor.id %}",
                     method: 'post',
@@ -605,10 +605,16 @@ $('.ui.dropdown').dropdown();
             });
 
 
-                    $('.sb-stat').on('change', function() {
-                        new_stat = $(this);
-                        console.log(new_stat.val());
-                        bagsb = $(this).parent().attr('id');
+                    $('.sb-stat')
+  .dropdown({
+
+    onChange: function(value, text, $selectedItem) {
+      // custom action
+
+
+                        new_stat = $(this).parent().attr('id');
+
+                        bagsb = value;
 
 
                                                         $.ajax({
@@ -622,14 +628,16 @@ $('.ui.dropdown').dropdown();
                     error: function() {
                         console.error('eeeeerrrrrrooooorrrrrr');
                     }
-                })
+                });
 
-            ele = $(this).closest("td[class='b-send-type']");
-            send_price = $(this).val().split(":")[1];
-            cost = ele.prev().html();
-            ele.next().html(parseInt(send_price) + parseInt(cost));
-{#            new_sum();#}
-        });
+return true;
+
+
+    }
+  })
+;
+
+
         });
 
 

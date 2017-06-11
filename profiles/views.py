@@ -199,10 +199,14 @@ def comp_shopp(request, profile_id):
             if last_bag.status == 0:
                 last_bag.status = 1
                 last_bag.save()
-                # for sb in last_bag.shoppingbagproduct_set.all():
-                #     if sb.product.productvendor_set.first().vendor.postprice_set.filter(province=address.province, city=address.city).count() == 0:
-                #         sb.status = -1
-                #         sb.save()
+                address = last_bag.address
+                for sb in last_bag.shoppingbagproduct_set.all():
+                    if sb.product.productvendor_set.first().vendor.postprice_set.filter(province=address.province, city=address.city).count() == 0:
+                        sb.status = -1
+
+                    else:
+                        sb.status = 1
+                    sb.save()
             return JsonResponse({'success': 1})
 
 
