@@ -101,7 +101,7 @@
                                                 <img src="/{{ user.userprofile.avatar }}">
                                             </div>
                                             <div class="content">
-                                                <a class="header">{{ review.user_profile }}</a>
+                                                <a class="header"></a>
                                                 <div class="meta">
                                                     <span>{{ review.text }}</span>
                                                 </div>
@@ -349,7 +349,7 @@
                 $('#add-shoppingbag').click(function() {
                     console.log('clidekfd');
                     $.ajax({
-                        url: "{% url 'profiles:add_shoppingbag' user_profile.id %}",
+                        url: "{% url 'profiles:add_shoppingbag' user.id %}",
                         method: 'post',
                         data: {
                             book_id: {{ product.id }},

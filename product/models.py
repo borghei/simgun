@@ -18,7 +18,7 @@ def _get_image_filename():
 
 class Product(models.Model):
     title = models.CharField(max_length=127)
-    description = models.CharField(max_length=2048)  # max_length is in chars
+    description = models.CharField(max_length=2048, default='توضیح')  # max_length is in chars
     price = models.IntegerField(default=0)
     mainPic = models.ImageField(upload_to=_get_image_filename, blank=True, null=True, default='')
     # boundary will be chekckeed on views

@@ -10,7 +10,7 @@ def categories(request):
 
 def new_products(request):
     return {
-        'newProducts': Product.objects.order_by('id')[:12]
+        'newProducts': Product.objects.order_by('-id')[:12]
     }
 
 
