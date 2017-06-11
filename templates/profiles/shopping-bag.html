@@ -60,7 +60,7 @@
                                     <td class="b-sum">
                                         {% if sb.stat == -1 or not sb.product.productvendor_set.first.vendor.postprice_set.first.price %}
                                         0
-                                            {% else if  %}
+                                            {% else %}
                                             {{ sb.get_sum|add:sb.product.productvendor_set.first.vendor.postprice_set.first.price }}
                                         {% endif %}
                                     </td>
