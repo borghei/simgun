@@ -166,7 +166,7 @@ html{
     transform: translate(-10%,70%);
 }
 .logo-img{
-    width : 65% !important;
+    width : 50% !important;
     height:auto;
     transform: translate(0,10%);
 }

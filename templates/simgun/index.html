@@ -18,8 +18,8 @@
     <div class="ui container index-margin">
 
         <div class="ui grid container">
-{#            <div class="five wide column">#}
-{#                <div class="ui grid">#}
+            <div class="five wide column">
+                <div class="ui grid">
 {#                    <div class="row login-required-div">#}
 {#                        <div class="sixteen wide column">#}
 {#                            <div class="ui grid">#}
@@ -53,7 +53,7 @@
 {#                            </div>#}
 {#                        </div>#}
 {#                    </div>#}
-{##}
+
 {#                    <div class="ui divider tab-divider"></div>#}
 {##}
 {#                    <div class="row login-required-div">#}
@@ -103,35 +103,35 @@
 {#                    </div>#}
 {##}
 {#                    <div class="ui divider tab-divider"></div>#}
-{##}
-{#                    <div class="row login-required-div">#}
-{#                        <div class="sixteen wide column">#}
-{#                            <div class="ui grid">#}
-{#                                <div class="row">#}
-{#                                    <div class="sixteen wide column">#}
-{#                                        <!--TODO this should be a link itself-->#}
-{#                                        <div class="ui header">#}
-{#                                            <h3>علاقمندی‌ها</h3>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="row">#}
-{#                                    <div class="eight wide center aligned column">#}
-{#                                        <div class="ui image">#}
-{#                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{##}
-{#                                    <div class="eight wide center aligned column">#}
-{#                                        <div class="ui image">#}
-{#                                            <img src="{% static 'site-media/photos/general/kafka.jpeg' %}"/>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{##}
+
+                    <div class="row login-required-div">
+                        <div class="sixteen wide column">
+                            <div class="ui grid">
+                                <div class="row">
+                                    <div class="sixteen wide column">
+                                        <!--TODO this should be a link itself-->
+                                        <div class="ui header">
+                                            <h3>علاقمندی‌ها</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="eight wide center aligned column">
+                                        <div class="ui image">
+                                            <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="eight wide center aligned column">
+                                        <div class="ui image">
+                                            <img src="{% static 'site-media/photos/general/kafka.jpeg' %}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 {#                    <div class="ui divider tab-divider"></div>#}
 {##}
 {#                    <div class="row">#}
@@ -227,8 +227,8 @@
 {#                            </div>#}
 {#                        </div>#}
 {#                    </div>#}
-{#                </div>#}
-{#            </div>#}
+                </div>
+            </div>
             <div class="sixteen wide column">
                 <div class="ui grid container">
                     <div class="row">
@@ -240,59 +240,60 @@
                                     <a href="{{ v.link }}" class="carousel-cell"><img src="/{{  v.img}}"/></a>
 
                                 {% endfor %}
-{#                                <div class="carousel-cell"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/look-out.jpg" alt="look-out" /></div>#}
-{#                                <div class="carousel-cell"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/one-world-trade.jpg" alt="One World Trade" /></div><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/submerged.jpg" alt="submerged" />#}
+                                <div class="carousel-cell"><img src="http://fidibo.com/images/custom/movafagh-web-banner.jpg" alt="موفقیت" /></div>
+                                <div class="carousel-cell"><img src="http://fidibo.com/images/custom/mzaman-web-banner.jpg" alt="زمان" /></div>
+                                <div class="carousel-cell"><img src="http://fidibo.com/images/custom/darjarfa-web-banner.jpg" alt="درژرفا" /></div>
                             </div>
                         </div>
                     </div>
-{#                    <div class="row index-section">#}
-{#                        <div class="sixteen wide column">#}
-{#                            <div class="ui grid back-grey">#}
-{#                                <div class="row">#}
-{#                                    <div class="sixteen wide column">#}
-{#                                        <div class="ui header">#}
-{#                                            <h2>تخفیف‌های شگفت‌انگیز</h2>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="row">#}
-{#                                    <div class="five wide center aligned column no-padding">#}
-{#                                        <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>#}
-{#                                    </div>#}
-{##}
-{#                                    <div class="eleven wide right aligned column">#}
-{#                                        <div class="ui grid">#}
-{#                                            <div class="row off-row-title">#}
-{#                                                <div class="sixteen wide column">#}
-{#                                                    <h3>ارباب حلقه‌ها</h3>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <div class="row off-row-author">#}
-{#                                                <div class="sixteen wide column">#}
-{#                                                    <span>تالکین</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <div class="row off-row-desc">#}
-{#                                                <div class="sixteen wide column">#}
-{#                                                    <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید که اصالت با جمع است نه فرد. در چنین جامعه ای حتی اگر "فردیتی" را بتوان متصور بود، فردیتی است که تجلی ارزشهای جمعی جام...</span>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <div class="row">#}
-{#                                                <div class="four wide column">#}
-{#                                                    <span class="strikethrough">۳۲۰۰۰ تومان</span>#}
-{#                                                </div>#}
-{#                                                <div class="four wide column">#}
-{#                                                    <div class="ui red header">#}
-{#                                                        <h4>۲۸۰۰۰ تومان</h4>#}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
+                    <div class="row index-section">
+                        <div class="sixteen wide column">
+                            <div class="ui grid back-grey">
+                                <div class="row">
+                                    <div class="sixteen wide column">
+                                        <div class="ui header">
+                                            <h2>تخفیف‌های شگفت‌انگیز</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="five wide center aligned column no-padding">
+                                        <img src="{% static 'site-media/photos/books/516GyHY9p6L.jpg' %}"/>
+                                    </div>
+
+                                    <div class="eleven wide right aligned column">
+                                        <div class="ui grid">
+                                            <div class="row off-row-title">
+                                                <div class="sixteen wide column">
+                                                    <h3>ارباب حلقه‌ها</h3>
+                                                </div>
+                                            </div>
+                                            <div class="row off-row-author">
+                                                <div class="sixteen wide column">
+                                                    <span>تالکین</span>
+                                                </div>
+                                            </div>
+                                            <div class="row off-row-desc">
+                                                <div class="sixteen wide column">
+                                                    <span>میرا تصویرگر جامعه ای است که "فردیت" هیچ معنایی در آن ندارد. به زبان جامعه شناختی، میرا از جامعه ای سخن می گوید که اصالت با جمع است نه فرد. در چنین جامعه ای حتی اگر "فردیتی" را بتوان متصور بود، فردیتی است که تجلی ارزشهای جمعی جام...</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="four wide column">
+                                                    <span class="strikethrough">۳۲۰۰۰ تومان</span>
+                                                </div>
+                                                <div class="four wide column">
+                                                    <div class="ui red header">
+                                                        <h4>۲۸۰۰۰ تومان</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
                     <div class="row index-section">
